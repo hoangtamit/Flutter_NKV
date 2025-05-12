@@ -1,0 +1,15 @@
+flutter_native_splash:
+  # Đường dẫn đến logo của bạn
+  image: assets/images/nkv.png
+  # Màu nền của splash screen
+  color: "#FFFFFF" # Có thể thay đổi thành mã màu bạn muốn (ví dụ: trắng)
+  # Đảm bảo logo hiển thị đầy đủ trên nền (tùy chọn)
+#  fill: true
+  # Cấu hình cho Android
+  android: true
+  # Cấu hình cho iOS
+  ios: true
+  # (Tùy chọn) Tắt biểu tượng mặc định của Android (nếu không muốn logo Flutter xuất hiện)
+  android_gravity: center
+  # (Tùy chọn) Tắt biểu tượng mặc định của iOS
+  ios_content_mode: center
