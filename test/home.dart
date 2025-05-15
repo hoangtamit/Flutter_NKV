@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nkv/resources/Main/home-page.dart';
 import 'barcode_home.dart';
-
+///////////demo
 // Widget HomeScreen(){
 //   return Scaffold(
 //     backgroundColor: Colors.white,
