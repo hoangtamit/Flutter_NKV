@@ -264,7 +264,7 @@ class render extends StatelessWidget {
             columns: const [
               DataColumn(
                 label: Center(
-                  child: SizedBox(width: 50, child: Text('KGI', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
+                  child: SizedBox(width: 80, child: Text('KGI', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
                 ),
               ),
               DataColumn(
@@ -274,17 +274,17 @@ class render extends StatelessWidget {
               ),
               DataColumn(
                 label: Center(
-                  child: SizedBox(width: 60, child: Text('RK', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
+                  child: SizedBox(width: 50, child: Text('RK', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
                 ),
               ),
               DataColumn(
                 label: Center(
-                  child: SizedBox(width: 60, child: Text('Tổng', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
+                  child: SizedBox(width: 50, child: Text('Tổng', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
                 ),
               ),
               DataColumn(
                 label: Center(
-                  child: SizedBox(width: 60, child: Text('PDF', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
+                  child: SizedBox(width: 50, child: Text('PDF', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
                 ),
               ),
             ],
@@ -299,14 +299,14 @@ class render extends StatelessWidget {
                   },
                 ),
                 cells: [
-                  WDatatable.buildDataCell(actor.kgi.toString(), width: 50),
+                  WDatatable.buildDataCell(actor.kgi.toString(), width: 80),
                   WDatatable.buildDataCell(actor.catGiay.toString(), width: 50),
-                  WDatatable.buildDataCell(actor.rk.toString(), width: 60),
-                  WDatatable.buildDataCell(actor.kgITong.toString(), width: 60),
+                  WDatatable.buildDataCell(actor.rk.toString(), width: 50),
+                  WDatatable.buildDataCell(actor.kgITong.toString(), width: 50),
                   DataCell(
                     Center(
                       child: SizedBox(
-                        width: 40,
+                        width: 50,
                         height: 30,
                         child: GestureDetector(
                           onTap: () async {

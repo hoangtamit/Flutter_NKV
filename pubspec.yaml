@@ -60,7 +60,7 @@ dev_dependencies:
   intl: ^0.19.0
   flutter_native_splash: ^2.4.1 #  Tạo logo khi khởi động
   open_file: ^3.3.2
-  device_info_plus: ^10.1.2 # Phiên bản mới nhất tại thời điểm hiện tại
+  #device_info_plus: ^10.1.2 # Phiên bản mới nhất tại thời điểm hiện tại
   collection: ^1.19.1
   flutter_datetime_picker: ^1.5.1
 #  pdfx: ^2.9.0
