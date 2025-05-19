@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nkv/resources/ThietKe/kich-thuoc-giay.dart';
 import '../../model/NhanVien/tbl_nhanvien.dart';
 import '../../utilities/globals.dart';
+import '../Demo/openpdf.dart';
 import '../KhoNVL/avery_giaohang.dart';
 import '../KhoNVL/khonvl_nhapkho.dart';
 import '../KhoNVL/khonvl_xuatkho.dart';

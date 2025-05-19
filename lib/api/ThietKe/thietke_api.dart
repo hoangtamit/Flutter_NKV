@@ -81,7 +81,7 @@ class KhoGiayInApi {
         dsSanPham.add(tb);
       }
       debugPrint('----------------------------------${dsSanPham.length}');
-      return dsSanPham; // Trả về danh sách với url là đường dẫn cục bộ
+      return dsData; // Trả về danh sách với url là đường dẫn cục bộ
     } catch (e) {
       // Xử lý lỗi
       throw Exception('Lỗi khi tính dàn trang: $e');

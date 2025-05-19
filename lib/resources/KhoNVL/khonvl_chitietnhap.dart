@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nkv/model/KhoNVL/KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetNhap.dart';
+import 'package:nkv/utilities/values/screen.dart';
 import 'package:nkv/widgets/wdatatable.dart';
 import 'package:nkv/utilities/values/format.dart';
 import '../../api/KhoNVL/KhoNVL_api.dart';
@@ -25,15 +26,15 @@ class _KhoNVL_ChiTietNhapState extends State<KhoNVL_ChiTietNhap> {
   void initState() {
     super.initState();
     chitiet = widget.tb;
+
   }
   Future<List<KhoNVL_NhapKho_ChiTiet>> getdsNhapKho() async {
     dsNhapKho = await KhoNVLApi.KhoNVL_GetIDKhuVuc_GetMaPhieu(chitiet.maPhieu);
     return dsNhapKho;
   }
   Future<void> _refreshData() async {
-    setState(() {}); // Trigger rebuild to fetch new data
+    setState(() {});
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,20 +46,15 @@ class _KhoNVL_ChiTietNhapState extends State<KhoNVL_ChiTietNhap> {
       body: RefreshIndicator(
         onRefresh: _refreshData,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header with material info
-              Text(
-                'Phiếu Nhập Kho: ' + chitiet.maPhieu,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              //Text('Ngày Nhập: ' + fDateTime.DD_MM_YYYY(chitiet.ngay.toString()), style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold,),),
               const SizedBox(height: 8),
-              //Text('Vị Trí: $_viTri | Kho: $_kho'),
+              Center(child: Text('Phiếu Nhập Kho: ' + chitiet.maPhieu, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold,),)),
+              const SizedBox(height: 8),
+              Center(child: Text('Ngày Nhập: ' + fDateTime.DD_MM_YYYY(chitiet.ngay.toString()), style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold,),)),
               const SizedBox(height: 16),
               // DataTable with themed header
               Expanded(
@@ -101,18 +97,18 @@ class _KhoNVL_ChiTietNhapState extends State<KhoNVL_ChiTietNhap> {
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: DataTable(
-                            columnSpacing: 16,
-                            headingRowHeight: 48,
-                            dataRowHeight: 48,
+                            columnSpacing: wDatatable.columnSpacing,
+                            //headingRowHeight: 45,
+                            //dataRowHeight: 45,
                             border: TableBorder.all(
                               color: Colors.grey.shade300,
                               width: 1,
                             ),
                             columns: [
-                              const DataColumn(label: SizedBox(width: 70, child: Text('Mã Vật Liệu', textAlign: TextAlign.center, style: WDatatable.headerStyle,),),),
-                              const DataColumn(label: SizedBox(width: 70, child: Text('Đơn Vị Tính', textAlign: TextAlign.center, style: WDatatable.headerStyle,),),),
-                              const DataColumn(label: SizedBox(width: 60, child: Text('Quy Cách', textAlign: TextAlign.center, style: WDatatable.headerStyle,),),),
-                              const DataColumn(label: SizedBox(width: 60, child: Text('Số Lượng', textAlign: TextAlign.center, style: WDatatable.headerStyle,),),),
+                              wDatatable.buildDataColumn('Mã Vật Liệu', screen.width(context,3)),
+                              wDatatable.buildDataColumn('Đơn Vị Tính', screen.width(context,2)),
+                              wDatatable.buildDataColumn('Quy Cách', screen.width(context,3)),
+                              wDatatable.buildDataColumn('Số Lượng', screen.width(context,2)),
                             ],
                             rows: List<DataRow>.generate(data.length, (index) => DataRow(
                                 color: WidgetStateProperty.resolveWith<Color?>(
@@ -129,10 +125,10 @@ class _KhoNVL_ChiTietNhapState extends State<KhoNVL_ChiTietNhap> {
                                   },
                                 ),
                                 cells: [
-                                  WDatatable.buildDataCell(data[index].MaVatLieu.toString(), width: 70,),
-                                  WDatatable.buildDataCell(data[index].DonViTinh.toString(), width: 70,),
-                                  WDatatable.buildDataCell(data[index].QuyCach.toString(), width: 60,),
-                                  WDatatable.buildDataCell(data[index].SoLuongNhap.toString(), width: 60,),
+                                  wDatatable.buildDataCell(data[index].MaVatLieu.toString(),screen.width(context,3)),
+                                  wDatatable.buildDataCell(data[index].DonViTinh.toString(),screen.width(context,2)),
+                                  wDatatable.buildDataCell(data[index].QuyCach.toString(),screen.width(context,3)),
+                                  wDatatable.buildDataCell(data[index].SoLuongNhap.toString(),screen.width(context,2)),
                                 ],
                               ),
                             ),
@@ -149,4 +145,6 @@ class _KhoNVL_ChiTietNhapState extends State<KhoNVL_ChiTietNhap> {
       ),
     );
   }
+
+
 }

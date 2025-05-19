@@ -3,6 +3,7 @@ import 'package:nkv/widgets/wdatatable.dart';
 import 'package:nkv/utilities/values/format.dart';
 import '../../api/KhoNVL/KhoNVL_api.dart';
 import '../../model/KhoNVL/tbKhoNVL.dart';
+import '../../utilities/values/screen.dart';
 import '../../utilities/values/theme.dart';
 import '../../widgets/widget_text.dart';
 
@@ -110,7 +111,7 @@ class _KhoNVL_ChiTietNhapXuatState extends State<KhoNVL_ChiTietNhapXuat> {
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: DataTable(
-                            columnSpacing: 16,
+                            columnSpacing: 8,
                             headingRowHeight: 48,
                             dataRowHeight: 48,
                             border: TableBorder.all(
@@ -118,9 +119,9 @@ class _KhoNVL_ChiTietNhapXuatState extends State<KhoNVL_ChiTietNhapXuat> {
                               width: 1,
                             ),
                             columns: [
-                              const DataColumn(label: SizedBox(width: 80, child: Text('Nhập Xuất', textAlign: TextAlign.center, style: WDatatable.headerStyle,),),),
-                              const DataColumn(label: SizedBox(width: 80, child: Text('Ngày', textAlign: TextAlign.center, style: WDatatable.headerStyle,),),),
-                              const DataColumn(label: SizedBox(width: 80, child: Text('Số Lượng', textAlign: TextAlign.center, style: WDatatable.headerStyle,),),),
+                              wDatatable.buildDataColumn('Nhập Xuất', screen.width(context,3)),
+                              wDatatable.buildDataColumn('Ngày', screen.width(context,3)),
+                              wDatatable.buildDataColumn('Số Lượng', screen.width(context,3)),
                             ],
                             rows: List<DataRow>.generate(
                               data.length,
@@ -139,9 +140,9 @@ class _KhoNVL_ChiTietNhapXuatState extends State<KhoNVL_ChiTietNhapXuat> {
                                   },
                                 ),
                                 cells: [
-                                  WDatatable.buildDataCell(data[index].nhapXuat.toString(), width: 80,),
-                                  WDatatable.buildDataCell(fDateTime.DD_MM_YYYY(data[index].ngay.toString()), width: 80,),
-                                  WDatatable.buildDataCell(data[index].soLuong.toString(), width: 80,),
+                                  wDatatable.buildDataCell(data[index].nhapXuat.toString(),  screen.width(context,3),),
+                                  wDatatable.buildDataCell(fDateTime.DD_MM_YYYY(data[index].ngay.toString()), screen.width(context,3),),
+                                  wDatatable.buildDataCell(data[index].soLuong.toString(),  screen.width(context,3),),
                                 ],
                               ),
                             ),

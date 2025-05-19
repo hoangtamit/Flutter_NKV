@@ -7,12 +7,15 @@ import 'package:nkv/api/ThietKe/thietke_api.dart';
 import 'package:nkv/model/ThietKe/ThongTinDanTrang_V2.dart';
 import 'package:nkv/model/ThietKe/tbl_tem_giay_cau_hinh_dan_trang.dart';
 import 'package:nkv/model/ThietKe/tbl_GiayLon.dart';
+import 'package:nkv/resources/Demo/openpdf.dart';
 import 'package:nkv/services/show_Dialog.dart';
 import '../../api/NghiepVu/donsanxuat_api.dart';
 import '../../utilities/loading_dialog.dart';
 import 'package:open_file/open_file.dart';
+import '../../utilities/values/screen.dart';
 import '../../widgets/wdatatable.dart';
 import 'cau-hinh-dan-trang.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 List<tbl_GiayLon> dsGiayLon = [];
 List<ThongTinDanTrang_V2> dsTinhDanTrang = [];
@@ -169,7 +172,6 @@ class _frmThongTinState extends State<frmThongTin> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: Card(
-
                     color: Colors.blue.shade100,
                     elevation: 3,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -240,8 +242,8 @@ class _frmThongTinState extends State<frmThongTin> {
       ShowDialog.showAlertDialog(context, 'Lỗi: $e');
     }
   }
-}
 
+}
 class render extends StatelessWidget {
   final List<ThongTinDanTrang_V2> dsTinhDanTrang;
   const render({super.key, required this.dsTinhDanTrang});
@@ -261,32 +263,12 @@ class render extends StatelessWidget {
               color: Colors.grey.shade300,
               width: 1,
             ),
-            columns: const [
-              DataColumn(
-                label: Center(
-                  child: SizedBox(width: 80, child: Text('KGI', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: SizedBox(width: 50, child: Text('SL', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: SizedBox(width: 50, child: Text('RK', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: SizedBox(width: 50, child: Text('Tổng', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
-                ),
-              ),
-              DataColumn(
-                label: Center(
-                  child: SizedBox(width: 50, child: Text('PDF', textAlign: TextAlign.center, style: WDatatable.headerStyle)),
-                ),
-              ),
+            columns: [
+              wDatatable.buildDataColumn('KGI', screen.width(context,2)),
+              wDatatable.buildDataColumn('SL', screen.width(context,1)),
+              wDatatable.buildDataColumn('RK', screen.width(context,1)),
+              wDatatable.buildDataColumn('Tổng', screen.width(context,2)),
+              wDatatable.buildDataColumn('PDF', screen.width(context,2)),
             ],
             rows: dsTinhDanTrang.asMap().entries.map((entry) {
               final index = entry.key;
@@ -299,35 +281,36 @@ class render extends StatelessWidget {
                   },
                 ),
                 cells: [
-                  WDatatable.buildDataCell(actor.kgi.toString(), width: 80),
-                  WDatatable.buildDataCell(actor.catGiay.toString(), width: 50),
-                  WDatatable.buildDataCell(actor.rk.toString(), width: 50),
-                  WDatatable.buildDataCell(actor.kgITong.toString(), width: 50),
+                  wDatatable.buildDataCell(actor.kgi.toString(),  screen.width(context,2)),
+                  wDatatable.buildDataCell(actor.catGiay.toString(),  screen.width(context,1)),
+                  wDatatable.buildDataCell(actor.rk.toString(),  screen.width(context,1)),
+                  wDatatable.buildDataCell(actor.kgITong.toString(),  screen.width(context,2)),
                   DataCell(
                     Center(
                       child: SizedBox(
-                        width: 50,
+                        width: screen.width(context,2),
                         height: 30,
                         child: GestureDetector(
                           onTap: () async {
-                            LoadingDialog.showLoadingDialog(context, "");
+                            //LoadingDialog.showLoadingDialog(context, "");
                             try {
                               var json = tbl_TemGiay_CauHinhDanTrangToJson(_config);
                               var json2 = thongTinDanTrangV2ToJson(actor);
                               var result = await KhoGiayInApi.ExportPdf(json, json2);
                               if (result.isNotEmpty) {
                                 final String filePath = result[0].url;
-                                final openResult = await OpenFile.open(filePath);
-                                if (openResult.type != ResultType.done) {
-                                  _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
-                                }
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => OpenPdfPage(pathfile: filePath, action: 'network',)));
+                                //final openResult = await OpenFile.open(filePath);
+                                // if (openResult.type != ResultType.done) {
+                                //   _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
+                                // }
                               } else {
                                 _showErrorSnackBar(context, 'Không tìm thấy file PDF');
                               }
                             } catch (e) {
                               ShowDialog.showAlertDialog(context, 'Lỗi khi xuất PDF: $e');
                             } finally {
-                              LoadingDialog.hideLoadingDialog(context);
+                              //LoadingDialog.hideLoadingDialog(context);
                             }
                           },
                           child: Image.asset(
@@ -348,10 +331,6 @@ class render extends StatelessWidget {
       ),
     );
   }
-
-
-
-
 
   void _showErrorSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
