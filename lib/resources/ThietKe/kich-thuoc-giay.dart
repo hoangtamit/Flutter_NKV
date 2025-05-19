@@ -7,7 +7,7 @@ import 'package:nkv/api/ThietKe/thietke_api.dart';
 import 'package:nkv/model/ThietKe/ThongTinDanTrang_V2.dart';
 import 'package:nkv/model/ThietKe/tbl_tem_giay_cau_hinh_dan_trang.dart';
 import 'package:nkv/model/ThietKe/tbl_GiayLon.dart';
-import 'package:nkv/resources/Demo/openpdf.dart';
+import 'package:nkv/pdf/openpdf.dart';
 import 'package:nkv/services/show_Dialog.dart';
 import '../../api/NghiepVu/donsanxuat_api.dart';
 import '../../utilities/loading_dialog.dart';
@@ -256,7 +256,7 @@ class render extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
-            columnSpacing: 12,
+            columnSpacing: wDatatable.columnSpacing,
             dataRowMaxHeight: 48,
             headingRowHeight: 50,
             border: TableBorder.all(
@@ -264,8 +264,8 @@ class render extends StatelessWidget {
               width: 1,
             ),
             columns: [
-              wDatatable.buildDataColumn('KGI', screen.width(context,2)),
-              wDatatable.buildDataColumn('SL', screen.width(context,1)),
+              wDatatable.buildDataColumn('KGI', screen.width(context,2.3)),
+              wDatatable.buildDataColumn('SL', screen.width(context,2)),
               wDatatable.buildDataColumn('RK', screen.width(context,1)),
               wDatatable.buildDataColumn('Tổng', screen.width(context,2)),
               wDatatable.buildDataColumn('PDF', screen.width(context,2)),
@@ -281,8 +281,8 @@ class render extends StatelessWidget {
                   },
                 ),
                 cells: [
-                  wDatatable.buildDataCell(actor.kgi.toString(),  screen.width(context,2)),
-                  wDatatable.buildDataCell(actor.catGiay.toString(),  screen.width(context,1)),
+                  wDatatable.buildDataCell(actor.kgi.toString(),  screen.width(context,2.3)),
+                  wDatatable.buildDataCell(actor.catGiay.toString(),  screen.width(context,2)),
                   wDatatable.buildDataCell(actor.rk.toString(),  screen.width(context,1)),
                   wDatatable.buildDataCell(actor.kgITong.toString(),  screen.width(context,2)),
                   DataCell(
@@ -299,7 +299,7 @@ class render extends StatelessWidget {
                               var result = await KhoGiayInApi.ExportPdf(json, json2);
                               if (result.isNotEmpty) {
                                 final String filePath = result[0].url;
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => OpenPdfPage(pathfile: filePath, action: 'network',)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: filePath, action: 'network',)));
                                 //final openResult = await OpenFile.open(filePath);
                                 // if (openResult.type != ResultType.done) {
                                 //   _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');

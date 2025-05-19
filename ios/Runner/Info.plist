@@ -55,7 +55,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>CFBundleGetInfoString</key>
-	<string>&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
-&lt;string&gt;Ứng dụng cần quyền truy cập thư viện ảnh để lưu file.&lt;/string&gt;</string>
+	<string>&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;&lt;string&gt;Ứng dụng cần quyền truy cập thư viện ảnh để lưu file.&lt;/string&gt;</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Need permission to save files</string>
 </dict>
 </plist>

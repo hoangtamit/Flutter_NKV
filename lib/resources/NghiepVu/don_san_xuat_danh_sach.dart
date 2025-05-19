@@ -3,6 +3,7 @@ import 'package:searchable_listview/searchable_listview.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../api/NghiepVu/donsanxuat_api.dart';
 import '../../model/NghiepVu/tbdonsanxuat.dart';
+import '../../pdf/openpdf.dart';
 import '../../pdf/pinch.dart';
 import '../../utilities/loading_dialog.dart';
 import '../../utilities/values/format.dart';
@@ -84,22 +85,23 @@ class ActorItem extends StatelessWidget {
   final tbDonSanXuat actor;
   const ActorItem({super.key, required this.actor});
   Future<void> _openPdf(BuildContext context) async {
-    LoadingDialog.showLoadingDialog(context, "");
+    //LoadingDialog.showLoadingDialog(context, "");
     try {
       final result = await DonSanXuatApi.ExportPdf(actor.scd.toString());
       if (result.isNotEmpty && result[0].url != null) {
-        final String filePath = result[0].url; // Đường dẫn cục bộ
-        final openResult = await OpenFile.open(filePath);
-        if (openResult.type != ResultType.done) {
-          _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
-        }
+        final String pathfile = result[0].url; // Đường dẫn cục bộ
+        Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: pathfile, action: 'network',)));
+        // final openResult = await OpenFile.open(pathfile);
+        // if (openResult.type != ResultType.done) {
+        //   _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
+        // }
       } else {
         _showErrorSnackBar(context, 'Không tìm thấy file PDF');
       }
     } catch (e) {
       _showErrorSnackBar(context, 'Lỗi khi mở file PDF: $e');
     }finally {
-      LoadingDialog.hideLoadingDialog(context);
+      //LoadingDialog.hideLoadingDialog(context);
     }
   }
   void _showErrorSnackBar(BuildContext context, String message) {

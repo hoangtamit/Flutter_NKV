@@ -8,7 +8,7 @@ class screen{
     final width = MediaQuery.of(context).size.width;
     return width;
   }
-  static double width(dynamic context, int column, { double columnSpacing = wDatatable.columnSpacing }){
+  static double width(dynamic context, double column, { double columnSpacing = wDatatable.columnSpacing }){
     final width = (MediaQuery.of(context).size.width - (columnSpacing * 2)) / columnNumber * column;
     return width;
   }

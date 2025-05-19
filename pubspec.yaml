@@ -64,8 +64,10 @@ dev_dependencies:
   collection: ^1.19.1
   flutter_datetime_picker: ^1.5.1
   syncfusion_flutter_pdfviewer: 29.2.4
-#  pdfx: ^2.9.0
-#  internet_file: ^1.2.0
+  path_provider: ^2.1.5
+  share_plus: ^11.0.0
+  printing: ^5.14.2
+  path: ^1.9.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -60,17 +60,17 @@ class DonSanXuatApi {
     final data = {'SCD': SCD};
     final Data = await AuthorizeApi.Post_Data('DonSanXuat/ExportPdf', data);
     final dsData = Data.map((e) => tbl_DanhSachSanPham.fromJson(e)).toList();
-    final directory = await getDownloadsDirectory();
-    if (directory == null) {
-      throw Exception('Không thể truy cập thư mục Downloads');
-    }
-    for (var i = 0; i < dsData.length; i++) {
-      var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
-      var tb = tbl_DanhSachSanPham(id: i, name: dsData[i].name, url: file.path); // Lưu đường dẫn cục bộ
-      dsSanPham.add(tb);
-    }
-    debugPrint('----------------------------------${dsSanPham.length}');
-    return dsSanPham; // Trả về danh sách với url là đường dẫn cục bộ
+    // final directory = await getDownloadsDirectory();
+    // if (directory == null) {
+    //   throw Exception('Không thể truy cập thư mục Downloads');
+    // }
+    // for (var i = 0; i < dsData.length; i++) {
+    //   var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
+    //   var tb = tbl_DanhSachSanPham(id: i, name: dsData[i].name, url: file.path); // Lưu đường dẫn cục bộ
+    //   dsSanPham.add(tb);
+    // }
+    debugPrint('----------------------------------${dsData.length}');
+    return dsData; // Trả về danh sách với url là đường dẫn cục bộ
   }
 }
 class DownloadService {
