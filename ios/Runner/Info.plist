@@ -54,5 +54,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>CFBundleGetInfoString</key>
+	<string>&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
+&lt;string&gt;Ứng dụng cần quyền truy cập thư viện ảnh để lưu file.&lt;/string&gt;</string>
 </dict>
 </plist>

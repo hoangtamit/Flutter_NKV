@@ -75,12 +75,12 @@ class KhoGiayInApi {
       if (responseData == null || responseData is! List) {
         throw Exception('Dữ liệu trả về từ API không hợp lệ');
       }
-      for (var i = 0; i < dsData.length; i++) {
-        var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
-        var tb = tbl_DanhSachSanPham(id: i, name: dsData[i].name, url: file.path); // Lưu đường dẫn cục bộ
-        dsSanPham.add(tb);
-      }
-      debugPrint('----------------------------------${dsSanPham.length}');
+      // for (var i = 0; i < dsData.length; i++) {
+      //   var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
+      //   var tb = tbl_DanhSachSanPham(id: i, name: dsData[i].name, url: file!.path); // Lưu đường dẫn cục bộ
+      //   dsSanPham.add(tb);
+      // }
+      debugPrint('----------------------------------${dsData.length}');
       return dsData; // Trả về danh sách với url là đường dẫn cục bộ
     } catch (e) {
       // Xử lý lỗi
@@ -98,28 +98,59 @@ class GiayLonApi {
 }
 class DownloadService {
   static final _httpClient = HttpClient();
-  static Future<File> downloadFile(String url, String filename) async {
+  static Future<File?> downloadFile(String url, String filename) async {
     try {
-      if (!await requestStoragePermission()) {
+      // Bỏ qua quyền bộ nhớ trên iOS vì không cần thiết
+      if (Platform.isAndroid && !await requestStoragePermission()) {
         throw Exception('Quyền truy cập bộ nhớ bị từ chối. Vui lòng cấp quyền trong cài đặt.');
       }
+
+      // Tải file từ URL
       final response = await http.get(Uri.parse(url));
       if (response.statusCode != 200) {
         throw Exception('Tải file thất bại: ${response.statusCode}');
       }
-      final directory = await getDownloadsDirectory();
-      if (directory == null) {
-        throw Exception('Không thể truy cập thư mục Downloads');
+
+      // Chọn thư mục phù hợp
+      Directory directory;
+      if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
       }
-      String safeFilename = filename.replaceAll(RegExp(r'[^\w\d\.]'), '_');
+      debugPrint('Directory path: ${directory.path}');
+
+      // Tạo tên file an toàn
+      String safeFilename = filename.replaceAll(RegExp(r'[^a-zA-Z0-9\.]'), '_');
       File file = File('${directory.path}/$safeFilename');
-      if (await file.exists()) {
-        safeFilename = '${safeFilename.split('.').first}_${DateTime.now().millisecondsSinceEpoch}.pdf';
-        file = File('${directory.path}/$safeFilename');
+
+      // Kiểm tra nếu file tồn tại, thêm số thứ tự
+      int counter = 1;
+      String baseName = safeFilename.split('.').first;
+      String extension = safeFilename.split('.').last;
+      while (await file.exists()) {
+        safeFilename = '${baseName}_${counter}.${extension}';
+        counter++;
+        debugPrint('Attempted to save file at: ${file.path}');
       }
-      await file.writeAsBytes(response.bodyBytes);
-      debugPrint('File saved at: ${file.path}');
-      return file;
+
+      // Ghi file
+      await file.writeAsBytes(response.bodyBytes, flush: true); // Thêm flush để đảm bảo ghi ngay
+      debugPrint('Attempted to save file at: ${file.path}');
+      // File testFile = File('${directory.path}/test.txt');
+      // await testFile.writeAsString('Test content');
+      // debugPrint('Test file exists: ${await testFile.exists()}');
+      // Kiểm tra sự tồn tại của file sau khi ghi
+      if (await file.exists()) {
+        debugPrint('File exists after writing: ${file.path}');
+        // Liệt kê tất cả file trong thư mục để kiểm tra
+        final files = directory.listSync();
+        debugPrint('Files in Documents: $files');
+        return file;
+      } else {
+        debugPrint('File does not exist after writing: ${file.path}');
+        throw Exception('Không thể xác nhận file đã được ghi');
+      }
     } catch (e, stackTrace) {
       debugPrint('Error downloading file: $e');
       debugPrint('StackTrace: $stackTrace');
