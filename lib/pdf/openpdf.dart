@@ -71,9 +71,17 @@ class _PdfViewerPageState extends State<PdfViewer> {
   Future<void> _saveToDownloads() async {
     String fileName = path.basename(pdfUrl);
     final file = await _downloadFile(pdfUrl, fileName);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('File saved to ${file.path}')),
-    );
+    if(Platform.isAndroid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('File saved to ${file.path}')),
+      );
+    }
+    else if(Platform.isIOS){
+      await Share.shareXFiles([XFile(file.path)], text: 'Save to Files');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('File saved and shared to Files')),
+      );
+    }
   }
   // Hàm chia sẻ file
   Future<void> _shareFile() async {
