@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nkv/resources/ThietKe/kich-thuoc-giay.dart';
 import '../KhoNVL/kiemketonkho.dart';
 import '../NghiepVu/don_san_xuat_danh_sach.dart';
+import '../SanXuat/baocao_sanxuat.dart';
 import '../ThietKe/kho-giay-in.dart';
 import '../Users/login_page.dart';
 const Color primaryColor = Colors.orange;
@@ -42,7 +43,7 @@ class _XacNhanPageState extends State<XacNhanPage> {
                   context,
                   title: 'Báo Cáo Sản Xuất',
                   icon: 'assets/images/checklist03-64.png',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DonSanXuat_DanhSach())),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ReportScreen(SCD: null,))),
                 ),
                 _buildMenuItem(
                   context,
