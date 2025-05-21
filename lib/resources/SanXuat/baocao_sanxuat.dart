@@ -11,7 +11,7 @@ TextEditingController soluongconlai = TextEditingController();
 
 class ReportScreen extends StatefulWidget {
   final SCD;
-  ReportScreen({super.key, required this.SCD});
+  const ReportScreen({super.key, required this.SCD});
   @override
   _ReportScreenState createState() => _ReportScreenState();
 }
@@ -19,6 +19,7 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   String? selectedEmployeeId;
   String? selectedWatermark;
+  @override
   void initState() {
     super.initState();
 
@@ -58,7 +59,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     //SizedBox(height: spacingHeight),
                     Row(
                       children: [
-                        Container(width: 70, child: _buildDisabledTextField('MSNV:', '1234')),
+                        SizedBox(width: 70, child: _buildDisabledTextField('MSNV:', '1234')),
                         SizedBox(width: 16),
                         Expanded(child: _buildDisabledTextField('Tên Nhân Viên:', 'Nguyễn Hoàng Tâm')),
                       ],
