@@ -4,13 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../api/NhanVien/authorize_api.dart';
+import '../main.dart';
 import '../utilities/app_theme.dart';
 //import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatelessWidget {
   final Widget startPage;
   MyApp (this.startPage, {super.key});
-  final AuthorizeApi auth = AuthorizeApi();
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       //   Locale('vi', 'VN'), // Hỗ trợ tiếng Việt
       //   Locale('en', 'US'), // Hỗ trợ tiếng Anh (tùy chọn)
       // ],
+      //navigatorObservers: [routeObserver],
       home: startPage,
       //initialRoute: startPage,
       //home: NKVHomePage(),

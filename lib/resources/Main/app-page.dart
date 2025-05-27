@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nkv/resources/ThietKe/kich-thuoc-giay.dart';
+import 'package:nkv/widgets/wAppBar.dart';
 import '../../model/NhanVien/tbl_nhanvien.dart';
 import '../../utilities/globals.dart';
 import '../../pdf/openpdf.dart';
@@ -30,11 +31,7 @@ class _AppPageState extends State<AppPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ứng Dụng'),
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: wAppBar.buildAppBar('ỨNG DỤNG'),
       body: Container(
         //padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
         color: Colors.grey[100], // Nền nhẹ để tăng độ tương phản

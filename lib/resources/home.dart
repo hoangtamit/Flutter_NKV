@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nkv/resources/Main/app-page.dart';
 import 'package:nkv/resources/Main/barcode-page.dart';
 import 'package:vibration/vibration.dart';
+import 'Main/barcode-page2.dart';
 import 'Main/home-page.dart';
 import 'Main/xac_nhan_page.dart';
 import 'Users/user-info.dart';
@@ -124,10 +125,11 @@ class _NKVHomePageState extends State<NKVHomePage> {
         activeIcons: [
           const Icon(Icons.home, color: activeIconColor, size: iconSize),
           const Icon(Icons.grid_view_rounded, color: activeIconColor, size: iconSize),
-          BarcodeButton(
-            isActive: _tabIndex == 2,
-            onTap: () => _onTabChanged(2),
-          ),
+          const Icon(Icons.qr_code_scanner, color: activeIconColor, size: iconSize),
+          // BarcodeButton(
+          //   isActive: _tabIndex == 2,
+          //   onTap: () => _onTabChanged(2),
+          // ),
           const Icon(Icons.list_alt, color: activeIconColor, size: iconSize),
           const Icon(Icons.person, color: activeIconColor, size: iconSize),
         ],
@@ -159,7 +161,7 @@ class _NKVHomePageState extends State<NKVHomePage> {
         children: [
           HomePage(),
           const AppPage(),
-          BarcodeScannerPage(),
+          BarcodeHomePage(),
           // BarcodeButton(
           //   isActive: false, // Không cần active vì không điều hướng trong PageView
           //   onTap: BarcodeScannerPage,

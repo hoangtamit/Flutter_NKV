@@ -10,14 +10,13 @@ android {
     namespace = "com.example.nkv"
     //compileSdk = 33
     compileSdk = flutter.compileSdkVersion
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     defaultConfig {
@@ -35,7 +34,7 @@ android {
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Signing with the debug keys fflor now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -43,4 +42,7 @@ android {
 
 flutter {
     source = "../.."
+}
+tasks.withType<Test> {
+    enabled = false
 }

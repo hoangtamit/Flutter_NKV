@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-
+import '../../main.dart';
 import '../SanXuat/baocao_sanxuat.dart';
+import '../home.dart';
 
 const Color activeIconColor = Colors.orange;
-
 class BarcodeScannerPage extends StatefulWidget {
   const BarcodeScannerPage({super.key});
   @override
@@ -14,7 +14,36 @@ class BarcodeScannerPage extends StatefulWidget {
 
 class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
   MobileScannerController controller = MobileScannerController();
-  String? scannedCode;
+  String? scannedCode = '';//'''LAN-250506-1157';
+  @override
+  void initState() {
+    super.initState();
+    scannedCode = '';
+    controller.start();
+  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   final ModalRoute? modalRoute = ModalRoute.of(context);
+  //   if (modalRoute != null) {
+  //     WidgetsBinding.instance.addPostFrameCallback((_) {
+  //       modalRoute.routeObserver.subscribe(this, modalRoute);
+  //     });
+  //   }
+  // }
+
+  // @override
+  // void didPopNext() {
+  //   // Khi quay lại từ trang khác (như frmBaoCaoSanXuat), khởi động lại camera
+  //   controller.start().then((_) {
+  //     print('Camera started on didPopNext');
+  //   }).catchError((error) {
+  //     print('Error starting camera on didPopNext: $error');
+  //   });
+  //   setState(() {
+  //     scannedCode = ''; // Reset scannedCode để cho phép quét lại
+  //   });
+  // }
   @override
   void dispose() {
     controller.dispose();
@@ -39,27 +68,22 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
                   scannedCode = barcodes.first.rawValue;
                 });
                 if (scannedCode != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Mã barcode: $scannedCode'),
-                      duration: const Duration(seconds: 3),
-                    ),
-                  );
-// Tạm dừng camera sau khi quét thành công
+                // Tạm dừng camera sau khi quét thành công
                   controller.stop();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => frmBaoCaoSanXuat(SCD: scannedCode,),),);
                 }
               }
             },
           ),
           Positioned(
-            bottom: 80,
+            bottom: 100,
             left: 0,
             right: 0,
             child: Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
-                },
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => BarcodeScannerPage(),),);
+                  },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: activeIconColor,
                   foregroundColor: Colors.white,
@@ -68,24 +92,6 @@ class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
               ),
             ),
           ),
-          if (scannedCode != null && scannedCode?.length == 15)
-             ReportScreen(SCD: scannedCode,)
-
-            // Positioned(
-            //   top: 20,
-            //   left: 0,
-            //   right: 0,
-            //   child: Center(
-            //     child: Container(
-            //       padding: const EdgeInsets.all(16),
-            //       color: Colors.black54,
-            //       child: Text(
-            //         'Mã đã quét: $scannedCode',
-            //         style: const TextStyle(color: Colors.white, fontSize: 16),
-            //       ),
-            //     ),
-            //   ),
-            // ),
         ],
       ),
     );

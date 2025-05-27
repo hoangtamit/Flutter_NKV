@@ -43,7 +43,7 @@ class _XacNhanPageState extends State<XacNhanPage> {
                   context,
                   title: 'Báo Cáo Sản Xuất',
                   icon: 'assets/images/checklist03-64.png',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ReportScreen(SCD: null,))),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => frmBaoCaoSanXuat(SCD: 'LAN-250521-0001',))),
                 ),
                 _buildMenuItem(
                   context,

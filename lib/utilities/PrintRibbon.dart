@@ -42,10 +42,20 @@ class printRibbon{
   static const String KEHOACH  = 'KẾ HOẠCH';
 //-------------------------------------------AVERY DENNISON ----------------------------------------------//
   static const String nccAD  = 'CÔNG TY TNHH AVERY DENNISON RIS VIỆT NAM';
-
+  //-------------------------------------------SAU IN ----------------------------------------------//
+  static const String Offset  = 'Offset';
+  static const String Vecni  = 'Vecni';
+//-------------------------------------------SAU IN ----------------------------------------------//
+  static const String XaGiay  = 'Xã Giấy';
+  static const String CanMang  = 'Cán Màng';
+  static const String Be  = 'Bế';
+  static const String ThiepNhu  = 'Thiếp Nhũ';
+  static const String DucLo  = 'Đục Lỗ';
 //-------------------------------------------Khác ----------------------------------------------//
   static const String themthanhcong     = 'Thêm Thành Công';
   static const String themthatbai       = 'Thêm Thất Bại';
   static const String capnhatthanhcong  = 'Cập Nhật Thành Công';
   static const String capnhatthatbai    = 'Cập Nhật Thất Bại';
+  static const String PCS               = 'PCS';
+
 }

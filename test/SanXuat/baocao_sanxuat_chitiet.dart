@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:nkv/model/KhoNVL/KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetXuat.dart';
 import 'package:nkv/widgets/wdatatable.dart';
 import 'package:nkv/utilities/values/format.dart';
-import '../../api/KhoNVL/KhoNVL_api.dart';
-import '../../model/KhoNVL/KhoNVL_XuatKho_ChiTiet.dart';
-import '../../model/KhoNVL/tbKhoNVL.dart';
+import '../../api/SanXuat/sanxuat_api.dart';
 import '../../utilities/fDateTime.dart';
 import '../../utilities/values/screen.dart';
 import '../../utilities/values/theme.dart';
 import '../../widgets/widget_text.dart';
 
-class KhoNVL_ChiTietXuat extends StatefulWidget {
-  final KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetXuat tb;
-  const KhoNVL_ChiTietXuat({
-    super.key,
-    required this.tb,
-  });
+class BaoCao_SanXuat_ChiTiet extends StatefulWidget {
+  final String SCD;
+  final String CongDoan;
+  const BaoCao_SanXuat_ChiTiet({super.key, required this.SCD, required this.CongDoan,});
   @override
-  _KhoNVL_ChiTietXuatState createState() => _KhoNVL_ChiTietXuatState();
+  _BaoCao_SanXuat_ChiTietState createState() => _BaoCao_SanXuat_ChiTietState();
 }
 
-class _KhoNVL_ChiTietXuatState extends State<KhoNVL_ChiTietXuat> {
-  late KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetXuat chitiet;
-  List<KhoNVL_XuatKho_ChiTiet> dsXuatKho = [];
+class _BaoCao_SanXuat_ChiTietState extends State<BaoCao_SanXuat_ChiTiet> {
+  late String _scd;
+  late String _congdoan;
+
   @override
   void initState() {
     super.initState();
-    chitiet = widget.tb;
+    _scd = widget.SCD;
+    _congdoan = widget.CongDoan;
   }
-  Future<List<KhoNVL_XuatKho_ChiTiet>> getdsXuatKho() async {
-    dsXuatKho = await KhoNVLApi.KhoNVL_XuatKho_ChiTiet_V2(chitiet.MaPhieu);
-    return dsXuatKho;
-  }
+
   Future<void> _refreshData() async {
     setState(() {}); // Trigger rebuild to fetch new data
   }
@@ -40,22 +34,35 @@ class _KhoNVL_ChiTietXuatState extends State<KhoNVL_ChiTietXuat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chi Tiết Xuất Kho'),
+        title: const Text('Chi Tiết Báo Cáo'),
         centerTitle: true,
         backgroundColor: primaryColor,
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header with material info
+              Center(
+                child: Text(
+                  'SCD: $_scd',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               const SizedBox(height: 8),
-              Center(child: Text('Phiếu Nhập Kho: ' + chitiet.MaPhieu, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold,),),),
-              const SizedBox(height: 8),
-              Center(child: Text('Ngày Nhập: ' + fDateTime.DD_MM_YYYY(chitiet.Ngay.toString()), style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold,),)),
+              Center(
+                child: Text(
+                  'Công Đoạn: $_congdoan',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               const SizedBox(height: 16),
               // DataTable with themed header
               Expanded(
@@ -71,7 +78,7 @@ class _KhoNVL_ChiTietXuatState extends State<KhoNVL_ChiTietXuat> {
                     ),
                   ),
                   child: FutureBuilder(
-                    future: getdsXuatKho(),
+                    future: SanXuatApi.BaoCaoSanXuat_V2_GetSCD_GetCongDoan(_scd, _congdoan),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
@@ -89,42 +96,50 @@ class _KhoNVL_ChiTietXuatState extends State<KhoNVL_ChiTietXuat> {
                             ],
                           ),
                         );
-                      } else if (!snapshot.hasData) {
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return const Center(child: Text('Không có dữ liệu'));
                       }
+
                       final data = snapshot.data!;
                       return SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: DataTable(
-                            columnSpacing: wDatatable.columnSpacing,
+                            columnSpacing: 8,
                             headingRowHeight: 48,
-                            dataRowHeight: 45,
+                            dataRowHeight: 48,
                             border: TableBorder.all(
                               color: Colors.grey.shade300,
                               width: 1,
                             ),
                             columns: [
-                              wDatatable.buildDataColumn('Mã Vật Liệu', screen.width(context,3)),
-                              wDatatable.buildDataColumn('Đơn Vị Tính', screen.width(context,2)),
-                              wDatatable.buildDataColumn('Quy Cách', screen.width(context,3)),
-                              wDatatable.buildDataColumn('Số Lượng', screen.width(context,2)),
+                              wDatatable.buildDataColumn('Bắt Đầu', screen.width(context,3.5)),
+                              wDatatable.buildDataColumn('Kết Thúc', screen.width(context,3.5)),
+                              wDatatable.buildDataColumn('Đạt', screen.width(context,1.5)),
+                              wDatatable.buildDataColumn('Lỗi', screen.width(context,1.5)),
                             ],
-                            rows: List<DataRow>.generate(data.length, (index) => DataRow(
+                            rows: List<DataRow>.generate(
+                              data.length,
+                                  (index) => DataRow(
                                 color: WidgetStateProperty.resolveWith<Color?>(
                                       (states) {
                                     if (states.contains(MaterialState.selected)) {
-                                      return Theme.of(context).colorScheme.primary.withOpacity(0.08);
+                                      return Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withOpacity(0.08);
                                     }
-                                    return index.isEven ? Colors.grey.withOpacity(0.1) : null;
+                                    return index.isEven
+                                        ? Colors.grey.withOpacity(0.1)
+                                        : null;
                                   },
                                 ),
                                 cells: [
-                                  wDatatable.buildDataCell(data[index].MaVatLieu.toString(),screen.width(context,3)),
-                                  wDatatable.buildDataCell(data[index].DonViTinh.toString(),screen.width(context,2)),
-                                  wDatatable.buildDataCell(data[index].QuyCach.toString(),screen.width(context,3)),
-                                  wDatatable.buildDataCell(data[index].SoLuongXuat.toString(),screen.width(context,2)),
+                                  wDatatable.buildDataCell(fDateTime.DD_MM_YYYY_HH_MM(data[index].ThoiGian_BatDau.toString()),  screen.width(context,3.5),),
+                                  wDatatable.buildDataCell(fDateTime.DD_MM_YYYY_HH_MM(data[index].ThoiGian_KetThuc.toString()), screen.width(context,3.5),),
+                                  wDatatable.buildDataCell(data[index].SoLuongDat.toString(),  screen.width(context,1.5),),
+                                  wDatatable.buildDataCell((data[index].SoLuongLoi ?? '0').toString(),  screen.width(context,1.5),),
                                 ],
                               ),
                             ),
