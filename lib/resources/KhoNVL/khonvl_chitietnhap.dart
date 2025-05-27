@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nkv/model/KhoNVL/KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetNhap.dart';
-import 'package:nkv/utilities/values/screen.dart';
-import 'package:nkv/widgets/wdatatable.dart';
-import 'package:nkv/utilities/values/format.dart';
+import 'package:qlsx/model/KhoNVL/KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetNhap.dart';
+import 'package:qlsx/utilities/values/screen.dart';
+import 'package:qlsx/widgets/wdatatable.dart';
+import 'package:qlsx/utilities/values/format.dart';
 import '../../api/KhoNVL/KhoNVL_api.dart';
 import '../../model/KhoNVL/KhoNVL_NhapKho_ChiTiet.dart';
 import '../../model/KhoNVL/tbKhoNVL.dart';

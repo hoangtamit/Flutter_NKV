@@ -13,12 +13,13 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
         android:enableOnBackInvokedCallback="true"
-        android:label="nkv"
+        android:label="qlsx"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="sensor"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""

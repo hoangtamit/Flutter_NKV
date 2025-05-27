@@ -1,7 +1,7 @@
-import 'package:nkv/model/NghiepVu/tbl_danhsachsanpham.dart';
-import 'package:nkv/model/ThietKe/ThongTinDanTrang_V2.dart';
-import 'package:nkv/model/ThietKe/tbKhoGiayIn.dart';
-import 'package:nkv/model/ThietKe/tbl_GiayLon.dart';
+import 'package:qlsx/model/NghiepVu/tbl_danhsachsanpham.dart';
+import 'package:qlsx/model/ThietKe/ThongTinDanTrang_V2.dart';
+import 'package:qlsx/model/ThietKe/tbKhoGiayIn.dart';
+import 'package:qlsx/model/ThietKe/tbl_GiayLon.dart';
 import '../NhanVien/authorize_api.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;

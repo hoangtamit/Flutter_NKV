@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:nkv/api/BoPhan/BoPhan_api.dart';
-import 'package:nkv/model/BoPhan/tbl_bophan.dart';
+import 'package:qlsx/api/BoPhan/BoPhan_api.dart';
+import 'package:qlsx/model/BoPhan/tbl_bophan.dart';
 
 // Màn hình chính, sử dụng Scaffold để hiển thị các widget
 class DemoScreen extends StatefulWidget {
@@ -529,7 +529,7 @@ class _DemoScreenState extends State<DemoScreen> {
             // - width, height, fit
             Container(
               margin: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Image.asset('assets/images/nkv.png',
+              child: Image.asset('assets/images/qlsx.png',
                 width: 100,
                 height: 100,
                 fit: BoxFit.contain,
@@ -844,7 +844,7 @@ class _DemoScreenState extends State<DemoScreen> {
               margin: const EdgeInsets.symmetric(vertical: 8.0),
               child: Hero(
                 tag: 'hero-tag',
-                child: Image.asset('assets/images/nkv.png',
+                child: Image.asset('assets/images/qlsx.png',
                   width: 50,
                   height: 80,
                 ),
@@ -935,7 +935,7 @@ class _DemoScreenState extends State<DemoScreen> {
               height: 100,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Image.asset('assets/images/nkv.png',
+                child: Image.asset('assets/images/qlsx.png',
                 ),
               ),
             ),

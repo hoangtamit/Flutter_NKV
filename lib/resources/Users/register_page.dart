@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nkv/services/show_Dialog.dart';
+import 'package:qlsx/services/show_Dialog.dart';
 import '../../api/NhanVien/authorize_api.dart';
 import '../../blocs/auth_bloc.dart';
 import '../../model/drop_list_model.dart';
@@ -46,11 +46,11 @@ class _RegisterPageState extends State<RegisterPage> {
         child:  SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset('assets/images/nkv.png'),
+              Image.asset('assets/images/qlsx.png'),
               const Text("Welcome!", style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),),
               const Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-                child: Text("Signup with NKV in simple steps",
+                child: Text("Signup with qlsx in simple steps",
                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.normal),),
               ),
               Container(
@@ -229,7 +229,7 @@ class _RegisterPageState extends State<RegisterPage> {
         if(value) {
           ShowDialog.showAlertDialog(context,'Đăng Ký Thành Công !');
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const NKVHomePage()));
+              MaterialPageRoute(builder: (context) => const qlsxHomePage()));
         }
       }).catchError((onError){
         LoadingDialog.hideLoadingDialog(context);
@@ -276,13 +276,13 @@ class _RegisterPageState extends State<RegisterPage> {
 // void _onLoginClick() {
 //   String email = _emailController.text;
 //   String pass = _passController.text;
-//   //var authBloc = NKVHomeScreen.of(context)?.authBloc;
+//   //var authBloc = qlsxHomeScreen.of(context)?.authBloc;
 //   //var authBloc = MyApp.of(context).authBloc;
 //   //LoadingDialog.showLoadingDialog(context, "Loading...");
 //   authBloc?.signIn(email, pass, () {
 //     LoadingDialog.hideLoadingDialog(context);
 //     Navigator.of(context)
-//         .push(MaterialPageRoute(builder: (context) => NKVHomePage()));
+//         .push(MaterialPageRoute(builder: (context) => qlsxHomePage()));
 //   }, (msg) {
 //     LoadingDialog.hideLoadingDialog(context);
 //     MsgDialog.showMsgDialog(context, "Sign-In", msg);
@@ -305,7 +305,7 @@ class _RegisterPageState extends State<RegisterPage> {
 //     //if there is no error, get the user's accesstoken and pass it to HomeScreen
 //     if (res['ErrorCode'] == null) {
 //       String accessToken = res['access_token'];
-//       Navigator.push(context,MaterialPageRoute(builder: (context) => NKVHomePage(accesstoken: accessToken)));
+//       Navigator.push(context,MaterialPageRoute(builder: (context) => qlsxHomePage(accesstoken: accessToken)));
 //     } else {
 //       //if an error occurs, show snackbar with error message
 //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -318,13 +318,13 @@ class _RegisterPageState extends State<RegisterPage> {
 // void _onLoginClick() {
 //   String email = _emailController.text;
 //   String pass = _passController.text;
-//   var authBloc = NKVHomeScreen.of(context)?.authBloc;
+//   var authBloc = qlsxHomeScreen.of(context)?.authBloc;
 //   //var authBloc = MyApp.of(context).authBloc;
 //   LoadingDialog.showLoadingDialog(context, "Loading...");
 //   authBloc?.signIn(email, pass, () {
 //     LoadingDialog.hideLoadingDialog(context);
 //     Navigator.of(context)
-//         .push(MaterialPageRoute(builder: (context) => NKVHomePage()));
+//         .push(MaterialPageRoute(builder: (context) => qlsxHomePage()));
 //   }, (msg) {
 //     LoadingDialog.hideLoadingDialog(context);
 //     MsgDialog.showMsgDialog(context, "Sign-In", msg);

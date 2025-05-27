@@ -1,95 +1,117 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+import 'package:ai_barcode_scanner/ai_barcode_scanner.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import '../../main.dart';
+import 'package:qlsx/utilities/values/screen.dart';
+import 'package:qlsx/widgets/wAppBar.dart';
 import '../SanXuat/baocao_sanxuat.dart';
-import '../home.dart';
 
-const Color activeIconColor = Colors.orange;
-class BarcodeScannerPage extends StatefulWidget {
-  const BarcodeScannerPage({super.key});
+
+class BarcodeHomePage extends StatefulWidget {
+  const BarcodeHomePage({super.key});
   @override
-  State<BarcodeScannerPage> createState() => _BarcodeScannerPageState();
+  State<BarcodeHomePage> createState() => _BarcodeHomePageState();
 }
 
-class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
-  MobileScannerController controller = MobileScannerController();
-  String? scannedCode = '';//'''LAN-250506-1157';
+class _BarcodeHomePageState extends State<BarcodeHomePage> {
+  String barcode = 'Nhấn để quét';
   @override
   void initState() {
     super.initState();
-    scannedCode = '';
-    controller.start();
+    _openScanner();
   }
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   final ModalRoute? modalRoute = ModalRoute.of(context);
-  //   if (modalRoute != null) {
-  //     WidgetsBinding.instance.addPostFrameCallback((_) {
-  //       modalRoute.routeObserver.subscribe(this, modalRoute);
-  //     });
-  //   }
-  // }
+  // Hàm mở trình quét mã vạch
+  void _openScanner() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      while (mounted) {
+        // Khởi tạo mới MobileScannerController cho mỗi lần mở trình quét
+        final controller = MobileScannerController(
+          detectionSpeed: DetectionSpeed.noDuplicates,
+        );
 
-  // @override
-  // void didPopNext() {
-  //   // Khi quay lại từ trang khác (như frmBaoCaoSanXuat), khởi động lại camera
-  //   controller.start().then((_) {
-  //     print('Camera started on didPopNext');
-  //   }).catchError((error) {
-  //     print('Error starting camera on didPopNext: $error');
-  //   });
-  //   setState(() {
-  //     scannedCode = ''; // Reset scannedCode để cho phép quét lại
-  //   });
-  // }
+        final result = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => AiBarcodeScanner(
+              onDispose: () {
+                // Hủy controller khi trình quét bị đóng
+                controller.dispose();
+                debugPrint("Trình quét mã vạch đã bị hủy!");
+              },
+              hideGalleryButton: true,
+              hideSheetTitle: true,
+              hideSheetDragHandler: true,
+              //hideGalleryIcon: true  ,
+              controller: controller,
+              onDetect: (BarcodeCapture capture) {
+                // final String? scannedValue = capture.barcodes.first.rawValue;
+                // debugPrint("Mã vạch được quét: $scannedValue");
+                //
+                // final Uint8List? image = capture.image;
+                // debugPrint("Hình ảnh mã vạch: $image");
+                //
+                // final Object? raw = capture.raw;
+                // debugPrint("Dữ liệu thô mã vạch: $raw");
+                //
+                // final List<Barcode> barcodes = capture.barcodes;
+                // debugPrint("Danh sách mã vạch: $barcodes");
+              },
+              validator: (value) {
+                if (value.barcodes.isEmpty) {
+                  return false;
+                }
+                if (value.barcodes.first.rawValue != null && value.barcodes.first.rawValue!.length == 15) {
+                  // Đóng trình quét trước khi điều hướng
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => frmBaoCaoSanXuat(SCD: value.barcodes.first.rawValue),
+                    ),
+                  );
+                }
+                return true;
+              },
+            ),
+          ),
+        );
+        // Nếu người dùng quay lại từ frmBaoCaoSanXuat, tiếp tục mở lại trình quét
+        // if (result == null && mounted) {
+        //   continue;
+        // }
+        break; // Thoát vòng lặp nếu không cần tiếp tục quét
+      }
+    });
+  }
+
   @override
-  void dispose() {
-    controller.dispose();
+  Future<void> dispose() async {
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Quét mã barcode'),
-        backgroundColor: activeIconColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: wAppBar.buildAppBar('Quét Barcode', onRefresh: () {setState(() {});}),
       body: Stack(
         children: [
-          MobileScanner(
-            controller: controller,
-            onDetect: (capture) {
-              final List<Barcode> barcodes = capture.barcodes;
-              if (barcodes.isNotEmpty) {
-                setState(() {
-                  scannedCode = barcodes.first.rawValue;
-                });
-                if (scannedCode != null) {
-                // Tạm dừng camera sau khi quét thành công
-                  controller.stop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => frmBaoCaoSanXuat(SCD: scannedCode,),),);
-                }
-              }
-            },
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // ElevatedButton(
+                //   onPressed: _openScanner,
+                //   child: const Text('Scan Barcode'),
+                // ),
+                Text(barcode),
+              ],
+            ),
           ),
           Positioned(
-            bottom: 100,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => BarcodeScannerPage(),),);
-                  },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: activeIconColor,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text('Đóng'),
-              ),
+            right: 16.0, // Cách lề phải 16 pixels
+            bottom: 100.0, // Cách đáy 100 pixels để kéo lên trên
+            child: FloatingActionButton(
+              //backgroundColor: Colors.blue,
+              onPressed: _openScanner,
+              child: const Icon(Icons.barcode_reader),
             ),
           ),
         ],

@@ -1,9 +1,9 @@
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:nkv/resources/Main/app-page.dart';
-import 'package:nkv/resources/Main/barcode-page.dart';
+import 'package:qlsx/resources/Main/app-page.dart';
+import 'package:qlsx/resources/Main/barcode-page.dart';
 import 'package:vibration/vibration.dart';
-import 'Main/barcode-page2.dart';
+import 'Main/barcode-page.dart';
 import 'Main/home-page.dart';
 import 'Main/xac_nhan_page.dart';
 import 'Users/user-info.dart';
@@ -86,13 +86,13 @@ class _BarcodeButtonState extends State<BarcodeButton> with SingleTickerProvider
   }
 }
 
-class NKVHomePage extends StatefulWidget {
-  const NKVHomePage({super.key});
+class qlsxHomePage extends StatefulWidget {
+  const qlsxHomePage({super.key});
   @override
-  State<NKVHomePage> createState() => _NKVHomePageState();
+  State<qlsxHomePage> createState() => _qlsxHomePageState();
 }
 
-class _NKVHomePageState extends State<NKVHomePage> {
+class _qlsxHomePageState extends State<qlsxHomePage> {
   int _tabIndex = 0;
   late PageController _pageController;
   @override
@@ -111,12 +111,6 @@ class _NKVHomePageState extends State<NKVHomePage> {
     });
     _pageController.jumpToPage(index);
   }
-  void _openBarcodeScanner() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const BarcodeScannerPage()),
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,10 +120,6 @@ class _NKVHomePageState extends State<NKVHomePage> {
           const Icon(Icons.home, color: activeIconColor, size: iconSize),
           const Icon(Icons.grid_view_rounded, color: activeIconColor, size: iconSize),
           const Icon(Icons.qr_code_scanner, color: activeIconColor, size: iconSize),
-          // BarcodeButton(
-          //   isActive: _tabIndex == 2,
-          //   onTap: () => _onTabChanged(2),
-          // ),
           const Icon(Icons.list_alt, color: activeIconColor, size: iconSize),
           const Icon(Icons.person, color: activeIconColor, size: iconSize),
         ],
@@ -162,10 +152,6 @@ class _NKVHomePageState extends State<NKVHomePage> {
           HomePage(),
           const AppPage(),
           BarcodeHomePage(),
-          // BarcodeButton(
-          //   isActive: false, // Không cần active vì không điều hướng trong PageView
-          //   onTap: BarcodeScannerPage,
-          // ),
           const XacNhanPage(),
           const EmployeeInfoPage(),
         ],
@@ -173,89 +159,3 @@ class _NKVHomePageState extends State<NKVHomePage> {
     );
   }
 }
-
-// Trang quét barcode
-// class BarcodeScannerPage extends StatefulWidget {
-//   const BarcodeScannerPage({super.key});
-//
-//   @override
-//   State<BarcodeScannerPage> createState() => _BarcodeScannerPageState();
-// }
-// class _BarcodeScannerPageState extends State<BarcodeScannerPage> {
-//   MobileScannerController controller = MobileScannerController();
-//   String? scannedCode;
-//   @override
-//   void dispose() {
-//     controller.dispose();
-//     super.dispose();
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Quét mã barcode'),
-//         backgroundColor: activeIconColor,
-//         foregroundColor: Colors.white,
-//       ),
-//       body: Stack(
-//         children: [
-//           MobileScanner(
-//             controller: controller,
-//             onDetect: (capture) {
-//               final List<Barcode> barcodes = capture.barcodes;
-//               if (barcodes.isNotEmpty) {
-//                 setState(() {
-//                   scannedCode = barcodes.first.rawValue;
-//                 });
-//                 if (scannedCode != null) {
-//                   ScaffoldMessenger.of(context).showSnackBar(
-//                     SnackBar(
-//                       content: Text('Mã barcode: $scannedCode'),
-//                       duration: const Duration(seconds: 3),
-//                     ),
-//                   );
-// // Tạm dừng camera sau khi quét thành công
-//                   controller.stop();
-//                 }
-//               }
-//             },
-//           ),
-//           Positioned(
-//             bottom: 20,
-//             left: 0,
-//             right: 0,
-//             child: Center(
-//               child: ElevatedButton(
-//                 onPressed: () {
-//                   Navigator.pop(context);
-//                 },
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: activeIconColor,
-//                   foregroundColor: Colors.white,
-//                 ),
-//                 child: const Text('Đóng'),
-//               ),
-//             ),
-//           ),
-//           if (scannedCode != null)
-//             Positioned(
-//               top: 20,
-//               left: 0,
-//               right: 0,
-//               child: Center(
-//                 child: Container(
-//                   padding: const EdgeInsets.all(16),
-//                   color: Colors.black54,
-//                   child: Text(
-//                     'Mã đã quét: $scannedCode',
-//                     style: const TextStyle(color: Colors.white, fontSize: 16),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-

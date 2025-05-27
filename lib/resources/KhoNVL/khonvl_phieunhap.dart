@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nkv/api/KhoNVL/KhoNVL_api.dart';
-import 'package:nkv/model/KhoNVL/tbKhoNVL.dart';
-import 'package:nkv/model/KhoNVL/tbl_Avery_GiaoHang.dart';
-import 'package:nkv/utilities/PrintRibbon.dart';
-import 'package:nkv/utilities/values/format.dart';
+import 'package:qlsx/api/KhoNVL/KhoNVL_api.dart';
+import 'package:qlsx/model/KhoNVL/tbKhoNVL.dart';
+import 'package:qlsx/model/KhoNVL/tbl_Avery_GiaoHang.dart';
+import 'package:qlsx/utilities/PrintRibbon.dart';
+import 'package:qlsx/utilities/values/format.dart';
 import '../../model/KhoNVL/tbl_ViTri.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -166,7 +166,7 @@ class _KhoNVL_PhieuNhapState extends State<KhoNVL_PhieuNhap> {
           children: [
             // Center(
             //   child: Image.asset(
-            //     'assets/images/nkv.png',
+            //     'assets/images/qlsx.png',
             //     height: 100,
             //     fit: BoxFit.contain,
             //   ),

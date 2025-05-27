@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:nkv/api/NhanVien/authorize_api.dart';
+import 'package:qlsx/api/NhanVien/authorize_api.dart';
 
 class AuthBloc {
 

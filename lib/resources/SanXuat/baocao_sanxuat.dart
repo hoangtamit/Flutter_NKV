@@ -2,20 +2,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:nkv/api/SanXuat/sanxuat_api.dart';
-import 'package:nkv/model/SanXuat/tbl_BaoCaoSanXuat_V2.dart';
-import 'package:nkv/resources/SanXuat/baocao_sanxuat_chitiet.dart';
-import 'package:nkv/utilities/PrintRibbon.dart';
-import 'package:nkv/utilities/globals.dart';
-import 'package:nkv/widgets/wDateTime.dart';
-import 'package:nkv/widgets/wDropdownField.dart';
-import 'package:nkv/widgets/wTextField.dart';
-import '../../api/NhanVien/authorize_api.dart';
+import 'package:qlsx/api/SanXuat/sanxuat_api.dart';
+import 'package:qlsx/model/SanXuat/tbl_BaoCaoSanXuat_V2.dart';
+import 'package:qlsx/resources/SanXuat/baocao_sanxuat_chitiet.dart';
+import 'package:qlsx/utilities/PrintRibbon.dart';
+import 'package:qlsx/utilities/globals.dart';
+import 'package:qlsx/widgets/wDateTime.dart';
+import 'package:qlsx/widgets/wDropdownField.dart';
+import 'package:qlsx/widgets/wTextField.dart';
 import 'package:uuid/uuid.dart';
 import '../../utilities/fDateTime.dart';
 import '../../utilities/message.dart';
-import '../../utilities/values/theme.dart';
-import '../../widgets/wAnimated.dart';
+import '../../utilities/values/screen.dart';
 import '../../widgets/wAppBar.dart';
 
 double spacingHeight = 16;
@@ -25,6 +23,7 @@ String  soluongdonhang_text   = 'Đơn Hàng';
 String  soluonglanhlieu_text  = 'Lãnh Liệu';
 String  soluongconlai_text  = 'Số Lượng Còn Lại:';
 String  donvitinh  = '';
+
 class frmBaoCaoSanXuat extends StatelessWidget {
   final SCD;
   frmBaoCaoSanXuat({super.key, required this.SCD});
@@ -146,6 +145,8 @@ class _BaoCaoSanXuatState extends State<BaoCaoSanXuat>  {
         setState(() {
           //tensanphamController.text = tb.TenSanPham ?? '';
           //khachangController.text = tb.TenKhachHang ?? '';
+          tb.SoLuongDat ??= 0;
+          tb.SoLuongLoi ??= 0;
           soluongController.text = "${tb.SoLuong ?? 0}";
           lanhlieuController.text = "${tb.LanhLieu ?? 0}";
           var format = DateFormat('dd/MM/yyyy HH:mm');
@@ -162,28 +163,33 @@ class _BaoCaoSanXuatState extends State<BaoCaoSanXuat>  {
               print("Lỗi parse thời gian: $e");
             }
           }
-          soluongdonhang_text = "Đơn Hàng $donvitinh";
-          if(selectedCongDoan == printRibbon.OFFSET || selectedCongDoan == printRibbon.Vecni || selectedCongDoan == printRibbon.Be
-             || selectedCongDoan == printRibbon.UV || selectedCongDoan == printRibbon.XaGiay) {
+          if (selectedCongDoan == printRibbon.XaGiay || selectedCongDoan == printRibbon.OFFSET || selectedCongDoan == printRibbon.Vecni
+              || selectedCongDoan == printRibbon.UV  || selectedCongDoan == printRibbon.CanMang
+              || selectedCongDoan == printRibbon.BoiGiay || selectedCongDoan == printRibbon.Be
+               ) {
             donvitinh = tb.DonViTinh;
-            soluongdat_text = "Số Lượng Đạt ( ${donvitinh ?? ''} )";
-            soluongloi_text = "Số Lượng Lỗi ( ${donvitinh ?? ''} )";
-            soluongconlai_text = "Còn Lại ( ${donvitinh ?? ''} )";
+            soluonglanhlieu_text = "Lãnh Liệu ( ${donvitinh ?? ''} )";
+          }
+          else if(tb.BoPhan  == printRibbon.TEMVAI) {
+            donvitinh = printRibbon.PCS;
+            soluonglanhlieu_text = "Lãnh Liệu ( ${tb.DonViTinh ?? ''} )";
           }
           else {
             donvitinh = printRibbon.PCS;
-            soluongdat_text = "Số Lượng Đạt $donvitinh";
-            soluongloi_text = "Số Lượng Lỗi $donvitinh";
-            soluongconlai_text = "Còn Lại $donvitinh";
+            soluonglanhlieu_text = "Lãnh Liệu ( ${donvitinh ?? ''} )";
           }
-          soluonglanhlieu_text = "Lãnh Liệu ( ${donvitinh ?? ''} )";
-          tb.SoLuongDat ??= 0;
-          tb.SoLuongLoi ??= 0;
-          soluongdatController.text =  (tb.LanhLieu! - tb.SoLuongDat! - tb.SoLuongLoi!).toString();
-          if(donvitinh == printRibbon.PCS)
+
+
+          soluongdonhang_text = "Đơn Hàng PCS";
+          soluongdat_text     = "Số Lượng Đạt ( ${donvitinh ?? ''} )";
+          soluongloi_text     = "Số Lượng Lỗi ( ${donvitinh ?? ''} )";
+          soluongconlai_text  = "Còn Lại ( ${donvitinh ?? ''} )";
+
+          if(donvitinh == printRibbon.PCS || Globals.NhanVien.boPhan  == printRibbon.TEMVAI)
             soluongconlaiController.text = (tb.SoLuong! - tb.SoLuongDat! - tb.SoLuongLoi!).toString();
           else
             soluongconlaiController.text = (tb.LanhLieu! - tb.SoLuongDat! - tb.SoLuongLoi!).toString();
+          soluongdatController.text = soluongconlaiController.text;
           soluongloiController.text = '0';
         });
       }
@@ -256,235 +262,240 @@ class _BaoCaoSanXuatState extends State<BaoCaoSanXuat>  {
       throw Exception('Lỗi khi lưu báo cáo: $e');
     }
   }
-
   @override
   Widget build(BuildContext context) {
+    double formWidth = screen.widthForm(context);
     return Scaffold(
       appBar: wAppBar.buildAppBar('BÁO CÁO SẢN XUẤT',onRefresh: () {setState(() {});},),
+
       body: Padding(
         padding: const EdgeInsets.fromLTRB(4, 16, 4, 0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                elevation: 6,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.lightBlueAccent, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(width: 70, child:wTextField.buildNumberTextField(msnvController, 'MSNV:', readOnly: true)),
-                          SizedBox(width: 16),
-                          Expanded(child: wTextField.buildNumberTextField(tenNhanVienController, 'Tên Nhân Viên:', readOnly: true)),
-                        ],
-                      ),
-                      //_buildNumberTextField(khachangController, 'Tên Khách Hàng:', readOnly: true),
-                      Row(
+        child: Container(
+          alignment: Alignment.topCenter,
+          width: formWidth,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.lightBlueAccent, width: 2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                        Expanded(child: wTextField.buildNumberTextField(scdController, 'SCD:', readOnly: true)),
-                        SizedBox(width: 16),
-                           // if (soluongController.text.isNotEmpty && int.parse(soluongController.text) >= 0)
-                        //Expanded(child: AnimatedTextFieldCounter(label: soluongdonhang_text, targetNumber: int.parse(soluongController.text),)),
-                        Expanded(child: wTextField.buildNumberTextField(soluongController,soluongdonhang_text, readOnly: true)),
-                      ]),
-                      Row(
-                        children: [
-                          Expanded(child: wTextField.buildNumberTextField(lanhlieuController,soluonglanhlieu_text, readOnly: true)),
+                            SizedBox(width: 70, child:wTextField.buildNumberTextField(msnvController, 'MSNV:', readOnly: true)),
+                            SizedBox(width: 16),
+                            Expanded(child: wTextField.buildNumberTextField(tenNhanVienController, 'Tên Nhân Viên:', readOnly: true)),
+                          ],
+                        ),
+                        //_buildNumberTextField(khachangController, 'Tên Khách Hàng:', readOnly: true),
+                        Row(
+                            children: [
+                          Expanded(child: wTextField.buildNumberTextField(scdController, 'SCD:', readOnly: true)),
                           SizedBox(width: 16),
-                          //if (soluongconlaiController.text.isNotEmpty && int.parse(soluongconlaiController.text) >= 0)
-                          //Expanded(child: AnimatedTextFieldCounter(label: 'Số Lượng Đạt:', targetNumber: int.parse(soluongconlaiController.text),)),
+                             // if (soluongController.text.isNotEmpty && int.parse(soluongController.text) >= 0)
+                          //Expanded(child: AnimatedTextFieldCounter(label: soluongdonhang_text, targetNumber: int.parse(soluongController.text),)),
+                          Expanded(child: wTextField.buildNumberTextField(soluongController,soluongdonhang_text, readOnly: true)),
+                        ]),
+                        Row(
+                          children: [
+                            Expanded(child: wTextField.buildNumberTextField(lanhlieuController,soluonglanhlieu_text, readOnly: true)),
+                            SizedBox(width: 16),
+                            //if (soluongconlaiController.text.isNotEmpty && int.parse(soluongconlaiController.text) >= 0)
+                            //Expanded(child: AnimatedTextFieldCounter(label: 'Số Lượng Đạt:', targetNumber: int.parse(soluongconlaiController.text),)),
 
-                          Expanded(child: wTextField.buildNumberTextField(soluongconlaiController,soluongconlai_text,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold), readOnly: true)),
-                        ],
-                      ),
-                    ],
+                            Expanded(child: wTextField.buildNumberTextField(soluongconlaiController,soluongconlai_text,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold), readOnly: true)),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: spacingHeight / 2),
-              Card(
-                elevation: 6,
-                //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.lightBlue, width: 2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        Expanded(
-                            flex: 2,
-                            child: wDropdownField.buildDropdownField(dsCongDoan, (value) {setState(() {selectedCongDoan = value;getData(value!);});}, selectedValue: selectedCongDoan)),
-                        SizedBox(width: 16),
-                        Expanded(
-                            flex: 2,
-                            child: wDropdownField.buildDropdownField(dsThaoTac, (value) {setState(() {selectedThaoTac = value;});}, selectedValue: selectedThaoTac)),
-                      ],),
-
-                      Row(
-                        children:[
+                SizedBox(height: spacingHeight / 2),
+                Card(
+                  elevation: 6,
+                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.lightBlue, width: 2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(children: [
                           Expanded(
-                            flex: 3,
-                            child: wDateTime.buildDateTimeField(context,'Thời Gian Bắt Đầu:', thoigianbatdauController,
-                                (value) {try {DateFormat('dd/MM/yyyy HH:mm').parseStrict(value!);} catch (e) {}},),
-                          ),
+                              flex: 2,
+                              child: wDropdownField.buildDropdownField(dsCongDoan, (value) {setState(() {selectedCongDoan = value;getData(value!);});}, selectedValue: selectedCongDoan)),
                           SizedBox(width: 16),
                           Expanded(
                               flex: 2,
-                              child:
-                              ElevatedButton.icon(
-                                onPressed: () async {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => BaoCao_SanXuat_ChiTiet(SCD: scdController.text,CongDoan: selectedCongDoan!)));
-                                },
-                                icon: const Icon(Icons.settings, size: 36),
-                                label: const Text('Chi Tiết'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.indigo,
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                ),
-                              ),
-                          ),
-                      ]),
+                              child: wDropdownField.buildDropdownField(dsThaoTac, (value) {setState(() {selectedThaoTac = value;});}, selectedValue: selectedThaoTac)),
+                        ],),
 
-                      Row(children: [
-                        Expanded(
-                          flex: 3,
-                            child: wDateTime.buildDateTimeField(context,'Thời Gian Kết Thúc:', thoigianketthucController,
-                            (value) {try {DateFormat('dd/MM/yyyy HH:mm').parseStrict(value!);} catch (e) {}}, readonly: true)),
-                        SizedBox(width: 16),
-                        Expanded(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                labelText: 'Thời Gian(Phút):',
-                                border: OutlineInputBorder(),
-                              ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                              controller: thoigianchaymayController,
-                              onChanged: (value) {
-                                try {
-                                  if (value.isNotEmpty) {
-                                    DateFormat format = DateFormat("dd/MM/yyyy HH:mm");
-                                    var thoigianbatdau = format.parse(thoigianbatdauController.text);
-                                    int thoigianchaymay = int.parse(thoigianchaymayController.text);
-                                    var thoigianketthuc = thoigianbatdau.add(Duration(minutes: thoigianchaymay));
-                                    thoigianketthucController.text = DateFormat("dd/MM/yyyy HH:mm").format(thoigianketthuc).toString();
-                                  }
-                                } catch (e) {
-                                  showMessage.TopSnackBar(context,'Lỗi: $e',Colors.red);
-                                }
-                              },
+                        Row(
+                          children:[
+                            Expanded(
+                              flex: 3,
+                              child: wDateTime.buildDateTimeField(context,'Thời Gian Bắt Đầu:', thoigianbatdauController,
+                                  (value) {try {DateFormat('dd/MM/yyyy HH:mm').parseStrict(value!);} catch (e) {}},),
                             ),
-                          ),
-                        )
-                      ],),
+                            SizedBox(width: 16),
+                            Expanded(
+                                flex: 2,
+                                child:
+                                ElevatedButton.icon(
+                                  onPressed: () async {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => BaoCao_SanXuat_ChiTiet(SCD: scdController.text,CongDoan: selectedCongDoan!)));
+                                  },
+                                  icon: const Icon(Icons.list, size: 36),
+                                  label: const Text('Chi Tiết'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.indigo,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  ),
+                                ),
+                            ),
+                        ]),
 
-                      Row(
-                        children: [
+                        Row(children: [
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: wTextField.buildTextField_Number(context,soluongdatController,soluongdat_text),),
-                          ),
+                            flex: 3,
+                              child: wDateTime.buildDateTimeField(context,'Thời Gian Kết Thúc:', thoigianketthucController,
+                              (value) {try {DateFormat('dd/MM/yyyy HH:mm').parseStrict(value!);} catch (e) {}}, readonly: true)),
                           SizedBox(width: 16),
                           Expanded(
+                            flex: 2,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: wTextField.buildTextField_Number(context,soluongloiController,soluongloi_text),),
-                          ),
-                        ],
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  labelText: 'Thời Gian(Phút):',
+                                  border: OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                controller: thoigianchaymayController,
+                                onChanged: (value) {
+                                  try {
+                                    if (value.isNotEmpty) {
+                                      DateFormat format = DateFormat("dd/MM/yyyy HH:mm");
+                                      var thoigianbatdau = format.parse(thoigianbatdauController.text);
+                                      int thoigianchaymay = int.parse(thoigianchaymayController.text);
+                                      var thoigianketthuc = thoigianbatdau.add(Duration(minutes: thoigianchaymay));
+                                      thoigianketthucController.text = DateFormat("dd/MM/yyyy HH:mm").format(thoigianketthuc).toString();
+                                    }
+                                  } catch (e) {
+                                    showMessage.TopSnackBar(context,'Lỗi: $e',Colors.red);
+                                  }
+                                },
+                              ),
+                            ),
+                          )
+                        ],),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: wTextField.buildTextField_Number(context,soluongdatController,soluongdat_text),),
+                            ),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: wTextField.buildTextField_Number(context,soluongloiController,soluongloi_text),),
+                            ),
+                          ],
+                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Ghi Chú:',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        //inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        controller: ghichuController,
                       ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Ghi Chú:',
-                        border: OutlineInputBorder(),
-                      ),
-                      keyboardType: TextInputType.number,
-                      //inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      controller: ghichuController,
                     ),
-                  ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: spacingHeight / 2),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                SizedBox(height: spacingHeight / 2),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Colors.blue,
                         ),
-                        backgroundColor: Colors.blue,
-                      ),
-                      onPressed: () async {
-                        await _saveForm(widget.BaoCao);
-                      },
-                      child: const Text(
-                        'Xác Nhận',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: spacingHeight * 2),
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: Colors.orange,
-                      ),
-                      onPressed: () async {
-                        await _saveForm(widget.BaoCao,isHoanthanh: true);
-                      },
-                      child: const Text(
-                        'Hoàn Thành',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                        onPressed: () async {
+                          await _saveForm(widget.BaoCao);
+                        },
+                        child: const Text(
+                          'Xác Nhận',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              // AnimatedTextFieldCounter(
-              //   label: 'Số Lượng Đạt:',
-              //   targetNumber: int.parse(soluongController.text),
-              //   duration: Duration(seconds: 0),
-              // ),
+                    SizedBox(width: spacingHeight * 2),
+                    Expanded(
+                      flex: 2,
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Colors.orange,
+                        ),
+                        onPressed: () async {
+                          await _saveForm(widget.BaoCao,isHoanthanh: true);
+                        },
+                        child: const Text(
+                          'Hoàn Thành',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // AnimatedTextFieldCounter(
+                //   label: 'Số Lượng Đạt:',
+                //   targetNumber: int.parse(soluongController.text),
+                //   duration: Duration(seconds: 0),
+                // ),
 
 
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

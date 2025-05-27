@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nkv/resources/ThietKe/kich-thuoc-giay.dart';
+import 'package:qlsx/resources/ThietKe/kich-thuoc-giay.dart';
 import '../KhoNVL/kiemketonkho.dart';
 import '../NghiepVu/don_san_xuat_danh_sach.dart';
 import '../SanXuat/baocao_sanxuat.dart';
@@ -43,7 +43,7 @@ class _XacNhanPageState extends State<XacNhanPage> {
                   context,
                   title: 'Báo Cáo Sản Xuất',
                   icon: 'assets/images/checklist03-64.png',
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => frmBaoCaoSanXuat(SCD: 'LAN-250521-0001',))),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => frmBaoCaoSanXuat(SCD: 'LAN-250526-0223',))),
                 ),
                 _buildMenuItem(
                   context,

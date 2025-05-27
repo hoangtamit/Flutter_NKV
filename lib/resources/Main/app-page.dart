@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nkv/resources/ThietKe/kich-thuoc-giay.dart';
-import 'package:nkv/widgets/wAppBar.dart';
+import 'package:qlsx/resources/ThietKe/kich-thuoc-giay.dart';
+import 'package:qlsx/widgets/wAppBar.dart';
 import '../../model/NhanVien/tbl_nhanvien.dart';
 import '../../utilities/globals.dart';
 import '../../pdf/openpdf.dart';
+import '../../utilities/values/screen.dart';
 import '../KhoNVL/avery_giaohang.dart';
 import '../KhoNVL/khonvl_nhapkho.dart';
 import '../KhoNVL/khonvl_xuatkho.dart';
@@ -30,9 +31,12 @@ class _AppPageState extends State<AppPage> {
   }
   @override
   Widget build(BuildContext context) {
+    double formWidth = screen.widthForm(context);
     return Scaffold(
       appBar: wAppBar.buildAppBar('ỨNG DỤNG'),
       body: Container(
+        alignment: Alignment.topCenter,
+        width: formWidth,
         //padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
         color: Colors.grey[100], // Nền nhẹ để tăng độ tương phản
         child: ListView(
@@ -64,7 +68,7 @@ class _AppPageState extends State<AppPage> {
               ],
             ),
             //const SizedBox(height: 16),
-// Cụm Thiết Kế
+      // Cụm Thiết Kế
             _buildSection(
               title: 'Thiết Kế',
               color: Colors.green[700]!,
@@ -90,7 +94,7 @@ class _AppPageState extends State<AppPage> {
               ],
             ),
             //const SizedBox(height: 16),
-// Cụm Kho NVL
+      // Cụm Kho NVL
             _buildSection(
               title: 'Kho NVL',
               color: Colors.grey[700]!,

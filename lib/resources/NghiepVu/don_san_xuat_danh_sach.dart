@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:qlsx/widgets/wAppBar.dart';
 import 'package:searchable_listview/searchable_listview.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../api/NghiepVu/donsanxuat_api.dart';
 import '../../model/NghiepVu/tbdonsanxuat.dart';
 import '../../pdf/openpdf.dart';
-import '../../pdf/pinch.dart';
 import '../../utilities/fDateTime.dart';
-import '../../utilities/loading_dialog.dart';
-import '../../utilities/values/format.dart';
-import 'package:open_file/open_file.dart';
-
+import '../../widgets/wAppBar.dart';
 
 // Hằng số cho màu sắc, kích thước, và khoảng cách
 const Color primaryColor = Colors.blue;
@@ -34,11 +30,7 @@ class _DonSanXuat_DanhSachState extends State<DonSanXuat_DanhSach> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Danh sách đơn sản xuất'),
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
-      ),
+      appBar: wAppBar.buildAppBar('Danh sách đơn sản xuất',onRefresh: () {setState(() {});},),
       body: FutureBuilder<List<tbDonSanXuat>>(
         future: DonSanXuatApi.LoadData(),
         builder: (context, snapshot) {
