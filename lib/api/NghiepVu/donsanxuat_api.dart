@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -37,6 +38,22 @@ class DonSanXuatApi {
     final dsData = results.map((e) => tbDonSanXuat.fromJson(e)).toList();
     return dsData;
   }
+  static Future<List<tbDonSanXuat>> DonSanXuat_GetSCD(String SCD) async {
+    try {
+      var data = {
+        'SCD' : SCD,
+      };
+      final Data = await AuthorizeApi.Get_Data('DonSanXuat/GetSCD',data);
+      if (Data == null) {
+        developer.log('API returned null data', name: 'GetSCD');return [];
+      }
+      final dsData = Data.map((e) => tbDonSanXuat.fromJson(e)).toList();
+      developer.log('Loaded ${dsData.length} items', name: 'DonSanXuat_GetSCD');
+      return dsData;
+    } catch (e, stackTrace) {
+      developer.log('Error in DonSanXuat_GetSCD: $e',name: 'DonSanXuat_GetSCD',error: e,stackTrace: stackTrace,);return [];
+    }
+  }
   static Future<List<DonSanXuat_QuanLyDonHang>> DonSanXuat_QuanLyDonhang_GetSCD(String scd) async {
     final data = { 'SCD' : scd };
     final Data  = await AuthorizeApi.Get_Data('DonSanXuat/GetIDQuanLyDonHang', data);
@@ -55,20 +72,30 @@ class DonSanXuatApi {
     }
     catch(ex){ rethrow;}
   }
-  static Future<List<tbl_DanhSachSanPham>> ExportPdf(String SCD) async {
+  static Future<List<tbl_DanhSachSanPham>> OpenPdf(String SCD) async {
     List<tbl_DanhSachSanPham> dsSanPham = [];
     final data = {'SCD': SCD};
     final Data = await AuthorizeApi.Post_Data('DonSanXuat/ExportPdf', data);
     final dsData = Data.map((e) => tbl_DanhSachSanPham.fromJson(e)).toList();
-    // final directory = await getDownloadsDirectory();
-    // if (directory == null) {
-    //   throw Exception('Không thể truy cập thư mục Downloads');
-    // }
-    // for (var i = 0; i < dsData.length; i++) {
-    //   var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
-    //   var tb = tbl_DanhSachSanPham(id: i, name: dsData[i].name, url: file.path); // Lưu đường dẫn cục bộ
-    //   dsSanPham.add(tb);
-    // }
+    debugPrint('----------------------------------${dsData.length}');
+    return dsData; // Trả về danh sách với url là đường dẫn cục bộ
+  }
+  static Future<List<tbl_DanhSachSanPham>> DownloadPdf(String SCD) async {
+    List<tbl_DanhSachSanPham> dsSanPham = [];
+    final data = {'SCD': SCD};
+    final Data = await AuthorizeApi.Post_Data('DonSanXuat/ExportPdf', data);
+    final dsData = Data.map((e) => tbl_DanhSachSanPham.fromJson(e)).toList();
+    if(Platform.isAndroid || Platform.isIOS) {
+      final directory = await getDownloadsDirectory();
+      if (directory == null) {
+        throw Exception('Không thể truy cập thư mục Downloads');
+      }
+    }
+    for (var i = 0; i < dsData.length; i++) {
+      var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
+      var tb = tbl_DanhSachSanPham(id: i, name: dsData[i].name, url: file.path); // Lưu đường dẫn cục bộ
+      dsSanPham.add(tb);
+    }
     debugPrint('----------------------------------${dsData.length}');
     return dsData; // Trả về danh sách với url là đường dẫn cục bộ
   }

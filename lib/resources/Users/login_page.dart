@@ -73,6 +73,7 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Container(
           width: formWidth, // Áp dụng chiều rộng động
+          alignment: Alignment.topCenter,
           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
           color: Colors.white,
           child: SingleChildScrollView(
@@ -144,9 +145,15 @@ class _LoginState extends State<Login> {
                           ),
                           border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(color: Colors.grey, width: 1),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
                           ),
                         ),
+                        onSubmitted: (value) {
+                          loginUsers(); // Gọi hàm đăng nhập khi nhấn Enter
+                        },
                       ),
                       GestureDetector(
                         onTap: onShowPass,

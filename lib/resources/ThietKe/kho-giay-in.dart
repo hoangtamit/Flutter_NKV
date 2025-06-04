@@ -123,7 +123,7 @@ class ActorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return  GestureDetector(
       onTap: (){
-        DonSanXuatApi.ExportPdf(actor.chiTietGiay.toString()).then((value)
+        DonSanXuatApi.OpenPdf(actor.chiTietGiay.toString()).then((value)
         {
           //Navigator.push(context, MaterialPageRoute(builder: (context) => PinchPage(style: 'url', pathfile: value[0].url,)));
         });

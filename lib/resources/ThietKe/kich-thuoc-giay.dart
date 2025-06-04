@@ -296,14 +296,14 @@ class render extends StatelessWidget {
                             try {
                               var json = tbl_TemGiay_CauHinhDanTrangToJson(_config);
                               var json2 = thongTinDanTrangV2ToJson(actor);
-                              var result = await KhoGiayInApi.ExportPdf(json, json2);
+                              var result = await KhoGiayInApi.OpenPdf(json, json2);
                               if (result.isNotEmpty) {
                                 final String filePath = result[0].url;
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: filePath, action: 'network',)));
-                                //final openResult = await OpenFile.open(filePath);
-                                // if (openResult.type != ResultType.done) {
-                                //   _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
-                                // }
+                                //Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: filePath, action: 'network',)));
+                                final openResult = await OpenFile.open(filePath);
+                                if (openResult.type != ResultType.done) {
+                                  _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
+                                }
                               } else {
                                 _showErrorSnackBar(context, 'Không tìm thấy file PDF');
                               }
@@ -354,7 +354,7 @@ class ActorItem extends StatelessWidget {
         onTap: () async {
           LoadingDialog.showLoadingDialog(context, "");
           try {
-            await DonSanXuatApi.ExportPdf(actor.kgi.toString());
+            await DonSanXuatApi.OpenPdf(actor.kgi.toString());
           } catch (e) {
             ShowDialog.showAlertDialog(context, 'Lỗi khi xuất PDF: $e');
           } finally {

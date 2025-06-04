@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-
+import '../../utilities/CenterScreen.dart';
 // Hằng số cho màu sắc, kích thước, và khoảng cách
 const Color primaryColor = Colors.orange;
 const double cardMargin = 16.0;
@@ -58,182 +58,178 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thống kê đơn hàng hằng ngày'),
-        backgroundColor: primaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(cardMargin),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+    return CenterScreen(
+        title: 'Báo Cáo Thống Kê Hằng Ngày',
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(cardMargin),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 // KPIs
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildKpiCard('Tổng đơn hàng', '350', Icons.list),
-                  _buildKpiCard('Đơn hoàn thành', '300', Icons.check_circle),
-                  _buildKpiCard('Đơn bị hủy', '50', Icons.cancel),
-                ],
-              ),
-              const SizedBox(height: cardMargin),
-// Biểu đồ đơn hàng theo ngày
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildKpiCard('Tổng đơn hàng', '350', Icons.list),
+                    _buildKpiCard('Đơn hoàn thành', '300', Icons.check_circle),
+                    _buildKpiCard('Đơn bị hủy', '50', Icons.cancel),
+                  ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(cardPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Đơn hàng trong 7 ngày gần nhất',
-                        style: TextStyle(
-                          fontSize: titleFontSize,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: chartHeight,
-                        child: BarChart(
-                          BarChartData(
-                            alignment: BarChartAlignment.spaceAround,
-                            maxY: 150,
-                            barTouchData: BarTouchData(enabled: false),
-                            titlesData: FlTitlesData(
-                              show: true,
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  getTitlesWidget: (value, meta) {
-                                    return Text(
-                                      days[value.toInt()],
-                                      style: const TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: labelFontSize,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  reservedSize: 40,
-                                  getTitlesWidget: (value, meta) {
-                                    return Text(
-                                      value.toInt().toString(),
-                                      style: const TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: labelFontSize,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              topTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
-                              ),
-                              rightTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false),
-                              ),
-                            ),
-                            borderData: FlBorderData(show: false),
-                            gridData: const FlGridData(show: true),
-                            barGroups: orderData.asMap().entries.map((entry) {
-                              return BarChartGroupData(
-                                x: entry.key,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: entry.value,
-                                    color: primaryColor,
-                                    width: 16,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                ],
-                              );
-                            }).toList(),
+                const SizedBox(height: cardMargin),
+// Biểu đồ đơn hàng theo ngày
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(cardPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Đơn hàng trong 7 ngày gần nhất',
+                          style: TextStyle(
+                            fontSize: titleFontSize,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: cardMargin),
-// Danh sách đơn hàng hôm nay sẽ xuất
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(cardPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Đơn hàng hôm nay sẽ xuất hàng',
-                        style: TextStyle(
-                          fontSize: titleFontSize,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: orderListHeight,
-                        child: ListView.builder(
-                          itemCount: todayOrders.length,
-                          itemBuilder: (context, index) {
-                            final order = todayOrders[index];
-                            return Card(
-                              elevation: 2,
-                              margin: const EdgeInsets.symmetric(vertical: 4),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: ListTile(
-                                leading: const Icon(
-                                  Icons.local_shipping,
-                                  color: primaryColor,
-                                  size: 24,
-                                ),
-                                title: Text(
-                                  'Mã đơn: ${order.orderId}',
-                                  style: const TextStyle(
-                                    fontSize: labelFontSize,
-                                    fontWeight: FontWeight.bold,
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: chartHeight,
+                          child: BarChart(
+                            BarChartData(
+                              alignment: BarChartAlignment.spaceAround,
+                              maxY: 150,
+                              barTouchData: BarTouchData(enabled: false),
+                              titlesData: FlTitlesData(
+                                show: true,
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    getTitlesWidget: (value, meta) {
+                                      return Text(
+                                        days[value.toInt()],
+                                        style: const TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: labelFontSize,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Khách hàng: ${order.customerName}'),
-                                    Text('Số lượng: ${order.quantity}'),
-                                    Text('Thời gian xuất: ${order.exportTime}'),
-                                  ],
+                                leftTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    reservedSize: 40,
+                                    getTitlesWidget: (value, meta) {
+                                      return Text(
+                                        value.toInt().toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: labelFontSize,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                topTitles: const AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                rightTitles: const AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
                                 ),
                               ),
-                            );
-                          },
+                              borderData: FlBorderData(show: false),
+                              gridData: const FlGridData(show: true),
+                              barGroups: orderData.asMap().entries.map((entry) {
+                                return BarChartGroupData(
+                                  x: entry.key,
+                                  barRods: [
+                                    BarChartRodData(
+                                      toY: entry.value,
+                                      color: primaryColor,
+                                      width: 16,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                const SizedBox(height: cardMargin),
+// Danh sách đơn hàng hôm nay sẽ xuất
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(cardPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Đơn hàng hôm nay sẽ xuất hàng',
+                          style: TextStyle(
+                            fontSize: titleFontSize,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: orderListHeight,
+                          child: ListView.builder(
+                            itemCount: todayOrders.length,
+                            itemBuilder: (context, index) {
+                              final order = todayOrders[index];
+                              return Card(
+                                elevation: 2,
+                                margin: const EdgeInsets.symmetric(vertical: 4),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  leading: const Icon(
+                                    Icons.local_shipping,
+                                    color: primaryColor,
+                                    size: 24,
+                                  ),
+                                  title: Text(
+                                    'Mã đơn: ${order.orderId}',
+                                    style: const TextStyle(
+                                      fontSize: labelFontSize,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Khách hàng: ${order.customerName}'),
+                                      Text('Số lượng: ${order.quantity}'),
+                                      Text('Thời gian xuất: ${order.exportTime}'),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        )
     );
   }
 

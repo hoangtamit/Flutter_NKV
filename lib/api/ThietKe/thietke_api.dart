@@ -57,6 +57,27 @@ class KhoGiayInApi {
       throw Exception('Lỗi khi tính dàn trang: $e');
     }
   }
+  static Future<List<tbl_DanhSachSanPham>> OpenPdf( String json,String json2 ) async {
+    List<tbl_DanhSachSanPham> dsSanPham = [];
+    // Kiểm tra tham số đầu vào
+    if (json.isEmpty) {
+      throw Exception('GiayLon không được để trống');
+    }
+    // Chuẩn bị dữ liệu gửi API
+    final requestData = {'json': json,'json2': json2,};
+    try {
+      final responseData = await AuthorizeApi.Get_Data('ThietKe/ExportPdf', requestData);
+      final dsData = responseData.map((e) => tbl_DanhSachSanPham.fromJson(e)).toList();
+      if (responseData == null || responseData is! List) {
+        throw Exception('Dữ liệu trả về từ API không hợp lệ');
+      }
+      debugPrint('----------------------------------${dsData.length}');
+      return dsData; // Trả về danh sách với url là đường dẫn cục bộ
+    } catch (e) {
+      // Xử lý lỗi
+      throw Exception('Lỗi khi tính dàn trang: $e');
+    }
+  }
   static Future<List<tbl_DanhSachSanPham>> ExportPdf( String json,String json2 ) async {
     List<tbl_DanhSachSanPham> dsSanPham = [];
     // Kiểm tra tham số đầu vào

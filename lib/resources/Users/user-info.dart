@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qlsx/resources/Users/login_page.dart';
+import 'package:qlsx/utilities/CenterScreen.dart';
 import '../../model/NhanVien/tbl_nhanvien.dart';
 import '../../utilities/globals.dart';
 
@@ -42,13 +43,9 @@ class _EmployeeInfoPageState extends State<EmployeeInfoPage> {
   }
     @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Thông tin nhân viên'),
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
-        ),
-        body: SingleChildScrollView(
+      return CenterScreen(
+         title: 'Thông tin nhân viên',
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(cardMargin),
             child: Column(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qlsx/resources/ThietKe/kich-thuoc-giay.dart';
+import 'package:qlsx/utilities/CenterScreen.dart';
 import 'package:qlsx/widgets/wAppBar.dart';
 import '../../model/NhanVien/tbl_nhanvien.dart';
+import '../../utilities/BuildMenuItem.dart';
 import '../../utilities/globals.dart';
 import '../../pdf/openpdf.dart';
 import '../../utilities/values/screen.dart';
@@ -31,108 +33,131 @@ class _AppPageState extends State<AppPage> {
   }
   @override
   Widget build(BuildContext context) {
-    double formWidth = screen.widthForm(context);
-    return Scaffold(
-      appBar: wAppBar.buildAppBar('ỨNG DỤNG'),
-      body: Container(
-        alignment: Alignment.topCenter,
-        width: formWidth,
-        //padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-        color: Colors.grey[100], // Nền nhẹ để tăng độ tương phản
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0,0),
-          children: [
-          // Cụm Nghiệp Vụ
-            _buildSection(
-              title: 'Nghiệp Vụ',
-              color: Colors.blue[700]!,
-              items: [
-                _buildMenuItem(
-                  context,
-                  title: 'Đơn Hàng',
-                  icon: 'assets/images/checklist01-64.png',
-                    onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'Nghiệp Vụ', page: const DonSanXuat_DanhSach(),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'Sản Phẩm',
-                  icon: 'assets/images/checklist03-64.png',
+    return CenterScreen(
+      title:'ỨNG DỤNG',
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0,0),
+        children: [
+        // Cụm Nghiệp Vụ
+          buildSection(
+            title: 'Nghiệp Vụ',
+            color: Colors.blue[700]!,
+            items: [
+              buildMenuItem(
+                context,
+                title: 'Đơn Hàng',
+                icon: 'assets/images/checklist01-64.png',
                   onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'Nghiệp Vụ', page: const DonSanXuat_DanhSach(),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'AD Giao Hàng',
-                  icon: 'assets/images/warehouse08_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'Nghiệp Vụ', page: const DemoScreen(),),
-                ),
-              ],
-            ),
-            //const SizedBox(height: 16),
-      // Cụm Thiết Kế
-            _buildSection(
-              title: 'Thiết Kế',
-              color: Colors.green[700]!,
-              items: [
-                _buildMenuItem(
-                  context,
-                  title: 'Khổ Giấy In',
-                  icon: 'assets/images/design01_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'THIẾT KẾ', page: const frmKhoGiayIn(),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'Tính Dàn Trang',
-                  icon: 'assets/images/design03_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'THIẾT KẾ', page: frmKichThuocGiay(),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'Trục Tem Vải',
-                  icon: 'assets/images/design02_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'THIẾT KẾ', page: frmKichThuocGiay(),),
-                ),
-              ],
-            ),
-            //const SizedBox(height: 16),
-      // Cụm Kho NVL
-            _buildSection(
-              title: 'Kho NVL',
-              color: Colors.grey[700]!,
-              items: [
-                _buildMenuItem(
-                  context,
-                  title: 'Nhập Kho',
-                  icon: 'assets/images/import01_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: frmKhoNVL_NhapKho(),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'Xuất Kho',
-                  icon: 'assets/images/export01_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: frmKhoNVL_XuatKho(),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'Tồn Kho',
-                  icon: 'assets/images/warehouse01_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: TonKho_ViTri_DanhSach(),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'Kiểm Kê',
-                  icon: 'assets/images/checked02-64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: KiemKeTonKho(MaVatLieu: '', ViTri: '', Kho: ''),),
-                ),
-                _buildMenuItem(
-                  context,
-                  title: 'AD Giao Hàng',
-                  icon: 'assets/images/warehouse08_64.png',
-                  onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: Avery_GiaoHang(),),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Sản Phẩm',
+                icon: 'assets/images/checklist03-64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'Nghiệp Vụ', page: const DonSanXuat_DanhSach(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'AD Giao Hàng',
+                icon: 'assets/images/warehouse02_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'Nghiệp Vụ', page: const DemoScreen(),),
+              ),
+            ],
+          ),
+          //const SizedBox(height: 16),
+              // Cụm Thiết Kế
+          buildSection(
+            title: 'Thiết Kế',
+            color: Colors.green[700]!,
+            items: [
+              buildMenuItem(
+                context,
+                title: 'Khổ Giấy In',
+                icon: 'assets/images/design01_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'THIẾT KẾ', page: const frmKhoGiayIn(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Tính Dàn Trang',
+                icon: 'assets/images/design03_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'THIẾT KẾ', page: frmKichThuocGiay(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Trục Tem Vải',
+                icon: 'assets/images/design02_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'THIẾT KẾ', page: frmKichThuocGiay(),),
+              ),
+            ],
+          ),
+          //const SizedBox(height: 16),
+              // Cụm Kho NVL
+          buildSection(
+            title: 'Kho NVL',
+            color: Colors.grey[700]!,
+            items: [
+              buildMenuItem(
+                context,
+                title: 'Nhập Kho',
+                icon: 'assets/images/import01_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: frmKhoNVL_NhapKho(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Xuất Kho',
+                icon: 'assets/images/export01_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: frmKhoNVL_XuatKho(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Tồn Kho',
+                icon: 'assets/images/warehouse01_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: TonKho_ViTri_DanhSach(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Quản Lý PO',
+                icon: 'assets/images/warehouse06_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: Avery_GiaoHang(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'AD Giao Hàng',
+                icon: 'assets/images/warehouse08_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: Avery_GiaoHang(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Kiểm Kê',
+                icon: 'assets/images/checked02-64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHONVL', page: KiemKeTonKho(MaVatLieu: '', ViTri: '', Kho: ''),),
+              ),
+            ],
+          ),
+          buildSection(
+            title: 'Kho BTP-TP',
+            color: Colors.yellow[700]!,
+            items: [
+              buildMenuItem(
+                context,
+                title: 'Nhập Kho',
+                icon: 'assets/images/import01_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHOBTP-TP', page: frmKhoNVL_NhapKho(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Xuất Kho',
+                icon: 'assets/images/export01_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHOBTP-TP', page: frmKhoNVL_XuatKho(),),
+              ),
+              buildMenuItem(
+                context,
+                title: 'Tồn Kho',
+                icon: 'assets/images/warehouse01_64.png',
+                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'KHOBTP-TP', page: TonKho_ViTri_DanhSach(),),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -155,96 +180,5 @@ class _AppPageState extends State<AppPage> {
     } else {
       _showAccessDenied(context, 'Chỉ bộ phận $allowedBoPhan mới được truy cập');
     }
-  }
-
-// Widget xây dựng cụm (section)
-  Widget _buildSection({
-    required String title,
-    required Color color,
-    required List<Widget> items,
-  }) {
-    return Card(
-      elevation: 6,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16,0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tiêu đề cụm
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            // GridView cho các mục
-            GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: ScrollPhysics() ,//const NeverScrollableScrollView(),
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              //childAspectRatio: 0.8, // Tỷ lệ chiều rộng/chiều cao
-              children: items,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-// Widget xây dựng mục (menu item)
-  Widget _buildMenuItem(
-      BuildContext context, {
-        required String title,
-        required String icon,
-        required VoidCallback onTap,
-      }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                icon,
-                width: 50,
-                height: 50,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

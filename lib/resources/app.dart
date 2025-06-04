@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
     return MaterialApp(
-      title: 'Flutter UI',
+      title: 'Quản Lý Sản Xuất',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'timesbd',

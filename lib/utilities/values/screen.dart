@@ -11,12 +11,12 @@ class screen{
     final width = MediaQuery.of(context).size.width;
     return width;
   }
-  static double widthForm(BuildContext context, {double widthform = 400,double heightform = 600}){
+  static double widthForm(BuildContext context, {double widthform = 450,double heightform = 600}){
     // Xác định chiều rộng dựa trên nền tảng
     double width = MediaQuery.of(context).size.width; // Mặc định full width
     if (kIsWeb || Platform.isWindows || Platform.isMacOS) {
-      width == widthform; //
-      // width == Orientation.portrait ? widthform : heightform; // Chiều rộng nhỏ hơn cho Web và Windows
+
+      width = MediaQuery.of(context).orientation == Orientation.portrait ? widthform : heightform;
     }
     return width;
   }

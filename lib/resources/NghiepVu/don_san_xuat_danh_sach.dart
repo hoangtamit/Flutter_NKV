@@ -6,6 +6,7 @@ import '../../model/NghiepVu/tbdonsanxuat.dart';
 import '../../pdf/openpdf.dart';
 import '../../utilities/fDateTime.dart';
 import '../../widgets/wAppBar.dart';
+import 'package:open_file/open_file.dart';
 
 // Hằng số cho màu sắc, kích thước, và khoảng cách
 const Color primaryColor = Colors.blue;
@@ -50,7 +51,7 @@ class _DonSanXuat_DanhSachState extends State<DonSanXuat_DanhSach> {
               itemBuilder: (item) => ActorItem(actor: item),
               //: () async => dsDonSanXuat,
               initialList: dsDonSanXuat,
-              filter: (query) => dsDonSanXuat.where((element) => element.scd.contains(query)).toList(),
+              filter: (query) => dsDonSanXuat.where((element) => element.SCD.contains(query)).toList(),
               emptyWidget: const EmptyView(),
               inputDecoration: InputDecoration(
                 labelText: "Tìm kiếm SCD",
@@ -80,14 +81,14 @@ class ActorItem extends StatelessWidget {
   Future<void> _openPdf(BuildContext context) async {
     //LoadingDialog.showLoadingDialog(context, "");
     try {
-      final result = await DonSanXuatApi.ExportPdf(actor.scd.toString());
+      final result = await DonSanXuatApi.OpenPdf(actor.SCD.toString());
       if (result.isNotEmpty && result[0].url != null) {
         final String pathfile = result[0].url; // Đường dẫn cục bộ
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: pathfile, action: 'network',)));
-        // final openResult = await OpenFile.open(pathfile);
-        // if (openResult.type != ResultType.done) {
-        //   _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
-        // }
+        //Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: pathfile, action: 'network',)));
+        final openResult = await OpenFile.open(pathfile);
+        if (openResult.type != ResultType.done) {
+          _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
+        }
       } else {
         _showErrorSnackBar(context, 'Không tìm thấy file PDF');
       }
@@ -117,7 +118,7 @@ class ActorItem extends StatelessWidget {
         contentPadding: const EdgeInsets.all(cardPadding),
         leading: Image.asset('assets/images/checklist-64.png', width: iconSize, height: iconSize,),
         title: Text(
-          'SCD: ${actor.scd}',
+          'SCD: ${actor.SCD}',
           style: const TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,
@@ -129,19 +130,19 @@ class ActorItem extends StatelessWidget {
             const SizedBox(height: 8),
             Row(children: [
               const SizedBox(width: 100, child: Text('Khách Hàng:',style: TextStyle(fontWeight: FontWeight.bold, color: color,),),),
-              Text(actor.tenKhachHang.toString(), style: const TextStyle(color: color, fontSize: fontSize,),),
+              Text(actor.TenKhachHang.toString(), style: const TextStyle(color: color, fontSize: fontSize,),),
             ],),
             Row(children: [
               const SizedBox(width: 100, child: Text('Bộ Phận:',style: TextStyle(fontWeight: FontWeight.bold, color: color,),),),
-              Text(actor.boPhan.toString(), style: const TextStyle(color: color, fontSize: fontSize,),),
+              Text(actor.BoPhan.toString(), style: const TextStyle(color: color, fontSize: fontSize,),),
             ],),
             Row(children: [
               const SizedBox(width: 100, child: Text('Số Lượng:',style: TextStyle(fontWeight: FontWeight.bold, color: color,),),),
-              Text(actor.soLuong.toString(), style: const TextStyle(color: color, fontSize: fontSize,),),
+              Text(actor.SoLuong.toString(), style: const TextStyle(color: color, fontSize: fontSize,),),
             ],),
             Row(children: [
               const SizedBox(width: 100, child: Text('Giao Hàng:',style: TextStyle(fontWeight: FontWeight.bold, color: color,),),),
-              Text(fDateTime.DD_MM_YYYY(actor.ngayGiaoHang.toString()), style: const TextStyle(color: color, fontSize: fontSize,),),
+              Text(fDateTime.DD_MM_YYYY(actor.NgayGiaoHang.toString()), style: const TextStyle(color: color, fontSize: fontSize,),),
             ],),
             // Text('Bộ Phận   : ${actor.boPhan}', style: const TextStyle(fontSize: labelFontSize)),
             // Text('Số Lượng  : ${actor.soLuong}', style: const TextStyle(fontSize: labelFontSize)),
