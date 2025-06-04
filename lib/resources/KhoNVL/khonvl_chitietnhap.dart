@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:qlsx/model/KhoNVL/KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetNhap.dart';
-import 'package:qlsx/utilities/values/screen.dart';
-import 'package:qlsx/widgets/wdatatable.dart';
-import 'package:qlsx/utilities/values/format.dart';
+import '../../model/KhoNVL/KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetNhap.dart';
+import '../../utilities/values/screen.dart';
+import '../../widgets/wdatatable.dart';
+import '../../utilities/values/format.dart';
 import '../../api/KhoNVL/KhoNVL_api.dart';
 import '../../model/KhoNVL/KhoNVL_NhapKho_ChiTiet.dart';
 import '../../model/KhoNVL/tbKhoNVL.dart';
 import '../../utilities/fDateTime.dart';
 import '../../utilities/values/theme.dart';
 import '../../widgets/widget_text.dart';
-
+import '../../utilities/values/colors.dart';
 class KhoNVL_ChiTietNhap extends StatefulWidget {
   final KhoNVL_GroupByMaPhieu_GetIDKhuVuc_GetNhap tb;
   const KhoNVL_ChiTietNhap({
@@ -106,10 +106,10 @@ class _KhoNVL_ChiTietNhapState extends State<KhoNVL_ChiTietNhap> {
                               width: 1,
                             ),
                             columns: [
-                              wDatatable.buildDataColumn('Mã Vật Liệu', screen.width(context,3)),
-                              wDatatable.buildDataColumn('Đơn Vị Tính', screen.width(context,2)),
-                              wDatatable.buildDataColumn('Quy Cách', screen.width(context,3)),
-                              wDatatable.buildDataColumn('Số Lượng', screen.width(context,2)),
+                              wDatatable.buildDataColumn('Mã Vật Liệu',width: screen.width(context,3)),
+                              wDatatable.buildDataColumn('Đơn Vị Tính',width: screen.width(context,2)),
+                              wDatatable.buildDataColumn('Quy Cách', width:screen.width(context,3)),
+                              wDatatable.buildDataColumn('Số Lượng', width:screen.width(context,2)),
                             ],
                             rows: List<DataRow>.generate(data.length, (index) => DataRow(
                                 color: WidgetStateProperty.resolveWith<Color?>(
@@ -126,10 +126,10 @@ class _KhoNVL_ChiTietNhapState extends State<KhoNVL_ChiTietNhap> {
                                   },
                                 ),
                                 cells: [
-                                  wDatatable.buildDataCell(data[index].MaVatLieu.toString(),screen.width(context,3)),
-                                  wDatatable.buildDataCell(data[index].DonViTinh.toString(),screen.width(context,2)),
-                                  wDatatable.buildDataCell(data[index].QuyCach.toString(),screen.width(context,3)),
-                                  wDatatable.buildDataCell(data[index].SoLuongNhap.toString(),screen.width(context,2)),
+                                  wDatatable.buildDataCell(data[index].MaVatLieu.toString(),width:screen.width(context,3)),
+                                  wDatatable.buildDataCell(data[index].DonViTinh.toString(),width:screen.width(context,2)),
+                                  wDatatable.buildDataCell(data[index].QuyCach.toString(),width:screen.width(context,3)),
+                                  wDatatable.buildDataCell(data[index].SoLuongNhap.toString(),width:screen.width(context,2)),
                                 ],
                               ),
                             ),

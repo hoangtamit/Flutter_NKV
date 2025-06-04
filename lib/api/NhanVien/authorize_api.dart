@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qlsx/model/NhanVien/tbl_nhanvien.dart';
+import '../../model/NhanVien/tbl_nhanvien.dart';
 import '../../resources/Users/finger-print.dart';
 import '../../services/secure_storage.dart';
 import '../../utilities/globals.dart';

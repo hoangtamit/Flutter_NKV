@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qlsx/services/show_Dialog.dart';
+import '../../services/show_Dialog.dart';
 import '../../api/NhanVien/authorize_api.dart';
 import '../../blocs/auth_bloc.dart';
 import '../../model/drop_list_model.dart';
@@ -46,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child:  SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset('assets/images/qlsx.png'),
+              Image.asset('assets/images/nkv.png'),
               const Text("Welcome!", style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),),
               const Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 30),

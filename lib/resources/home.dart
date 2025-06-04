@@ -1,9 +1,12 @@
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:qlsx/resources/Main/app-page.dart';
-import 'package:qlsx/resources/Main/barcode-page.dart';
+import '../../resources/Main/app-page.dart';
+import '../../resources/Main/barcode-page.dart';
 import 'package:vibration/vibration.dart';
+import '../utilities/values/colors.dart';
 import 'Main/barcode-page.dart';
+import 'Main/barcode-page2.dart';
+import 'Main/barcode-page3.dart';
 import 'Main/home-page.dart';
 import 'Main/xac_nhan_page.dart';
 import 'Users/user-info.dart';
@@ -12,14 +15,14 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 // Hằng số cho màu sắc, kích thước, và khoảng cách
 const Color navBarColor = Colors.white;
-const Color activeIconColor = Colors.orange;
-const Color shadowColor = Colors.orange;
+//const Color activeIconColor = primaryColor ;//Colors.orange;
+//const Color shadowColor = Colors.orange;
 const double navBarHeight = 70.0;
 const double circleSize = 70.0; // Kích thước nút Barcode
 const double iconSize = 40.0;
 const double cornerRadius = 4.0;
 const double elevation = 4.0;
-const EdgeInsets navBarPadding = EdgeInsets.only(left: 3, right: 3, bottom: 3);
+const EdgeInsets navBarPadding = EdgeInsets.only(left: 3, right: 3, bottom: 0);
 
 // Widget nút Barcode với hiệu ứng
 class BarcodeButton extends StatefulWidget {
@@ -77,7 +80,7 @@ class _BarcodeButtonState extends State<BarcodeButton> with SingleTickerProvider
           ),
           child: Icon(
             Icons.qr_code_scanner,
-            color: widget.isActive ? activeIconColor : Colors.black,
+            color: widget.isActive ? primaryColor : Colors.black,
             size: iconSize,
           ),
         ),
@@ -115,35 +118,37 @@ class _qlsxHomePageState extends State<qlsxHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: CircleNavBar(
-        activeIcons: [
-          const Icon(Icons.home, color: activeIconColor, size: iconSize),
-          const Icon(Icons.grid_view_rounded, color: activeIconColor, size: iconSize),
-          const Icon(Icons.qr_code_scanner, color: activeIconColor, size: iconSize),
-          const Icon(Icons.list_alt, color: activeIconColor, size: iconSize),
-          const Icon(Icons.person, color: activeIconColor, size: iconSize),
-        ],
-        inactiveIcons: const [
-          Text("Trang Chủ"),
-          Text("Ứng Dụng"),
-          Text("Quét"),
-          Text("Tiện Ích"),
-          Text("Nhân Viên"),
-        ],
-        color: navBarColor,
-        height: navBarHeight,
-        circleWidth: circleSize,
-        activeIndex: _tabIndex,
-        onTap: _onTabChanged,
-        padding: navBarPadding,
-        cornerRadius: const BorderRadius.only(
-          topLeft: Radius.circular(cornerRadius),
-          topRight: Radius.circular(cornerRadius),
-          bottomRight: Radius.circular(cornerRadius * 3),
-          bottomLeft: Radius.circular(cornerRadius * 3),
+      bottomNavigationBar: SafeArea(
+        child: CircleNavBar(
+          activeIcons: [
+            const Icon(Icons.home, color: primaryColor, size: iconSize),
+            const Icon(Icons.grid_view_rounded, color: primaryColor, size: iconSize),
+            const Icon(Icons.qr_code_scanner, color: primaryColor, size: iconSize),
+            const Icon(Icons.list_alt, color: primaryColor, size: iconSize),
+            const Icon(Icons.person, color: primaryColor, size: iconSize),
+          ],
+          inactiveIcons: const [
+            Text("Trang Chủ"),
+            Text("Ứng Dụng"),
+            Text("Quét"),
+            Text("Tiện Ích"),
+            Text("Nhân Viên"),
+          ],
+          color: navBarColor,
+          height: navBarHeight,
+          circleWidth: circleSize,
+          activeIndex: _tabIndex,
+          onTap: _onTabChanged,
+          padding: navBarPadding,
+          cornerRadius: const BorderRadius.only(
+            topLeft: Radius.circular(cornerRadius),
+            topRight: Radius.circular(cornerRadius),
+            bottomRight: Radius.circular(cornerRadius * 3),
+            bottomLeft: Radius.circular(cornerRadius * 3),
+          ),
+          shadowColor: shadowColor,
+          elevation: elevation,
         ),
-        shadowColor: shadowColor,
-        elevation: elevation,
       ),
       body: PageView(
         controller: _pageController,

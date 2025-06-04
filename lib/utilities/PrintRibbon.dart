@@ -22,6 +22,7 @@ class printRibbon{
   static const String INCHUVITINH  = 'IN CHỮ VI TÍNH';
   static const String KHONVL  = 'KHONVL';
   static const String KHOBTP_TP  = 'KHOBTP_TP';
+  static const String NghiepVu  = 'Nghiệp Vụ';
   static const String NGHIEPVU  = 'NGHIỆP VỤ';
   static const String KIEMPHAM  = 'KIỂM PHẨM';
   static const String NHANSU  = 'NHÂN SỰ';

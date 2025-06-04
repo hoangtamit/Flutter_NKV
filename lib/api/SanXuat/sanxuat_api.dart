@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
-import 'package:qlsx/model/SanXuat/tbl_BaoCaoSanXuat_V2.dart';
+import '../../model/SanXuat/tbl_BaoCaoSanXuat_V2.dart';
 
 import '../../model/SanXuat/BaoCaoSanXuat_GetSCD_GetCongDoan.dart';
 import '../NhanVien/authorize_api.dart';

@@ -7,7 +7,7 @@ class wDatatable {
     fontSize: 12,
     color: Colors.black87,
   );
-  static DataColumn buildDataColumn(String label, double width) {
+  static DataColumn buildDataColumn(String label, {double width = 70}) {
     return DataColumn(
       label: SizedBox(
         width: width,
@@ -21,7 +21,7 @@ class wDatatable {
       ),
     );
   }
-  static DataCell buildDataCell(String value, double width ) {
+  static DataCell buildDataCell(String value,  {double width = 70,VoidCallback? onTap}) {
     return DataCell(
       Center(
         child: SizedBox(
@@ -34,6 +34,7 @@ class wDatatable {
           ),
         ),
       ),
+      onTap: onTap, // Áp dụng callback onTap
     );
   }
   static DataCell buildDataCell2(String value, double width ) {

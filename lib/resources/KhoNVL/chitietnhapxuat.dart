@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:qlsx/widgets/wdatatable.dart';
-import 'package:qlsx/utilities/values/format.dart';
+import '../../widgets/wdatatable.dart';
+import '../../utilities/values/format.dart';
 import '../../api/KhoNVL/KhoNVL_api.dart';
 import '../../model/KhoNVL/tbKhoNVL.dart';
 import '../../utilities/fDateTime.dart';
 import '../../utilities/values/screen.dart';
 import '../../utilities/values/theme.dart';
 import '../../widgets/widget_text.dart';
-
+import '../../utilities/values/colors.dart';
 class KhoNVL_ChiTietNhapXuat extends StatefulWidget {
   final String maVatLieu;
   final String viTri;
@@ -120,9 +120,9 @@ class _KhoNVL_ChiTietNhapXuatState extends State<KhoNVL_ChiTietNhapXuat> {
                               width: 1,
                             ),
                             columns: [
-                              wDatatable.buildDataColumn('Nhập Xuất', screen.width(context,3)),
-                              wDatatable.buildDataColumn('Ngày', screen.width(context,3)),
-                              wDatatable.buildDataColumn('Số Lượng', screen.width(context,3)),
+                              wDatatable.buildDataColumn('Nhập Xuất',width: screen.width(context,3)),
+                              wDatatable.buildDataColumn('Ngày',width: screen.width(context,3)),
+                              wDatatable.buildDataColumn('Số Lượng',width: screen.width(context,3)),
                             ],
                             rows: List<DataRow>.generate(
                               data.length,
@@ -141,9 +141,9 @@ class _KhoNVL_ChiTietNhapXuatState extends State<KhoNVL_ChiTietNhapXuat> {
                                   },
                                 ),
                                 cells: [
-                                  wDatatable.buildDataCell(data[index].nhapXuat.toString(),  screen.width(context,3),),
-                                  wDatatable.buildDataCell(fDateTime.DD_MM_YYYY(data[index].ngay.toString()), screen.width(context,3),),
-                                  wDatatable.buildDataCell(data[index].soLuong.toString(),  screen.width(context,3),),
+                                  wDatatable.buildDataCell(data[index].nhapXuat.toString(),width:  screen.width(context,3),),
+                                  wDatatable.buildDataCell(fDateTime.DD_MM_YYYY(data[index].ngay.toString()),width: screen.width(context,3),),
+                                  wDatatable.buildDataCell(data[index].soLuong.toString(), width: screen.width(context,3),),
                                 ],
                               ),
                             ),

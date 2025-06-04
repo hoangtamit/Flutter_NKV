@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qlsx/api/ThietKe/khogiayin_api.dart';
+import '../../api/ThietKe/khogiayin_api.dart';
 import '../../widgets/widget_text.dart';
 
 

@@ -1,4 +1,4 @@
-import 'package:qlsx/model/ThietKe/tbKhoGiayIn.dart';
+import '../../model/ThietKe/tbKhoGiayIn.dart';
 import '../NhanVien/authorize_api.dart';
 
 class KhoGiayInApi {

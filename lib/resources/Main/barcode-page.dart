@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:ai_barcode_scanner/ai_barcode_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:qlsx/utilities/values/screen.dart';
-import 'package:qlsx/widgets/wAppBar.dart';
+import '../../utilities/values/screen.dart';
+import '../../widgets/wAppBar.dart';
 import '../SanXuat/baocao_sanxuat.dart';
 
 
@@ -23,12 +23,15 @@ class _BarcodeHomePageState extends State<BarcodeHomePage> {
   // Hàm mở trình quét mã vạch
   void _openScanner() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      while (mounted) {
         // Khởi tạo mới MobileScannerController cho mỗi lần mở trình quét
+        // final controller = MobileScannerController(
+        //   detectionSpeed: DetectionSpeed.noDuplicates,
+        // );
         final controller = MobileScannerController(
-          detectionSpeed: DetectionSpeed.noDuplicates,
+          detectionSpeed: DetectionSpeed.normal,
+          detectionTimeoutMs: 100, // Giới hạn thời gian xử lý
+          facing: CameraFacing.back,
         );
-
         final result = await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => AiBarcodeScanner(
@@ -55,6 +58,7 @@ class _BarcodeHomePageState extends State<BarcodeHomePage> {
                 // final List<Barcode> barcodes = capture.barcodes;
                 // debugPrint("Danh sách mã vạch: $barcodes");
               },
+
               validator: (value) {
                 if (value.barcodes.isEmpty) {
                   return false;
@@ -65,7 +69,7 @@ class _BarcodeHomePageState extends State<BarcodeHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => frmBaoCaoSanXuat(SCD: value.barcodes.first.rawValue),
+                      builder: (context) => BaoCaoSanXuat(SCD: value.barcodes.first.rawValue),
                     ),
                   );
                 }
@@ -74,12 +78,6 @@ class _BarcodeHomePageState extends State<BarcodeHomePage> {
             ),
           ),
         );
-        // Nếu người dùng quay lại từ frmBaoCaoSanXuat, tiếp tục mở lại trình quét
-        // if (result == null && mounted) {
-        //   continue;
-        // }
-        break; // Thoát vòng lặp nếu không cần tiếp tục quét
-      }
     });
   }
 
@@ -107,7 +105,7 @@ class _BarcodeHomePageState extends State<BarcodeHomePage> {
           ),
           Positioned(
             right: 16.0, // Cách lề phải 16 pixels
-            bottom: 100.0, // Cách đáy 100 pixels để kéo lên trên
+            bottom: 130.0, // Cách đáy 100 pixels để kéo lên trên
             child: FloatingActionButton(
               //backgroundColor: Colors.blue,
               onPressed: _openScanner,

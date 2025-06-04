@@ -24,10 +24,12 @@ class NhanVienApi {
     var dsData = json.map((job) => tbl_NhanVien.fromJson(job)).single;
     return dsData;
   }
+
   static Future<void> AllLoadData() async {
     var json = await AuthorizeApi.Post('NhanVien/LoadData');
     var ds = json.map((job) => tbl_NhanVien.fromJson(job)).toList();
   }
+
 }
 
 

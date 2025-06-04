@@ -7,7 +7,7 @@ import 'chitietnhapxuat.dart';
 import 'kiemketonkho.dart';
 import 'package:searchable_listview/resources/arrays.dart';
 import 'package:searchable_listview/searchable_listview.dart';
-
+import '../../utilities/values/colors.dart';
 class TonKho_ViTri_DanhSach extends StatefulWidget {
   const TonKho_ViTri_DanhSach({super.key});
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:qlsx/widgets/wdatatable.dart';
-import 'package:qlsx/utilities/values/format.dart';
+import '../../widgets/wdatatable.dart';
+import '../../utilities/values/format.dart';
 import '../../api/SanXuat/sanxuat_api.dart';
 import '../../utilities/fDateTime.dart';
 import '../../utilities/values/screen.dart';
@@ -136,11 +136,11 @@ class _BaoCao_SanXuat_ChiTietState extends State<BaoCao_SanXuat_ChiTiet> {
                           width: 1,
                         ),
                         columns: [
-                          wDatatable.buildDataColumn('Bắt Đầu', screen.width(context, 3.5)),
-                          wDatatable.buildDataColumn('Kết Thúc', screen.width(context, 3.5)),
-                          wDatatable.buildDataColumn('Đạt', screen.width(context, 1.5)),
-                          wDatatable.buildDataColumn('Lỗi', screen.width(context, 1.5)),
-                          wDatatable.buildDataColumn('', screen.width(context, 1.5)), // Cột trống
+                          wDatatable.buildDataColumn('Bắt Đầu',width: screen.width(context, 3.5)),
+                          wDatatable.buildDataColumn('Kết Thúc',width: screen.width(context, 3.5)),
+                          wDatatable.buildDataColumn('Đạt',width: screen.width(context, 1.5)),
+                          wDatatable.buildDataColumn('Lỗi',width: screen.width(context, 1.5)),
+                          wDatatable.buildDataColumn('',width: screen.width(context, 1.5)), // Cột trống
                         ],
                         rows: [
                           ...List<DataRow>.generate(
@@ -157,21 +157,21 @@ class _BaoCao_SanXuat_ChiTietState extends State<BaoCao_SanXuat_ChiTiet> {
                               cells: [
                                 wDatatable.buildDataCell(
                                   fDateTime.DD_MM_YYYY_HH_MM(data[index].ThoiGian_BatDau.toString()),
-                                  screen.width(context, 3.5),
+                                  width:screen.width(context, 3.5),
                                 ),
                                 wDatatable.buildDataCell(
                                   fDateTime.DD_MM_YYYY_HH_MM(data[index].ThoiGian_KetThuc.toString()),
-                                  screen.width(context, 3.5),
+                                  width:screen.width(context, 3.5),
                                 ),
                                 wDatatable.buildDataCell(
                                   data[index].SoLuongDat.toString(),
-                                  screen.width(context, 1.5),
+                                  width:screen.width(context, 1.5),
                                 ),
                                 wDatatable.buildDataCell(
                                   (data[index].SoLuongLoi ?? '0').toString(),
-                                  screen.width(context, 1.5),
+                                  width:screen.width(context, 1.5),
                                 ),
-                                wDatatable.buildDataCell('', screen.width(context, 1.5)),
+                                wDatatable.buildDataCell('', width:screen.width(context, 1.5)),
                               ],
                             ),
                           ),
@@ -180,11 +180,11 @@ class _BaoCao_SanXuat_ChiTietState extends State<BaoCao_SanXuat_ChiTiet> {
                           DataRow(
                             color: WidgetStateProperty.all(Colors.yellow.shade100),
                             cells: [
-                              wDatatable.buildDataCell('Tổng', screen.width(context, 3.5)),
-                              wDatatable.buildDataCell('', screen.width(context, 3.5)),
-                              wDatatable.buildDataCell('$tongDat', screen.width(context, 1.5)),
-                              wDatatable.buildDataCell('$tongLoi', screen.width(context, 1.5)),
-                              wDatatable.buildDataCell('', screen.width(context, 1.5)),
+                              wDatatable.buildDataCell('Tổng',width: screen.width(context, 3.5)),
+                              wDatatable.buildDataCell('', width:screen.width(context, 3.5)),
+                              wDatatable.buildDataCell('$tongDat',width: screen.width(context, 1.5)),
+                              wDatatable.buildDataCell('$tongLoi',width: screen.width(context, 1.5)),
+                              wDatatable.buildDataCell('', width:screen.width(context, 1.5)),
                             ],
                           ),
                         ],

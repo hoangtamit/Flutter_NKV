@@ -5,12 +5,12 @@ tbl_ViTri tbl_ViTriFromJson(String str) => tbl_ViTri.fromJson(json.decode(str));
 String tbl_ViTriToJson(tbl_ViTri data) => json.encode(data.toJson());
 
 class tbl_ViTri {
-  // final String LoaiHang;
+  final String LoaiHang;
   // final String Ke;
   // final String Tang;
   // final String STT;
   final String ViTri;
-  // final String DienGiai;
+  final String DienGiai;
   // final String IDKhuVuc;
   // final String ViTri_Backup;
   // final String GhiChu;
@@ -21,12 +21,12 @@ class tbl_ViTri {
   // final String IDViTri;
 
   tbl_ViTri({
-    // required this.LoaiHang,
+    required this.LoaiHang,
     // required this.Ke,
     // required this.Tang,
     // required this.STT,
     required this.ViTri,
-    // required this.DienGiai,
+    required this.DienGiai,
     // required this.IDKhuVuc,
     // required this.ViTri_Backup,
     // required this.GhiChu,
@@ -38,12 +38,12 @@ class tbl_ViTri {
   });
 
   Map<String, dynamic> toJson() => {
-    // 'LoaiHang': LoaiHang,
+    'LoaiHang': LoaiHang,
     // 'Ke': Ke,
     // 'Tang': Tang,
     // 'STT': STT,
      'ViTri': ViTri,
-    // 'DienGiai': DienGiai,
+    'DienGiai': DienGiai,
     // 'IDKhuVuc': IDKhuVuc,
     // 'ViTri_Backup': ViTri_Backup,
     // 'GhiChu': GhiChu,
@@ -55,12 +55,12 @@ class tbl_ViTri {
   };
 
   factory tbl_ViTri.fromJson(Map<String, dynamic> json) => tbl_ViTri(
-    // LoaiHang: json['LoaiHang']?.toString() ?? '',
+    LoaiHang: json['LoaiHang']?.toString() ?? '',
     // Ke: json['Ke']?.toString() ?? '',
     // Tang: json['Tang']?.toString() ?? '',
     // STT: json['STT']?.toString() ?? '',
     ViTri: json['ViTri']?.toString() ?? '',
-    // DienGiai: json['DienGiai']?.toString() ?? '',
+    DienGiai: json['DienGiai']?.toString() ?? '',
     // IDKhuVuc: json['IDKhuVuc']?.toString() ?? '',
     // ViTri_Backup: json['ViTri_Backup']?.toString() ?? '',
     // GhiChu: json['GhiChu']?.toString() ?? '',

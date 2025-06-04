@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:qlsx/api/BoPhan/BoPhan_api.dart';
-import 'package:qlsx/model/BoPhan/tbl_bophan.dart';
+import '../../api/BoPhan/BoPhan_api.dart';
+import '../../model/BoPhan/tbl_BoPhan.dart';
 
 import '../../widgets/wDateTime.dart';
 import 'hero_demo.dart';
@@ -536,7 +536,7 @@ class _DemoScreenState extends State<DemoScreen> {
             // - width, height, fit
             Container(
               margin: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Image.asset('assets/images/qlsx.png',
+              child: Image.asset('assets/images/nkv.png',
                 width: 100,
                 height: 100,
                 fit: BoxFit.contain,
@@ -851,7 +851,7 @@ class _DemoScreenState extends State<DemoScreen> {
               margin: const EdgeInsets.symmetric(vertical: 8.0),
               child: Hero(
                 tag: 'hero-tag',
-                child: Image.asset('assets/images/qlsx.png',
+                child: Image.asset('assets/images/nkv.png',
                   width: 50,
                   height: 80,
                 ),
@@ -942,7 +942,7 @@ class _DemoScreenState extends State<DemoScreen> {
               height: 100,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Image.asset('assets/images/qlsx.png',
+                child: Image.asset('assets/images/nkv.png',
                 ),
               ),
             ),

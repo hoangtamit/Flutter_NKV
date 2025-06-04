@@ -1,6 +1,22 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+//-------#03A6A1
+// Mã này bao gồm 03 -> red , A6 -> green , A1 -> blue
+// convert Color(0xFF03A6A1)
+// Mã này bao gồm FF -> không trong suốt 03 -> red , A6 -> green , A1 -> blue
+const Color primaryColor = Colors.orange;
+const Color secondColor = Colors.white;
+const greenOpacity = Color(0x1a6cd38b);
+const greenOpacity2 = Color(0xFF03A6A1);
+const greenColor    = Color(0xFF0ABAB5);
+const hintTextColor = Color(0xff999999);
+
+Color activeIconColor = primaryColor;
+Color shadowColor = primaryColor;
 
 class GSFormColors {
+  static const Color primaryColor = Colors.white;
   static const white = Color(0xffffffff);
   static const redOpacity = Color(0x1aef5350);
   static const greenOpacity = Color(0x1a6cd38b);

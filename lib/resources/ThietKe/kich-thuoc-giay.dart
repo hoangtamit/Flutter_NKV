@@ -1,14 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qlsx/api/NhanVien/authorize_api.dart';
-import 'package:qlsx/api/ThietKe/thietke_api.dart';
-import 'package:qlsx/model/ThietKe/ThongTinDanTrang_V2.dart';
-import 'package:qlsx/model/ThietKe/tbl_tem_giay_cau_hinh_dan_trang.dart';
-import 'package:qlsx/model/ThietKe/tbl_GiayLon.dart';
-import 'package:qlsx/pdf/openpdf.dart';
-import 'package:qlsx/services/show_Dialog.dart';
+import '../../api/NhanVien/authorize_api.dart';
+import '../../api/ThietKe/thietke_api.dart';
+import '../../model/ThietKe/ThongTinDanTrang_V2.dart';
+import '../../model/ThietKe/tbl_tem_giay_cau_hinh_dan_trang.dart';
+import '../../model/ThietKe/tbl_GiayLon.dart';
+import '../../pdf/openpdf.dart';
+import '../../services/show_Dialog.dart';
 import '../../api/NghiepVu/donsanxuat_api.dart';
 import '../../utilities/loading_dialog.dart';
 import 'package:open_file/open_file.dart';
@@ -264,11 +265,11 @@ class render extends StatelessWidget {
               width: 1,
             ),
             columns: [
-              wDatatable.buildDataColumn('KGI', screen.width(context,2.3)),
-              wDatatable.buildDataColumn('SL', screen.width(context,2)),
-              wDatatable.buildDataColumn('RK', screen.width(context,1)),
-              wDatatable.buildDataColumn('Tổng', screen.width(context,2)),
-              wDatatable.buildDataColumn('PDF', screen.width(context,2)),
+              wDatatable.buildDataColumn('KGI',width: screen.width(context,2.3)),
+              wDatatable.buildDataColumn('SL',width: screen.width(context,2)),
+              wDatatable.buildDataColumn('RK', width:screen.width(context,1)),
+              wDatatable.buildDataColumn('Tổng',width: screen.width(context,2)),
+              wDatatable.buildDataColumn('PDF',width: screen.width(context,2)),
             ],
             rows: dsTinhDanTrang.asMap().entries.map((entry) {
               final index = entry.key;
@@ -281,10 +282,10 @@ class render extends StatelessWidget {
                   },
                 ),
                 cells: [
-                  wDatatable.buildDataCell(actor.kgi.toString(),  screen.width(context,2.3)),
-                  wDatatable.buildDataCell(actor.catGiay.toString(),  screen.width(context,2)),
-                  wDatatable.buildDataCell(actor.rk.toString(),  screen.width(context,1)),
-                  wDatatable.buildDataCell(actor.kgITong.toString(),  screen.width(context,2)),
+                  wDatatable.buildDataCell(actor.kgi.toString(), width: screen.width(context,2.3)),
+                  wDatatable.buildDataCell(actor.catGiay.toString(),width:  screen.width(context,2)),
+                  wDatatable.buildDataCell(actor.rk.toString(), width: screen.width(context,1)),
+                  wDatatable.buildDataCell(actor.kgITong.toString(), width: screen.width(context,2)),
                   DataCell(
                     Center(
                       child: SizedBox(
@@ -296,14 +297,20 @@ class render extends StatelessWidget {
                             try {
                               var json = tbl_TemGiay_CauHinhDanTrangToJson(_config);
                               var json2 = thongTinDanTrangV2ToJson(actor);
-                              var result = await KhoGiayInApi.ExportPdf(json, json2);
+                              final result;
+                              if(Platform.isAndroid) {
+                                result = await KhoGiayInApi.DownloadPdf(json, json2);
+                              }
+                              else{
+                                result = await KhoGiayInApi.OpenPdf(json, json2);
+                              }
                               if (result.isNotEmpty) {
                                 final String filePath = result[0].url;
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: filePath, action: 'network',)));
-                                //final openResult = await OpenFile.open(filePath);
-                                // if (openResult.type != ResultType.done) {
-                                //   _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
-                                // }
+                                //Navigator.push(context, MaterialPageRoute(builder: (context) => PdfViewer(pathfile: filePath, action: 'network',)));
+                                final openResult = await OpenFile.open(filePath);
+                                if (openResult.type != ResultType.done) {
+                                  _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
+                                }
                               } else {
                                 _showErrorSnackBar(context, 'Không tìm thấy file PDF');
                               }
@@ -354,7 +361,7 @@ class ActorItem extends StatelessWidget {
         onTap: () async {
           LoadingDialog.showLoadingDialog(context, "");
           try {
-            await DonSanXuatApi.ExportPdf(actor.kgi.toString());
+            await DonSanXuatApi.OpenPdf(actor.kgi.toString());
           } catch (e) {
             ShowDialog.showAlertDialog(context, 'Lỗi khi xuất PDF: $e');
           } finally {

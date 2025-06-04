@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:qlsx/resources/Main/barcode-page.dart';
-import 'package:qlsx/resources/Users/finger-print.dart';
-import 'package:qlsx/resources/Users/login_page.dart';
-import 'package:qlsx/resources/app.dart';
-import 'package:qlsx/resources/home.dart';
-import 'package:qlsx/services/secure_storage.dart';
+import '../../resources/Main/barcode-page.dart';
+import '../../resources/Users/finger-print.dart';
+import '../../resources/Users/login_page.dart';
+import '../../resources/app.dart';
+import '../../resources/home.dart';
+import '../../services/secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'api/NhanVien/authorize_api.dart';
 //final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();

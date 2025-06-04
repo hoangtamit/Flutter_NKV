@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utilities/values/colors.dart';
-final Color primaryColor = Colors.orange;
+//final Color primaryColor = Colors.orange;
 class GSFormTheme {
   static TextTheme textThemeStyle = const TextTheme(
     displayLarge: TextStyle(color: GSFormColors.textColorHeader, fontWeight: FontWeight.w700, fontSize: 12.0),

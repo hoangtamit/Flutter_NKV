@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
-import 'package:qlsx/api/NhanVien/authorize_api.dart';
-import 'package:qlsx/resources/Users/register_page.dart';
-import 'package:qlsx/services/show_Dialog.dart';
-import 'package:qlsx/resources/Users/register_page.dart';
-import 'package:qlsx/utilities/values/screen.dart';
+import '../../api/NhanVien/authorize_api.dart';
+import '../../resources/Users/register_page.dart';
+import '../../services/show_Dialog.dart';
+import '../../resources/Users/register_page.dart';
+import '../../utilities/values/screen.dart';
 import '../../model/drop_list_model.dart';
 import '../../utilities/loading_dialog.dart';
 import '../home.dart';
@@ -73,6 +73,7 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Container(
           width: formWidth, // Áp dụng chiều rộng động
+          alignment: Alignment.topCenter,
           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
           color: Colors.white,
           child: SingleChildScrollView(
@@ -144,9 +145,15 @@ class _LoginState extends State<Login> {
                           ),
                           border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(color: Colors.grey, width: 1),
+                            borderSide: BorderSide(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
                           ),
                         ),
+                        onSubmitted: (value) {
+                          loginUsers(); // Gọi hàm đăng nhập khi nhấn Enter
+                        },
                       ),
                       GestureDetector(
                         onTap: onShowPass,

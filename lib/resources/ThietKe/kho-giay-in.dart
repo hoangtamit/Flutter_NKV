@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qlsx/api/ThietKe/khogiayin_api.dart';
+import '../../api/ThietKe/khogiayin_api.dart';
 import '../../api/NghiepVu/donsanxuat_api.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 import '../../model/ThietKe/tbKhoGiayIn.dart';
@@ -123,7 +123,7 @@ class ActorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return  GestureDetector(
       onTap: (){
-        DonSanXuatApi.ExportPdf(actor.chiTietGiay.toString()).then((value)
+        DonSanXuatApi.OpenPdf(actor.chiTietGiay.toString()).then((value)
         {
           //Navigator.push(context, MaterialPageRoute(builder: (context) => PinchPage(style: 'url', pathfile: value[0].url,)));
         });

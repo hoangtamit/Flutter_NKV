@@ -22,7 +22,7 @@ class tbl_BaoCaoSanXuat_V2 {
    String? ThoiGian_KetThuc;
    int? ThoiGianChayMay;
    String? GhiChu;
-   String? isHoanThanh;
+   bool isHoanThanh;
    String? IDKhuVuc;
    String? TenNhanVien;
    String? BoPhan;
@@ -114,20 +114,21 @@ class tbl_BaoCaoSanXuat_V2 {
     CaLamViec: json['CaLamViec']?.toString() ?? '',
     SCD: json['SCD']?.toString() ?? '',
     CongDoan: json['CongDoan']?.toString() ?? '',
-    SoLuongDat: json['SoLuongDat'],
-    SoLuongLoi: json['SoLuongLoi'],
+    SoLuongDat: int.tryParse(json['SoLuongDat']?.toString() ?? '0') ?? 0,
+    SoLuongLoi: int.tryParse(json['SoLuongLoi']?.toString() ?? '0') ?? 0,
     ThaoTac: json['ThaoTac']?.toString() ?? '',
-    ThoiGian_BatDau: json['ThoiGian_BatDau'],
-    ThoiGian_KetThuc: json['ThoiGian_KetThuc'],
-    ThoiGianChayMay: json['ThoiGianChayMay'],
+    ThoiGian_BatDau: json['ThoiGian_BatDau'] ?? '',
+    ThoiGian_KetThuc: json['ThoiGian_KetThuc'] ?? '',
+    ThoiGianChayMay: int.tryParse(json['ThoiGianChayMay']?.toString() ?? '0') ?? 0,
     GhiChu: json['GhiChu']?.toString() ?? '',
     IDKhuVuc: json['IDKhuVuc']?.toString() ?? '',
-    isHoanThanh: json['isHoanThanh'].toString() ?? 'false',
+    isHoanThanh: json['isHoanThanh'] is bool ? json['isHoanThanh'] : false,
+    //isHoanThanh: json['isHoanThanh'] is bool ? json['isHoanThanh'] : (json['isHoanThanh'] is String ? bool.tryParse(json['isHoanThanh']) ?? false : false),
     TenNhanVien: json['TenNhanVien']?.toString() ?? '',
     BoPhan: json['BoPhan']?.toString() ?? '',
     TenKhachHang: json['TenKhachHang']?.toString() ?? '',
     TenSanPham: json['TenSanPham']?.toString() ?? '',
-    SoLuong: json['SoLuong'],
+    SoLuong: int.tryParse(json['SoLuong']?.toString() ?? '0') ?? 0,
     CongDoanSanXuat: json['CongDoanSanXuat']?.toString() ?? '',
     CongDoanKiemPham: json['CongDoanKiemPham']?.toString() ?? '',
     LanhLieu: json['LanhLieu'],

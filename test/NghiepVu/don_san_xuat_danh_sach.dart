@@ -20,7 +20,7 @@ class _DonSanXuat_DanhSachState extends State<DonSanXuat_DanhSach> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: FutureBuilder(
-        future: DonSanXuatApi.LoadData(),
+        future: DonSanXuatApi.DonSanXuat_LikeNgayXuongDon(),
         builder: (context, snapshot) {
           if (snapshot.connectionState case ConnectionState.none || ConnectionState.waiting || ConnectionState.active) {
             return Container(

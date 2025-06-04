@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qlsx/utilities/values/format.dart';
+import '../../utilities/values/format.dart';
 import '../../api/KhoNVL/KhoNVL_api.dart';
 import '../../model/KhoNVL/tbl_Avery_GiaoHang.dart';
 import '../../utilities/values/theme.dart';
@@ -7,7 +7,7 @@ import 'chitietnhapxuat.dart';
 import 'khonvl_phieunhap.dart';
 import 'kiemketonkho.dart';
 import 'package:searchable_listview/searchable_listview.dart';
-
+import '../../utilities/values/colors.dart';
 class Avery_GiaoHang extends StatefulWidget {
   const Avery_GiaoHang({super.key});
   @override

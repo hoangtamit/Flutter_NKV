@@ -1,5 +1,5 @@
 import 'dart:developer' as developer;
-import '../../model/BoPhan/tbl_bophan.dart';
+import '../../model/BoPhan/tbl_BoPhan.dart';
 import '../NhanVien/authorize_api.dart';
 
 class BoPhanApi{

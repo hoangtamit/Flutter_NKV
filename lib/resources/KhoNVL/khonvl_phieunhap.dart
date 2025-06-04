@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qlsx/api/KhoNVL/KhoNVL_api.dart';
-import 'package:qlsx/model/KhoNVL/tbKhoNVL.dart';
-import 'package:qlsx/model/KhoNVL/tbl_Avery_GiaoHang.dart';
-import 'package:qlsx/utilities/PrintRibbon.dart';
-import 'package:qlsx/utilities/values/format.dart';
+import 'package:nkv/widgets/wTextField.dart';
+import '../../api/KhoNVL/KhoNVL_api.dart';
+import '../../model/KhoNVL/tbKhoNVL.dart';
+import '../../model/KhoNVL/tbl_Avery_GiaoHang.dart';
+import '../../utilities/PrintRibbon.dart';
+import '../../utilities/values/colors.dart';
+import '../../utilities/values/format.dart';
 import '../../model/KhoNVL/tbl_ViTri.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
 import '../../utilities/fDateTime.dart';
+import 'ViTri_ChiTiet.dart';
 
 final TextEditingController _MaPhieuController = TextEditingController();
 final TextEditingController _IDVatLieuController = TextEditingController();
@@ -64,6 +67,12 @@ class _KhoNVL_PhieuNhapState extends State<KhoNVL_PhieuNhap> {
         });
       }
     });
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _viTriFocusNode.dispose();
+    super.dispose();
   }
   Future<void> _loadViTriData() async {
     try {
@@ -145,16 +154,15 @@ class _KhoNVL_PhieuNhapState extends State<KhoNVL_PhieuNhap> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      // appBar: AppBar(
-      //   title: const Text('Phiếu Nhập Kho'),
-      //   centerTitle: true,
-      //   backgroundColor: Theme.of(context).primaryColor,
-      // ),
+      appBar: AppBar(
+        title: const Text('Phiếu Nhập Kho'),
+        centerTitle: true,
+        backgroundColor: primaryColor,//Theme.of(context).primaryColor,
+      ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : errorMessage != null
@@ -166,36 +174,26 @@ class _KhoNVL_PhieuNhapState extends State<KhoNVL_PhieuNhap> {
           children: [
             // Center(
             //   child: Image.asset(
-            //     'assets/images/qlsx.png',
+            //     'assets/images/nkv.png',
             //     height: 100,
             //     fit: BoxFit.contain,
             //   ),
             // ),
+            // const SizedBox(height: 16),
+            // const Center(child: Text('Phiếu Nhập Kho', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),),
             const SizedBox(height: 16),
-            const Center(
-              child: Text(
-                'Phiếu Nhập Kho',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 16),
-            _buildTextField(
-              controller: _MaPhieuController,
-              label: 'Mã Phiếu',
-              readOnly: true,
-              icon: Icons.receipt,
-            ),
+            wTextField.buildTextField(_MaPhieuController, 'Mã Phiếu', readOnly: true, icon: Icons.receipt,),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   width: (MediaQuery.sizeOf(context).width - 30) * 0.48,
-                  child: _buildTextField(controller: _SoLuongController, label: 'Số Lượng Nhập', keyboardType: TextInputType.number, icon: Icons.production_quantity_limits,),
+                  child: wTextField.buildTextField2(controller: _SoLuongController, label: 'Số Lượng Nhập', keyboardType: TextInputType.number, icon: Icons.production_quantity_limits,),
                 ),
                 SizedBox(
                   width: (MediaQuery.sizeOf(context).width - 30) * 0.48,
-                  child:             _buildTextField(controller: _NgayNhapController,
+                  child:             wTextField.buildTextField2(controller: _NgayNhapController,
                     label: 'Ngày Nhập (dd/MM/yyyy)',
                     icon: Icons.calendar_today,
                     keyboardType: TextInputType.datetime,
@@ -209,7 +207,10 @@ class _KhoNVL_PhieuNhapState extends State<KhoNVL_PhieuNhap> {
                 if (textEditingValue.text.isEmpty) {
                   return dsViTri.map((viTri) => viTri.ViTri);
                 }
-                return dsViTri.where((viTri) => viTri.ViTri.toLowerCase().contains(textEditingValue.text.toLowerCase(),),).map((viTri) => viTri.ViTri);
+                return dsViTri
+                    .where((viTri) =>
+                    viTri.ViTri.toLowerCase().contains(textEditingValue.text.toLowerCase()))
+                    .map((viTri) => viTri.ViTri);
               },
               onSelected: (String selection) {
                 setState(() {
@@ -219,57 +220,55 @@ class _KhoNVL_PhieuNhapState extends State<KhoNVL_PhieuNhap> {
               },
               fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
                 controller.text = _ViTriController.text;
-                return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                    labelText: 'Vị Trí Kho',
-                    prefixIcon: Icon(Icons.location_on),
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                return Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      decoration: InputDecoration(
+                        labelText: 'Vị Trí Kho',
+                        prefixIcon: Icon(Icons.location_on),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorText: _ViTriController.text.isEmpty ? 'Vui lòng nhập' : null,
+                      ),
+                      onSubmitted: (value) => onFieldSubmitted(),
                     ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    errorText: _ViTriController.text.isEmpty ? 'Vui lòng nhập' : null,
-                  ),
-                  onSubmitted: (value) => onFieldSubmitted(),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        ShowViTriKhoDialog(context,dsViTri, (selectedViTri) { setState(() {
+                          selectedViTri = selectedViTri;
+                          _ViTriController.text = selectedViTri;});
+                        });
+                      },
+                    ),
+                  ],
                 );
               },
               initialValue: TextEditingValue(text: selectedViTri ?? ''),
             ),
             const SizedBox(height: 16),
-            _buildTextField(
-              controller: _KhoController,
-              label: 'Kho Nhập',
-              readOnly: true,
-              icon: Icons.warehouse,
-            ),
+            wTextField.buildTextField(_KhoController,  'Kho Nhập', readOnly: true, icon: Icons.warehouse,),
             const SizedBox(height: 16),
-            _buildTextField(
-              controller: _IDVatLieuController,
-              label: 'Mã Vật Liệu',
-              readOnly: true,
-              icon: Icons.code,
-
-            ),
+            wTextField.buildTextField(_IDVatLieuController,  'Mã Vật Liệu', readOnly: true, icon: Icons.code,),
             const SizedBox(height: 16),
-            _buildTextField(
-              controller: _TenHangHoaController,
-              label: 'Tên Hàng Hoá',
-              readOnly: true,
-              icon: Icons.description,
-            ),
+            wTextField.buildTextField(_TenHangHoaController, 'Tên Hàng Hoá', readOnly: true, icon: Icons.description,),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                     width: (MediaQuery.sizeOf(context).width - 30) * 0.4,
-                    child: _buildTextField(controller: _DonViTinhController, label: 'Đơn Vị Tính', readOnly: true, icon: Icons.scale,)),
+                    child: wTextField.buildTextField(_DonViTinhController, 'Đơn Vị Tính', readOnly: true, icon: Icons.scale,)),
                 SizedBox(
                     width: (MediaQuery.sizeOf(context).width - 30) * 0.58,
-                    child: _buildTextField(controller: _QuyCachController, label: 'Quy Cách', readOnly: true, icon: Icons.format_list_bulleted,)),
+                    child: wTextField.buildTextField(_QuyCachController,'Quy Cách', readOnly: true, icon: Icons.format_list_bulleted,)),
               ],),
             const SizedBox(height: 24),
             SizedBox(
@@ -298,42 +297,16 @@ class _KhoNVL_PhieuNhapState extends State<KhoNVL_PhieuNhap> {
       ),
     );
   }
-
-  Widget _buildTextField({
-    TextEditingController? controller,
-    required String label,
-    bool readOnly = false,
-    IconData? icon,
-    TextInputType? keyboardType,
-    List<TextInputFormatter>? inputFormatters,
-  }) {
-    return TextField(
-      controller: controller,
-      readOnly: readOnly,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: icon != null ? Icon(icon) : null,
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        filled: true,
-        fillColor: readOnly ? Colors.grey[200] : Colors.white,
-        //errorText: controller!.text.isEmpty ? 'Vui lòng nhập' : null,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _viTriFocusNode.dispose();
-    super.dispose();
-  }
 }
-
+// class ViTriKho_ChiTiet extends StatelessWidget {
+//   const ViTriKho_ChiTiet({super.key});
+//   @override
+//   return
+// }
+// class _ViTriKho_ChiTietState extends State<ViTriKho_ChiTiet> {
+//   @override
+//   return super.build(context);
+// }
 // TextInputFormatter tùy chỉnh cho định dạng dd/MM/yyyy
 class _DateInputFormatter extends TextInputFormatter {
   @override

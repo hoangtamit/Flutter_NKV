@@ -1,7 +1,7 @@
-import 'package:qlsx/model/NghiepVu/tbl_danhsachsanpham.dart';
-import 'package:qlsx/model/ThietKe/ThongTinDanTrang_V2.dart';
-import 'package:qlsx/model/ThietKe/tbKhoGiayIn.dart';
-import 'package:qlsx/model/ThietKe/tbl_GiayLon.dart';
+import '../../model/NghiepVu/tbl_Url.dart';
+import '../../model/ThietKe/ThongTinDanTrang_V2.dart';
+import '../../model/ThietKe/tbKhoGiayIn.dart';
+import '../../model/ThietKe/tbl_GiayLon.dart';
 import '../NhanVien/authorize_api.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -57,8 +57,8 @@ class KhoGiayInApi {
       throw Exception('Lỗi khi tính dàn trang: $e');
     }
   }
-  static Future<List<tbl_DanhSachSanPham>> ExportPdf( String json,String json2 ) async {
-    List<tbl_DanhSachSanPham> dsSanPham = [];
+  static Future<List<tbl_Url>> OpenPdf( String json,String json2 ) async {
+    List<tbl_Url> dsSanPham = [];
     // Kiểm tra tham số đầu vào
     if (json.isEmpty) {
       throw Exception('GiayLon không được để trống');
@@ -67,7 +67,54 @@ class KhoGiayInApi {
     final requestData = {'json': json,'json2': json2,};
     try {
       final responseData = await AuthorizeApi.Get_Data('ThietKe/ExportPdf', requestData);
-      final dsData = responseData.map((e) => tbl_DanhSachSanPham.fromJson(e)).toList();
+      final dsData = responseData.map((e) => tbl_Url.fromJson(e)).toList();
+      if (responseData == null || responseData is! List) {
+        throw Exception('Dữ liệu trả về từ API không hợp lệ');
+      }
+      debugPrint('----------------------------------${dsData.length}');
+      return dsData; // Trả về danh sách với url là đường dẫn cục bộ
+    } catch (e) {
+      // Xử lý lỗi
+      throw Exception('Lỗi khi tính dàn trang: $e');
+    }
+  }
+  static Future<List<tbl_Url>> DownloadPdf( String json,String json2 ) async {
+    List<tbl_Url> dsSanPham = [];
+    // Kiểm tra tham số đầu vào
+    if (json.isEmpty) {
+      throw Exception('GiayLon không được để trống');
+    }
+    // Chuẩn bị dữ liệu gửi API
+    final requestData = {'json': json,'json2': json2,};
+    final responseData = await AuthorizeApi.Get_Data('ThietKe/ExportPdf', requestData);
+    final dsData = responseData.map((e) => tbl_Url.fromJson(e)).toList();
+    if(Platform.isAndroid) {
+      final directory = await getDownloadsDirectory();
+      if (directory == null) {
+        throw Exception('Không thể truy cập thư mục Downloads');
+      }
+      for (var i = 0; i < dsData.length; i++) {
+        var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
+        var tb = tbl_Url(id: i, name: dsData[i].name, url: file!.path); // Lưu đường dẫn cục bộ
+        dsSanPham.add(tb);
+      }
+    } else {
+      return dsData;
+    }
+    debugPrint('----------------------------------${dsData.length}');
+    return dsSanPham; // Trả về danh sách với url là đường dẫn cục bộ
+  }
+  static Future<List<tbl_Url>> ExportPdf( String json,String json2 ) async {
+    List<tbl_Url> dsSanPham = [];
+    // Kiểm tra tham số đầu vào
+    if (json.isEmpty) {
+      throw Exception('GiayLon không được để trống');
+    }
+    // Chuẩn bị dữ liệu gửi API
+    final requestData = {'json': json,'json2': json2,};
+    try {
+      final responseData = await AuthorizeApi.Get_Data('ThietKe/ExportPdf', requestData);
+      final dsData = responseData.map((e) => tbl_Url.fromJson(e)).toList();
       final directory = await getDownloadsDirectory();
       if (directory == null) {
         throw Exception('Không thể truy cập thư mục Downloads');
@@ -77,7 +124,7 @@ class KhoGiayInApi {
       }
       // for (var i = 0; i < dsData.length; i++) {
       //   var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
-      //   var tb = tbl_DanhSachSanPham(id: i, name: dsData[i].name, url: file!.path); // Lưu đường dẫn cục bộ
+      //   var tb = tbl_Url(id: i, name: dsData[i].name, url: file!.path); // Lưu đường dẫn cục bộ
       //   dsSanPham.add(tb);
       // }
       debugPrint('----------------------------------${dsData.length}');

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final tbDonSanXuat = tbDonSanXuatFromJson(jsonString);
-
 import 'dart:convert';
 
 tbDonSanXuat tbDonSanXuatFromJson(String str) => tbDonSanXuat.fromJson(json.decode(str));
@@ -9,193 +5,209 @@ tbDonSanXuat tbDonSanXuatFromJson(String str) => tbDonSanXuat.fromJson(json.deco
 String tbDonSanXuatToJson(tbDonSanXuat data) => json.encode(data.toJson());
 
 class tbDonSanXuat {
-  final String scd;
-  final String? maDonHang;
-  final String? phienBan;
-  final String? tenKhachHang;
-  final String? tenSanPham;
-  final String? kichThuoc;
-  final String? boPhan;
-  final DateTime? ngayXuongDon;
-  final String? ngayGiaoHang;
-  final int? soLuong;
-  // final String loaiSanPham;
-  // final String vatLieu;
-  // final String vatLieu2;
-  // final String vatLieu3;
-  // final dynamic hinhMatPhai;
-  // final dynamic hinhMatTrai;
-  // final String mauMatPhai;
-  // final String mauMatTrai;
-  // final String phuongPhapIn;
-  // final String giaCongMatPhai;
-  // final String giaCongMatTrai;
-  // final String phuongPhapCat;
-  // final String boGoc;
-  // final String ducLo;
-  // final String nhanVienNghiepVu;
-  // final String chuY;
-  // final String chamCatDapHop;
-  // final String khac;
-  // final String loaiChi;
-  // final dynamic doDai;
-  // final String giaCongSau;
-  // final String giaCongSauInMatTrai;
-  // final String kho;
-  // final dynamic inChuMaVach;
-  // final dynamic hinhKhuon;
-  // final DateTime thoiGianXuongDon;
-  // final String chinhSua;
-  // final int sku;
-  // final dynamic stt;
-  // final String congDoanSanXuat;
-  // final String congDoanKiemPham;
-  // final dynamic khuVuc;
-  // final dynamic dongBoDuLieu;
-  // final dynamic waterMark;
-  // final String idKhuVuc;
+  String SCD;
+  String? NhomDonHang;
+  String? MaDonHang;
+  String? PhienBan;
+  String? IDKhachHang;
+  String? TenKhachHang;
+  String? MaSanPham;
+  String? TenSanPham;
+  String? KichThuoc;
+  String? BoPhan;
+  DateTime? NgayXuongDon;
+  DateTime? NgayGiaoHang;
+  int? SoLuong;
+  String? LoaiSanPham;
+  String? VatLieu;
+  String? VatLieu2;
+  String? VatLieu3;
+  String? MaVatLieu1;
+  String? MaVatLieu2;
+  String? MaVatLieu3;
+  String? MauMatPhai;
+  String? MauMatTrai;
+  String? PhuongPhapIn;
+  String? GiaCongMatPhai;
+  String? GiaCongMatTrai;
+  String? PhuongPhapCat;
+  String? BoGoc;
+  String? DucLo;
+  String? NhanVienNghiepVu;
+  String? ChuY;
+  String? ChamCatDapHop;
+  String? Khac;
+  String? LoaiChi;
+  String? DoDai;
+  String? GiaCongSau;
+  String? GiaCongSauInMatTrai;
+  String? Kho;
+  String? InChu_MaVach;
+  DateTime? ThoiGianXuongDon;
+  String? ChinhSua;
+  int? SKU;
+  int? STT;
+  String? CongDoanSanXuat;
+  String? CongDoanKiemPham;
+  bool? DongBoDuLieu;
+  String? IDKhuVuc;
+  String? WaterMark;
+  bool? isUpdate;
+  bool? isDeleted;
 
   tbDonSanXuat({
-    required this.scd,
-    this.maDonHang,
-    this.phienBan,
-    this.tenKhachHang,
-    this.tenSanPham,
-    this.kichThuoc,
-    this.boPhan,
-    this.ngayXuongDon,
-    this.ngayGiaoHang,
-    this.soLuong,
-    // this.loaiSanPham,
-    // this.vatLieu,
-    // this.vatLieu2,
-    // this.vatLieu3,
-    // this.hinhMatPhai,
-    // this.hinhMatTrai,
-    // this.mauMatPhai,
-    // this.mauMatTrai,
-    // this.phuongPhapIn,
-    // this.giaCongMatPhai,
-    // this.giaCongMatTrai,
-    // this.phuongPhapCat,
-    // this.boGoc,
-    // this.ducLo,
-    // this.nhanVienNghiepVu,
-    // this.chuY,
-    // this.chamCatDapHop,
-    // this.khac,
-    // this.loaiChi,
-    // this.doDai,
-    // this.giaCongSau,
-    // this.giaCongSauInMatTrai,
-    // this.kho,
-    // this.inChuMaVach,
-    // this.hinhKhuon,
-    // this.thoiGianXuongDon,
-    // this.chinhSua,
-    // this.sku,
-    // this.stt,
-    // this.congDoanSanXuat,
-    // this.congDoanKiemPham,
-    // this.khuVuc,
-    // this.dongBoDuLieu,
-    // this.waterMark,
-    // this.idKhuVuc,
+    required this.SCD,
+    required this.NhomDonHang,
+    required this.MaDonHang,
+    required this.PhienBan,
+    required this.IDKhachHang,
+    required this.TenKhachHang,
+    required this.MaSanPham,
+    required this.TenSanPham,
+    required this.KichThuoc,
+    required this.BoPhan,
+    required this.NgayXuongDon,
+    required this.NgayGiaoHang,
+    required this.SoLuong,
+    required this.LoaiSanPham,
+    required this.VatLieu,
+    required this.VatLieu2,
+    required this.VatLieu3,
+    required this.MaVatLieu1,
+    required this.MaVatLieu2,
+    required this.MaVatLieu3,
+    required this.MauMatPhai,
+    required this.MauMatTrai,
+    required this.PhuongPhapIn,
+    required this.GiaCongMatPhai,
+    required this.GiaCongMatTrai,
+    required this.PhuongPhapCat,
+    required this.BoGoc,
+    required this.DucLo,
+    required this.NhanVienNghiepVu,
+    required this.ChuY,
+    required this.ChamCatDapHop,
+    required this.Khac,
+    required this.LoaiChi,
+    required this.DoDai,
+    required this.GiaCongSau,
+    required this.GiaCongSauInMatTrai,
+    required this.Kho,
+    required this.InChu_MaVach,
+    required this.ThoiGianXuongDon,
+    required this.ChinhSua,
+    required this.SKU,
+    required this.STT,
+    required this.CongDoanSanXuat,
+    required this.CongDoanKiemPham,
+    required this.DongBoDuLieu,
+    required this.IDKhuVuc,
+    required this.WaterMark,
+    required this.isUpdate,
+    required this.isDeleted,
   });
 
-  factory tbDonSanXuat.fromJson(Map<String, dynamic> json) => tbDonSanXuat(
-    scd: json["SCD"],
-    maDonHang: json["MaDonHang"],
-    phienBan: json["PhienBan"],
-    tenKhachHang: json["TenKhachHang"],
-    tenSanPham: json["TenSanPham"],
-    kichThuoc: json["KichThuoc"],
-    boPhan: json["BoPhan"],
-    // ngayXuongDon: json["NgayXuongDon"],
-    ngayGiaoHang: json["NgayGiaoHang"],
-    soLuong: json["SoLuong"],
-    // loaiSanPham: json["LoaiSanPham"],
-    // vatLieu: json["VatLieu"],
-    // vatLieu2: json["VatLieu2"],
-    // vatLieu3: json["VatLieu3"],
-    // hinhMatPhai: json["HinhMatPhai"],
-    // hinhMatTrai: json["HinhMatTrai"],
-    // mauMatPhai: json["MauMatPhai"],
-    // mauMatTrai: json["MauMatTrai"],
-    // phuongPhapIn: json["PhuongPhapIn"],
-    // giaCongMatPhai: json["GiaCongMatPhai"],
-    // giaCongMatTrai: json["GiaCongMatTrai"],
-    // phuongPhapCat: json["PhuongPhapCat"],
-    // boGoc: json["BoGoc"],
-    // ducLo: json["DucLo"],
-    // nhanVienNghiepVu: json["NhanVienNghiepVu"],
-    // chuY: json["ChuY"],
-    // chamCatDapHop: json["ChamCatDapHop"],
-    // khac: json["Khac"],
-    // loaiChi: json["LoaiChi"],
-    // doDai: json["DoDai"],
-    // giaCongSau: json["GiaCongSau"],
-    // giaCongSauInMatTrai: json["GiaCongSauInMatTrai"],
-    // kho: json["Kho"],
-    // inChuMaVach: json["InChu_MaVach"],
-    // hinhKhuon: json["HinhKhuon"],
-    // thoiGianXuongDon: DateTime.parse(json["ThoiGianXuongDon"]),
-    // chinhSua: json["ChinhSua"],
-    // sku: json["SKU"],
-    // stt: json["STT"],
-    // congDoanSanXuat: json["CongDoanSanXuat"],
-    // congDoanKiemPham: json["CongDoanKiemPham"],
-    // khuVuc: json["KhuVuc"],
-    // dongBoDuLieu: json["DongBoDuLieu"],
-    // waterMark: json["WaterMark"],
-    // idKhuVuc: json["IDKhuVuc"],
-  );
-
   Map<String, dynamic> toJson() => {
-    "SCD": scd,
-    "MaDonHang": maDonHang,
-    "PhienBan": phienBan,
-    "TenKhachHang": tenKhachHang,
-    "TenSanPham": tenSanPham,
-    "KichThuoc": kichThuoc,
-    "BoPhan": boPhan,
-    // "NgayXuongDon": DateTime.parse(ngayXuongDon as String).toIso8601String(),
-    "NgayGiaoHang": DateTime.parse(ngayGiaoHang as String).toIso8601String(),
-    "SoLuong": soLuong,
-    // "LoaiSanPham": loaiSanPham,
-    // "VatLieu": vatLieu,
-    // "VatLieu2": vatLieu2,
-    // "VatLieu3": vatLieu3,
-    // "HinhMatPhai": hinhMatPhai,
-    // "HinhMatTrai": hinhMatTrai,
-    // "MauMatPhai": mauMatPhai,
-    // "MauMatTrai": mauMatTrai,
-    // "PhuongPhapIn": phuongPhapIn,
-    // "GiaCongMatPhai": giaCongMatPhai,
-    // "GiaCongMatTrai": giaCongMatTrai,
-    // "PhuongPhapCat": phuongPhapCat,
-    // "BoGoc": boGoc,
-    // "DucLo": ducLo,
-    // "NhanVienNghiepVu": nhanVienNghiepVu,
-    // "ChuY": chuY,
-    // "ChamCatDapHop": chamCatDapHop,
-    // "Khac": khac,
-    // "LoaiChi": loaiChi,
-    // "DoDai": doDai,
-    // "GiaCongSau": giaCongSau,
-    // "GiaCongSauInMatTrai": giaCongSauInMatTrai,
-    // "Kho": kho,
-    // "InChu_MaVach": inChuMaVach,
-    // "HinhKhuon": hinhKhuon,
-    // "ThoiGianXuongDon": thoiGianXuongDon.toIso8601String(),
-    // "ChinhSua": chinhSua,
-    // "SKU": sku,
-    // "STT": stt,
-    // "CongDoanSanXuat": congDoanSanXuat,
-    // "CongDoanKiemPham": congDoanKiemPham,
-    // "KhuVuc": khuVuc,
-    // "DongBoDuLieu": dongBoDuLieu,
-    // "WaterMark": waterMark,
-    // "IDKhuVuc": idKhuVuc,
+    'SCD': SCD,
+    'NhomDonHang': NhomDonHang,
+    'MaDonHang': MaDonHang,
+    'PhienBan': PhienBan,
+    'IDKhachHang': IDKhachHang,
+    'TenKhachHang': TenKhachHang,
+    'MaSanPham': MaSanPham,
+    'TenSanPham': TenSanPham,
+    'KichThuoc': KichThuoc,
+    'BoPhan': BoPhan,
+    'NgayXuongDon': NgayXuongDon?.toIso8601String(),
+    'NgayGiaoHang': NgayGiaoHang?.toIso8601String(),
+    'SoLuong': SoLuong,
+    'LoaiSanPham': LoaiSanPham,
+    'VatLieu': VatLieu,
+    'VatLieu2': VatLieu2,
+    'VatLieu3': VatLieu3,
+    'MaVatLieu1': MaVatLieu1,
+    'MaVatLieu2': MaVatLieu2,
+    'MaVatLieu3': MaVatLieu3,
+    'MauMatPhai': MauMatPhai,
+    'MauMatTrai': MauMatTrai,
+    'PhuongPhapIn': PhuongPhapIn,
+    'GiaCongMatPhai': GiaCongMatPhai,
+    'GiaCongMatTrai': GiaCongMatTrai,
+    'PhuongPhapCat': PhuongPhapCat,
+    'BoGoc': BoGoc,
+    'DucLo': DucLo,
+    'NhanVienNghiepVu': NhanVienNghiepVu,
+    'ChuY': ChuY,
+    'ChamCatDapHop': ChamCatDapHop,
+    'Khac': Khac,
+    'LoaiChi': LoaiChi,
+    'DoDai': DoDai,
+    'GiaCongSau': GiaCongSau,
+    'GiaCongSauInMatTrai': GiaCongSauInMatTrai,
+    'Kho': Kho,
+    'InChu_MaVach': InChu_MaVach,
+    'ThoiGianXuongDon': ThoiGianXuongDon?.toIso8601String(),
+    'ChinhSua': ChinhSua,
+    'SKU': SKU,
+    'STT': STT,
+    'CongDoanSanXuat': CongDoanSanXuat,
+    'CongDoanKiemPham': CongDoanKiemPham,
+    'DongBoDuLieu': DongBoDuLieu,
+    'IDKhuVuc': IDKhuVuc,
+    'WaterMark': WaterMark,
+    'isUpdate': isUpdate,
+    'isDeleted': isDeleted,
   };
+
+  factory tbDonSanXuat.fromJson(Map<String, dynamic> json) => tbDonSanXuat(
+    SCD: json['SCD']?.toString() ?? '',
+    NhomDonHang: json['NhomDonHang']?.toString() ?? '',
+    MaDonHang: json['MaDonHang']?.toString() ?? '',
+    PhienBan: json['PhienBan']?.toString() ?? '',
+    IDKhachHang: json['IDKhachHang']?.toString() ?? '',
+    TenKhachHang: json['TenKhachHang']?.toString() ?? '',
+    MaSanPham: json['MaSanPham']?.toString() ?? '',
+    TenSanPham: json['TenSanPham']?.toString() ?? '',
+    KichThuoc: json['KichThuoc']?.toString() ?? '',
+    BoPhan: json['BoPhan']?.toString() ?? '',
+    NgayXuongDon: DateTime.tryParse(json['NgayXuongDon'] ?? '') ?? DateTime.now(),
+    NgayGiaoHang: DateTime.tryParse(json['NgayGiaoHang'] ?? '') ?? DateTime.now(),
+    SoLuong: int.tryParse(json['SoLuong']?.toString() ?? '0') ?? 0,
+    LoaiSanPham: json['LoaiSanPham']?.toString() ?? '',
+    VatLieu: json['VatLieu']?.toString() ?? '',
+    VatLieu2: json['VatLieu2']?.toString() ?? '',
+    VatLieu3: json['VatLieu3']?.toString() ?? '',
+    MaVatLieu1: json['MaVatLieu1']?.toString() ?? '',
+    MaVatLieu2: json['MaVatLieu2']?.toString() ?? '',
+    MaVatLieu3: json['MaVatLieu3']?.toString() ?? '',
+    MauMatPhai: json['MauMatPhai']?.toString() ?? '',
+    MauMatTrai: json['MauMatTrai']?.toString() ?? '',
+    PhuongPhapIn: json['PhuongPhapIn']?.toString() ?? '',
+    GiaCongMatPhai: json['GiaCongMatPhai']?.toString() ?? '',
+    GiaCongMatTrai: json['GiaCongMatTrai']?.toString() ?? '',
+    PhuongPhapCat: json['PhuongPhapCat']?.toString() ?? '',
+    BoGoc: json['BoGoc']?.toString() ?? '',
+    DucLo: json['DucLo']?.toString() ?? '',
+    NhanVienNghiepVu: json['NhanVienNghiepVu']?.toString() ?? '',
+    ChuY: json['ChuY']?.toString() ?? '',
+    ChamCatDapHop: json['ChamCatDapHop']?.toString() ?? '',
+    Khac: json['Khac']?.toString() ?? '',
+    LoaiChi: json['LoaiChi']?.toString() ?? '',
+    DoDai: json['DoDai']?.toString() ?? '',
+    GiaCongSau: json['GiaCongSau']?.toString() ?? '',
+    GiaCongSauInMatTrai: json['GiaCongSauInMatTrai']?.toString() ?? '',
+    Kho: json['Kho']?.toString() ?? '',
+    InChu_MaVach: json['InChu_MaVach']?.toString() ?? '',
+    ThoiGianXuongDon: DateTime.tryParse(json['ThoiGianXuongDon'] ?? '') ?? DateTime.now(),
+    ChinhSua: json['ChinhSua']?.toString() ?? '',
+    SKU: int.tryParse(json['SKU']?.toString() ?? '0') ?? 0,
+    STT: int.tryParse(json['STT']?.toString() ?? '0') ?? 0,
+    CongDoanSanXuat: json['CongDoanSanXuat']?.toString() ?? '',
+    CongDoanKiemPham: json['CongDoanKiemPham']?.toString() ?? '',
+    DongBoDuLieu: json['bit'] is bool ? json['bit'] : false,
+    IDKhuVuc: json['IDKhuVuc']?.toString() ?? '',
+    WaterMark: json['WaterMark']?.toString() ?? '',
+    isUpdate: json['bit'] is bool ? json['bit'] : false,
+    isDeleted: json['bit'] is bool ? json['bit'] : false,
+  );
 }
