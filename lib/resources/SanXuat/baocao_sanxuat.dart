@@ -77,8 +77,8 @@ class _BaoCaoSanXuatState extends State<BaoCaoSanXuat>  {
   @override
   void initState() {
     super.initState();
-    msnvController.text = Globals.NhanVien.maNhanVien;
-    tenNhanVienController.text = Globals.NhanVien.tenNhanVien;
+    msnvController.text = Globals.NhanVien.MaNhanVien;
+    tenNhanVienController.text = Globals.NhanVien.TenNhanVien!;
     scdController.text = widget.SCD;
     getCongDoan();
   }
@@ -192,7 +192,7 @@ class _BaoCaoSanXuatState extends State<BaoCaoSanXuat>  {
             soluongdat_text = "Số Lượng Đạt ( ${donvitinh ?? ''} )";
             soluongloi_text = "Số Lượng Lỗi ( ${donvitinh ?? ''} )";
             soluongconlai_text = "Còn Lại ( ${donvitinh ?? ''} )";
-              if (donvitinh == printRibbon.PCS || Globals.NhanVien.boPhan == printRibbon.TEMVAI) {
+              if (donvitinh == printRibbon.PCS || Globals.NhanVien.BoPhan == printRibbon.TEMVAI) {
                 soluongconlai = (tb.SoLuong! - tb.SoLuongDat! - tb.SoLuongLoi!);
               } else {
                 soluongconlai = (tb.LanhLieu! - tb.SoLuongDat! - tb.SoLuongLoi!);

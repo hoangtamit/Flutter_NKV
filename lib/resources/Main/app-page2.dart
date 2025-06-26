@@ -27,7 +27,6 @@ import '../ThietKe/frmKhoGiayIn.dart';
 import '../ThietKe/frmThietKe_TemVai_TiLeTruc.dart';
 import '../ThietKe/kho-giay-in.dart';
 import '../Demo/demo.dart';
-import '../ThuMua/frmVatLieu.dart';
 
 tbl_NhanVien? nhanVien;
 
@@ -102,31 +101,6 @@ class _AppPageState extends State<AppPage> {
               ),
             ],
           ),
-          // Cụm Thiết Kế
-          buildSection(
-            title: 'Thu Mua',
-            color: Colors.amberAccent[700]!,
-            items: [
-              buildMenuItem(
-                context,
-                title: 'Vật Liệu',
-                icon: 'assets/images/Materials01_64.png',
-                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'bbiVatLieu', page: const frmVatLieu(),),
-              ),
-              buildMenuItem(
-                context,
-                title: 'Kế Hoạch Mua Hàng',
-                icon: 'assets/images/goods01_64.png',
-                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'bbiTinhDanTrang', page: frmKichThuocGiay(),),
-              ),
-              buildMenuItem(
-                context,
-                title: 'Quản Lý PO',
-                icon: 'assets/images/warehouse07_64.png',
-                onTap: () => _navigateWithPermission(context: context, allowedBoPhan: 'bbiThietKe_TemVai_TiLeTruc', page: frmThietKe_TemVai_TiLeTruc(),),
-              ),
-            ],
-          ),
           // Cụm Sản Xuất
           buildSection(
             title: 'Sản Xuất',
@@ -156,7 +130,7 @@ class _AppPageState extends State<AppPage> {
               // Cụm Kho NVL
           buildSection(
             title: 'Kho NVL',
-            color: Colors.teal[700]!,
+            color: Colors.grey[700]!,
             items: [
               buildMenuItem(
                 context,

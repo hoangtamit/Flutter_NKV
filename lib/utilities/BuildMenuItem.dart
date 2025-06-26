@@ -1,7 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 Widget buildSection({
+  required String title,
+  required Color color,
+  required List<Widget> items,
+}) {
+  return Card(
+    elevation: 6,
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16,0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Tiêu đề cụm
+          Container(
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(8), // Bo góc nếu cần
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+          // GridView cho các mục
+          GridView.count(
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            crossAxisSpacing: 12,
+            //mainAxisSpacing: 12,
+            childAspectRatio: 1, // Tỷ lệ chiều rộng/chiều cao
+            children: items,
+          ),
+        ],
+      ),
+    ),
+  );
+}
+Widget buildSection2({
   required String title,
   required Color color,
   required List<Widget> items,
@@ -16,11 +59,15 @@ Widget buildSection({
         children: [
           // Tiêu đề cụm
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
             decoration: BoxDecoration(
               color: color,
-              //borderRadius: BorderRadius.circular(5),
+              // border: Border.all(
+              //   color: Colors.black38, // Màu viền
+              //   width: 0.5,           // Độ dày viền
+              // ),
+              borderRadius: BorderRadius.circular(8), // Bo góc nếu cần
             ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
             child: Text(
               title,
               style: const TextStyle(
@@ -77,7 +124,7 @@ Widget buildMenuItem(
               title,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: FontWeight.w600,
               ),
               maxLines: 2,

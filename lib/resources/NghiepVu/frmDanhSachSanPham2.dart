@@ -148,7 +148,7 @@ class _frmDanhSachSanPhamState extends State<frmDanhSachSanPham> {
     try {
       final result = await DonSanXuatApi.OpenPdf(actor.MaSanPham.toString());
       if (result.isNotEmpty) {
-        final String pathfile = result[0].url;
+        final String pathfile = result[0].Url;
         final openResult = await OpenFile.open(pathfile);
         if (openResult.type != ResultType.done) {
           _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');

@@ -7,6 +7,10 @@ import 'package:printing/printing.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
+import '../api/NghiepVu/donsanxuat_api.dart';
+import 'package:open_file/open_file.dart';
+
+import '../utilities/loading_dialog.dart';
 
 String pdfUrl = '';
 class PdfViewer extends StatefulWidget {
@@ -16,7 +20,6 @@ class PdfViewer extends StatefulWidget {
   @override
   _PdfViewerPageState createState() => _PdfViewerPageState();
 }
-
 class _PdfViewerPageState extends State<PdfViewer> {
   bool isLoading = false;
   bool isNetworkSource = true; // Mặc định là network
@@ -180,3 +183,47 @@ class _PdfViewerPageState extends State<PdfViewer> {
     );
   }
 }
+
+Future<void> OpenPdf(BuildContext context, String SCD) async {
+  try {
+    LoadingDialog.showLoadingDialog(context, 'Loading...');
+    final result;
+    if(Platform.isAndroid) {
+      result = await DonSanXuatApi.DownloadPdf(SCD.toString());
+    }
+    else{
+      result = await DonSanXuatApi.OpenPdf(SCD.toString());
+    }
+    if (result.isNotEmpty) {
+      final String pathfile = result[0].Url;
+      print('Đường dẫn file PDF: $pathfile');
+      if (await File (pathfile).exists()) {
+        final openResult;
+        openResult = await OpenFile.open(pathfile);
+
+        if (openResult.type != ResultType.done) {
+          _showErrorSnackBar(context, 'Không thể mở file PDF: ${openResult.message}');
+        }
+      } else {
+        _showErrorSnackBar(context, 'File PDF không tồn tại tại đường dẫn: $pathfile');
+      }
+    } else {
+      _showErrorSnackBar(context, 'Không tìm thấy file PDF');
+    }
+  } catch (e) {
+    _showErrorSnackBar(context, 'Lỗi khi mở file PDF: $e');
+  }
+  finally{
+  LoadingDialog.hideLoadingDialog(context);
+  }
+}
+void _showErrorSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+      duration: const Duration(seconds: 3),
+    ),
+  );
+}
+

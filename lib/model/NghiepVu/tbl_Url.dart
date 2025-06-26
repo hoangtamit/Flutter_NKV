@@ -7,23 +7,23 @@ String tbl_UrlToJson(tbl_Url data) => json.encode(data.toJson());
 class tbl_Url {
   final int id;
   final String name;
-  final String url;
+  final String Url;
 
   tbl_Url({
     required this.id,
     required this.name,
-    required this.url,
+    required this.Url,
   });
 
   factory tbl_Url.fromJson(Map<String, dynamic> json) => tbl_Url(
     id: json["ID"],
     name: json["Name"],
-    url: json["url"],
+    Url: json["Url"],
   );
 
   Map<String, dynamic> toJson() => {
     "ID": id,
     "Name": name,
-    "url": url,
+    "Url": Url,
   };
 }

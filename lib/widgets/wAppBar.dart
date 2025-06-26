@@ -6,7 +6,7 @@ class wAppBar {
   static PreferredSizeWidget buildAppBar(
       String title, {
         Color? backgroundColor = primaryColor,
-        VoidCallback? onRefresh,
+        VoidCallback? onRefresh, List<IconButton>? actions,
       }) {
     return AppBar(
       title: Text(title, style: const TextStyle(color: Colors.black)),

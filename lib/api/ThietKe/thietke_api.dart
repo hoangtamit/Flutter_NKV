@@ -1,3 +1,7 @@
+import 'dart:developer' as developer;
+
+import 'package:nkv/model/ThietKe/tbl_TemVai_TiLeTruc.dart';
+
 import '../../model/NghiepVu/tbl_Url.dart';
 import '../../model/ThietKe/ThongTinDanTrang_V2.dart';
 import '../../model/ThietKe/tbKhoGiayIn.dart';
@@ -94,8 +98,8 @@ class KhoGiayInApi {
         throw Exception('Không thể truy cập thư mục Downloads');
       }
       for (var i = 0; i < dsData.length; i++) {
-        var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
-        var tb = tbl_Url(id: i, name: dsData[i].name, url: file!.path); // Lưu đường dẫn cục bộ
+        var file = await DownloadService.downloadFile(dsData[i].Url, dsData[i].name);
+        var tb = tbl_Url(id: i, name: dsData[i].name, Url: file!.path); // Lưu đường dẫn cục bộ
         dsSanPham.add(tb);
       }
     } else {
@@ -135,13 +139,28 @@ class KhoGiayInApi {
     }
   }
 }
-
 class GiayLonApi {
   static Future<List<tbl_GiayLon>> LoadData() async {
     final Data = await AuthorizeApi.Post('ThietKe/GiayLon_LoadData');
     final dsData = Data.map((e) => tbl_GiayLon.fromJson(e)).toList();
     return dsData;
   }
+}
+class TiLeTrucApi {
+  static Future<List<tbl_TemVai_TiLeTruc>> TemVai_TiLeTruc_LoadData() async {
+    try {
+      final Data = await AuthorizeApi.Post('ThietKe/TemVai_TiLeTruc_LoadData');
+      if (Data == null) {
+        developer.log('API returned null data', name: 'TemVai_TiLeTruc_LoadData');return [];
+      }
+      final dsData = Data.map((e) => tbl_TemVai_TiLeTruc.fromJson(e)).toList();
+      developer.log('Loaded ${dsData.length} items', name: 'TemVai_TiLeTruc_LoadData');
+      return dsData;
+    } catch (e, stackTrace) {
+      developer.log('Error in TemVai_TiLeTruc_LoadData: $e',name: 'TemVai_TiLeTruc_LoadData',error: e,stackTrace: stackTrace,);return [];
+    }
+  }
+
 }
 class DownloadService {
   static final _httpClient = HttpClient();

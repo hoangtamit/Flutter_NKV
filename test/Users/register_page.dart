@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nkv/api/NhanVien/authorize_api.dart';
+import 'package:nkv/blocs/auth_bloc.dart';
+import 'package:nkv/model/drop_list_model.dart';
 import 'package:nkv/services/show_Dialog.dart';
-import '../../api/NhanVien/authorize_api.dart';
-import '../../blocs/auth_bloc.dart';
-import '../../model/drop_list_model.dart';
-import '../../utilities/loading_dialog.dart';
+import 'package:nkv/utilities/loading_dialog.dart';
 import '../home.dart';
 import 'login_page.dart';
 

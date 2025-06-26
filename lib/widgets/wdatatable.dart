@@ -37,6 +37,25 @@ class wDatatable {
       onTap: onTap, // Áp dụng callback onTap
     );
   }
+  static DataCell buildDataCell_Check(BuildContext context,String value,  {double width = 70,VoidCallback? onTap}) {
+    return DataCell(
+      Center(
+        child: Checkbox(
+        value: value.toLowerCase() == 'đúng' || value.toLowerCase() == 'true'|| value.toLowerCase() == '1',
+          fillColor: WidgetStateProperty.resolveWith<Color?>(
+                (states) {
+              if (states.contains(WidgetState.selected)) {
+                return Colors.blue;
+              }
+              return Theme.of(context).colorScheme.surface;
+            },
+          ),
+        onChanged: null, // Đặt null để làm checkbox chỉ đọc
+        ),
+      ),
+    );
+  }
+
   static DataCell buildDataCell2(String value, double width ) {
     return DataCell(
       Center(

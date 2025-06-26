@@ -1,222 +1,233 @@
-// To parse this JSON data, do
-//
-//     final tbl_NhanVien = tbl_NhanVienFromJson(jsonString);
 import 'dart:convert';
 
 tbl_NhanVien tbl_NhanVienFromJson(String str) => tbl_NhanVien.fromJson(json.decode(str));
+
 String tbl_NhanVienToJson(tbl_NhanVien data) => json.encode(data.toJson());
 
 class tbl_NhanVien {
-  final int idNhanVien;
-  final dynamic maNhanVien;
-  final dynamic tenNhanVien;
-  final dynamic ngaySinh;
-  final String? noiSinh;
-  // final dynamic maThe;
-  final String taiKhoan;
-  final String matKhau;
-  // final int idQuocTich;
-  // final int idDanToc;
-  // final int idTonGiao;
-  final String idKhuVuc;
-  // final int idKhoi;
-  // final int idPhongBan;
-  // final dynamic phongBan;
-  // final int idBoPhan;
-  final String boPhan;
-  // final int idChucVu;
-  final String chucVu;
-  // final int idTrinhDo;
-  // final String trinhDo;
-  // final int idTinhTrang;
-  // final String tinhTrang;
-  // final int idTo;
-  // final dynamic to;
-  // final int idCaLamViec;
-  // final DateTime ngayVaoLam;
-  // final DateTime ngayKyHopDong;
-  // final DateTime ngayKyHopDong2;
-  // final dynamic ngayKyHopDong3;
-  // final DateTime ngayHetHanHopDong;
-  // final DateTime ngayHetHanHopDong2;
-  // final dynamic ngayHetHanHopDong3;
-  // final dynamic ngayNghiViec;
-  final String dienThoai;
-  final dynamic diaChiTamTru;
-  final String diaChiThuongTru;
-  // final dynamic nguyenQuan;
-  // final String soCmnd;
-  // final DateTime ngayCapCmnd;
-  // final String noiCapCmnd;
-  final dynamic soTheCanCuoc;
-  // final dynamic ngayCapTcc;
-  // final dynamic noiCapTcc;
-  final String gioiTinh;
-  // final dynamic hinhNhanVien;
-  // final dynamic giaoDien;
-  // final String tinhTrangHonNhan;
-  final dynamic email;
-  // final String ngoaiNgu;
-  // final String ghiChu;
+  String ID;
+  int IDNhanVien;
+  String MaNhanVien;
+  String? TenNhanVien;
+  //DateTime? NgaySinh;
+  String? NoiSinh;
+  //String? MaThe;
+  String? TaiKhoan;
+  String? MatKhau;
+  String? IDUser;
+  int? IDTaiKhoan;
+  //int? IDQuocTich;
+  //int? IDDanToc;
+  //int? IDTonGiao;
+  String? IDKhuVuc;
+  //int? IDKhoi;
+  //int? IDPhongBan;
+  int? IDBoPhan;
+  int? IDChucVu;
+  int? IDTrinhDo;
+  int? IDTinhTrang;
+  int? IDTo;
+  int? IDCongDoan;
+  //String? IDCaLamViec;
+  //String? CaLamViec;
+  // DateTime? NgayVaoLam;
+  // DateTime? NgayKyHopDong;
+  // DateTime? NgayKyHopDong2;
+  // DateTime? NgayKyHopDong3;
+  // DateTime? NgayHetHanHopDong;
+  // DateTime? NgayHetHanHopDong2;
+  // DateTime? NgayHetHanHopDong3;
+  // DateTime? NgayNghiViec;
+  String DienThoai;
+  // String? DiaChiTamTru;
+  // String? DiaChiThuongTru;
+  // String? NguyenQuan;
+  // String? SoCMND;
+  // DateTime? NgayCapCMND;
+  // String? NoiCapCMND;
+  // String? SoTheCanCuoc;
+  // DateTime? NgayCapTCC;
+  // String? NoiCapTCC;
+  // String? GioiTinh;
+  // String? HinhNhanVien;
+  // String? GiaoDien;
+  // String? TinhTrangHonNhan;
+  String Email;
+  //String? NgoaiNgu;
+  //String? GhiChu;
+  String BoPhan;
+  //String? Token;
+  //String? HinhAnh;
+  //int? IDParent;
 
   tbl_NhanVien({
-    required this.idNhanVien,
-    required this.maNhanVien,
-    required this.tenNhanVien,
-    required this.ngaySinh,
-    required this.noiSinh,
-    // required this.maThe,
-     required this.taiKhoan,
-    required this.matKhau,
-    // required this.idQuocTich,
-    // required this.idDanToc,
-    // required this.idTonGiao,
-     required this.idKhuVuc,
-    // required this.idKhoi,
-    // required this.idPhongBan,
-    // required this.phongBan,
-    // required this.idBoPhan,
-    required this.boPhan,
-    // required this.idChucVu,
-    required this.chucVu,
-    // required this.idTrinhDo,
-    // required this.trinhDo,
-    // required this.idTinhTrang,
-    // required this.tinhTrang,
-    // required this.idTo,
-    // required this.to,
-    // required this.idCaLamViec,
-    // required this.ngayVaoLam,
-    // required this.ngayKyHopDong,
-    // required this.ngayKyHopDong2,
-    // required this.ngayKyHopDong3,
-    // required this.ngayHetHanHopDong,
-    // required this.ngayHetHanHopDong2,
-    // required this.ngayHetHanHopDong3,
-    // required this.ngayNghiViec,
-    required this.dienThoai,
-    required this.diaChiTamTru,
-    required this.diaChiThuongTru,
-    // required this.nguyenQuan,
-    // required this.soCmnd,
-    // required this.ngayCapCmnd,
-    // required this.noiCapCmnd,
-     required this.soTheCanCuoc,
-    // required this.ngayCapTcc,
-    // required this.noiCapTcc,
-    required this.gioiTinh,
-    // required this.hinhNhanVien,
-    // required this.giaoDien,
-    // required this.tinhTrangHonNhan,
-     required this.email,
-    // required this.ngoaiNgu,
-    // required this.ghiChu,
+    required this.ID,
+    required this.IDNhanVien,
+    required this.MaNhanVien,
+    required this.TenNhanVien,
+    //required this.NgaySinh,
+    required this.NoiSinh,
+    //required this.MaThe,
+    required this.TaiKhoan,
+    required this.MatKhau,
+    required this.IDUser,
+    required this.IDTaiKhoan,
+    //required this.IDQuocTich,
+    //required this.IDDanToc,
+    //required this.IDTonGiao,
+    required this.IDKhuVuc,
+    //required this.IDKhoi,
+    //required this.IDPhongBan,
+    required this.IDBoPhan,
+    required this.IDChucVu,
+    //required this.IDTrinhDo,
+    required this.IDTinhTrang,
+    required this.IDTo,
+    //required this.IDCongDoan,
+    //required this.IDCaLamViec,
+    //required this.CaLamViec,
+    // required this.NgayVaoLam,
+    // required this.NgayKyHopDong,
+    // required this.NgayKyHopDong2,
+    // required this.NgayKyHopDong3,
+    // required this.NgayHetHanHopDong,
+    // required this.NgayHetHanHopDong2,
+    // required this.NgayHetHanHopDong3,
+    // required this.NgayNghiViec,
+    required this.DienThoai,
+    // required this.DiaChiTamTru,
+    // required this.DiaChiThuongTru,
+    // required this.NguyenQuan,
+    // required this.SoCMND,
+    // required this.NgayCapCMND,
+    // required this.NoiCapCMND,
+    // required this.SoTheCanCuoc,
+    // required this.NgayCapTCC,
+    // required this.NoiCapTCC,
+    // required this.GioiTinh,
+    // required this.HinhNhanVien,
+    // required this.GiaoDien,
+    // required this.TinhTrangHonNhan,
+    required this.Email,
+    //required this.NgoaiNgu,
+    //required this.GhiChu,
+    required this.BoPhan,
+    //required this.Token,
+    //required this.HinhAnh,
+    //required this.IDParent,
   });
-  factory tbl_NhanVien.fromJson(Map<String, dynamic> json) => tbl_NhanVien(
-    idNhanVien: json["IDNhanVien"],
-    maNhanVien: json["MaNhanVien"],
-    tenNhanVien: json["TenNhanVien"],
-    ngaySinh: json["NgaySinh"],
-    noiSinh: json["NoiSinh"],
-    // maThe: json["MaThe"],
-     taiKhoan: json["TaiKhoan"],
-     matKhau: json["MatKhau"],
-    // idQuocTich: json["IDQuocTich"],
-    // idDanToc: json["IDDanToc"],
-    // idTonGiao: json["IDTonGiao"],
-     idKhuVuc: json["IDKhuVuc"],
-    // idKhoi: json["IDKhoi"],
-    // idPhongBan: json["IDPhongBan"],
-    // phongBan: json["PhongBan"],
-    // idBoPhan: json["IDBoPhan"],
-    boPhan: json["BoPhan"],
-    // idChucVu: json["IDChucVu"],
-    chucVu: json["ChucVu"],
-    // idTrinhDo: json["IDTrinhDo"],
-    // trinhDo: json["TrinhDo"],
-    // idTinhTrang: json["IDTinhTrang"],
-    // tinhTrang: json["TinhTrang"],
-    // idTo: json["IDTo"],
-    // to: json["To"],
-    // idCaLamViec: json["IDCaLamViec"],
-    // ngayVaoLam: DateTime.parse(json["NgayVaoLam"]),
-    // ngayKyHopDong: DateTime.parse(json["NgayKyHopDong"]),
-    // ngayKyHopDong2: DateTime.parse(json["NgayKyHopDong2"]),
-    // ngayKyHopDong3: json["NgayKyHopDong3"],
-    // ngayHetHanHopDong: DateTime.parse(json["NgayHetHanHopDong"]),
-    // ngayHetHanHopDong2: DateTime.parse(json["NgayHetHanHopDong2"]),
-    // ngayHetHanHopDong3: json["NgayHetHanHopDong3"],
-    // ngayNghiViec: json["NgayNghiViec"],
-    dienThoai: json["DienThoai"],
-    diaChiTamTru: json["DiaChiTamTru"],
-    diaChiThuongTru: json["DiaChiThuongTru"],
-    // nguyenQuan: json["NguyenQuan"],
-    // soCmnd: json["SoCMND"],
-    // ngayCapCmnd: DateTime.parse(json["NgayCapCMND"]),
-    // noiCapCmnd: json["NoiCapCMND"],
-     soTheCanCuoc: json["SoTheCanCuoc"],
-    // ngayCapTcc: json["NgayCapTCC"],
-    // noiCapTcc: json["NoiCapTCC"],
-    gioiTinh: json["GioiTinh"],
-    // hinhNhanVien: json["HinhNhanVien"],
-    // giaoDien: json["GiaoDien"],
-    // tinhTrangHonNhan: json["TinhTrangHonNhan"],
-     email: json["Email"],
-    // ngoaiNgu: json["NgoaiNgu"],
-    // ghiChu: json["GhiChu"],
-  );
 
   Map<String, dynamic> toJson() => {
-    "IDNhanVien": idNhanVien,
-    "MaNhanVien": maNhanVien,
-    "TenNhanVien": tenNhanVien,
-    "NgaySinh": ngaySinh,
-    // "NoiSinh": noiSinh,
-    // "MaThe": maThe,
-    "TaiKhoan": taiKhoan,
-    "MatKhau": matKhau,
-    // "IDQuocTich": idQuocTich,
-    // "IDDanToc": idDanToc,
-    // "IDTonGiao": idTonGiao,
-     "IDKhuVuc": idKhuVuc,
-    // "IDKhoi": idKhoi,
-    // "IDPhongBan": idPhongBan,
-    // "PhongBan": phongBan,
-    // "IDBoPhan": idBoPhan,
-    "BoPhan": boPhan,
-    // "IDChucVu": idChucVu,
-    "ChucVu": chucVu,
-    // "IDTrinhDo": idTrinhDo,
-    // "TrinhDo": trinhDo,
-    // "IDTinhTrang": idTinhTrang,
-    // "TinhTrang": tinhTrang,
-    // "IDTo": idTo,
-    // "To": to,
-    // "IDCaLamViec": idCaLamViec,
-    // "NgayVaoLam": ngayVaoLam.toIso8601String(),
-    // "NgayKyHopDong": ngayKyHopDong.toIso8601String(),
-    // "NgayKyHopDong2": ngayKyHopDong2.toIso8601String(),
-    // "NgayKyHopDong3": ngayKyHopDong3,
-    // "NgayHetHanHopDong": ngayHetHanHopDong.toIso8601String(),
-    // "NgayHetHanHopDong2": ngayHetHanHopDong2.toIso8601String(),
-    // "NgayHetHanHopDong3": ngayHetHanHopDong3,
-    // "NgayNghiViec": ngayNghiViec,
-    "DienThoai": dienThoai,
-    "DiaChiTamTru": diaChiTamTru,
-    "DiaChiThuongTru": diaChiThuongTru,
-    // "NguyenQuan": nguyenQuan,
-    // "SoCMND": soCmnd,
-    // "NgayCapCMND": ngayCapCmnd.toIso8601String(),
-    // "NoiCapCMND": noiCapCmnd,
-     "SoTheCanCuoc": soTheCanCuoc,
-    // "NgayCapTCC": ngayCapTcc,
-    // "NoiCapTCC": noiCapTcc,
-    "GioiTinh": gioiTinh,
-    // "HinhNhanVien": hinhNhanVien,
-    // "GiaoDien": giaoDien,
-    // "TinhTrangHonNhan": tinhTrangHonNhan,
-     "Email": email,
-    // "NgoaiNgu": ngoaiNgu,
-    // "GhiChu": ghiChu,
+    'ID': ID,
+    'IDNhanVien': IDNhanVien,
+    'MaNhanVien': MaNhanVien,
+    'TenNhanVien': TenNhanVien,
+    //'NgaySinh': NgaySinh,
+    'NoiSinh': NoiSinh,
+    //'MaThe': MaThe,
+    'TaiKhoan': TaiKhoan,
+    'MatKhau': MatKhau,
+    'IDUser': IDUser,
+    'IDTaiKhoan': IDTaiKhoan,
+    //'IDQuocTich': IDQuocTich,
+    //'IDDanToc': IDDanToc,
+    //'IDTonGiao': IDTonGiao,
+    'IDKhuVuc': IDKhuVuc,
+    //'IDKhoi': IDKhoi,
+    //'IDPhongBan': IDPhongBan,
+    'IDBoPhan': IDBoPhan,
+    'IDChucVu': IDChucVu,
+    'IDTrinhDo': IDTrinhDo,
+    'IDTinhTrang': IDTinhTrang,
+    'IDTo': IDTo,
+    'IDCongDoan': IDCongDoan,
+    //'IDCaLamViec': IDCaLamViec,
+    //'CaLamViec': CaLamViec,
+    // 'NgayVaoLam': NgayVaoLam,
+    // 'NgayKyHopDong': NgayKyHopDong,
+    // 'NgayKyHopDong2': NgayKyHopDong2,
+    // 'NgayKyHopDong3': NgayKyHopDong3,
+    // 'NgayHetHanHopDong': NgayHetHanHopDong,
+    // 'NgayHetHanHopDong2': NgayHetHanHopDong2,
+    // 'NgayHetHanHopDong3': NgayHetHanHopDong3,
+    // 'NgayNghiViec': NgayNghiViec,
+    'DienThoai': DienThoai,
+    // 'DiaChiTamTru': DiaChiTamTru,
+    // 'DiaChiThuongTru': DiaChiThuongTru,
+    // 'NguyenQuan': NguyenQuan,
+    // 'SoCMND': SoCMND,
+    // 'NgayCapCMND': NgayCapCMND,
+    // 'NoiCapCMND': NoiCapCMND,
+    // 'SoTheCanCuoc': SoTheCanCuoc,
+    // 'NgayCapTCC': NgayCapTCC,
+    // 'NoiCapTCC': NoiCapTCC,
+    // 'GioiTinh': GioiTinh,
+    // 'HinhNhanVien': HinhNhanVien,
+    // 'GiaoDien': GiaoDien,
+    // 'TinhTrangHonNhan': TinhTrangHonNhan,
+    'Email': Email,
+    //'NgoaiNgu': NgoaiNgu,
+    //'GhiChu': GhiChu,
+    'BoPhan': BoPhan,
+    //'Token': Token,
+    //'HinhAnh': HinhAnh,
+    //'IDParent': IDParent,
   };
+
+  factory tbl_NhanVien.fromJson(Map<String, dynamic> json) => tbl_NhanVien(
+    ID: json['ID']?.toString() ?? '',
+    IDNhanVien: int.tryParse(json['IDNhanVien']?.toString() ?? '0') ?? 0,
+    MaNhanVien: json['MaNhanVien']?.toString() ?? '',
+    TenNhanVien: json['TenNhanVien']?.toString() ?? '',
+    //NgaySinh: DateTime.tryParse(json['NgaySinh'] ?? '') ?? DateTime.now(),
+    NoiSinh: json['NoiSinh']?.toString() ?? '',
+    //MaThe: json['MaThe']?.toString() ?? '',
+    TaiKhoan: json['TaiKhoan']?.toString() ?? '',
+    MatKhau: json['MatKhau']?.toString() ?? '',
+    IDUser: json['IDUser']?.toString() ?? '',
+    IDTaiKhoan: int.tryParse(json['IDTaiKhoan']?.toString() ?? '0') ?? 0,
+    //IDQuocTich: int.tryParse(json['IDQuocTich']?.toString() ?? '0') ?? 0,
+    //IDDanToc: int.tryParse(json['IDDanToc']?.toString() ?? '0') ?? 0,
+   //IDTonGiao: int.tryParse(json['IDTonGiao']?.toString() ?? '0') ?? 0,
+    IDKhuVuc: json['IDKhuVuc']?.toString() ?? '',
+    //IDKhoi: int.tryParse(json['IDKhoi']?.toString() ?? '0') ?? 0,
+    //IDPhongBan: int.tryParse(json['IDPhongBan']?.toString() ?? '0') ?? 0,
+    IDBoPhan: int.tryParse(json['IDBoPhan']?.toString() ?? '0') ?? 0,
+    IDChucVu: int.tryParse(json['IDChucVu']?.toString() ?? '0') ?? 0,
+    //IDTrinhDo: int.tryParse(json['IDTrinhDo']?.toString() ?? '0') ?? 0,
+    IDTinhTrang: int.tryParse(json['IDTinhTrang']?.toString() ?? '0') ?? 0,
+    IDTo: int.tryParse(json['IDTo']?.toString() ?? '0') ?? 0,
+    //IDCongDoan: int.tryParse(json['IDCongDoan']?.toString() ?? '0') ?? 0,
+    //IDCaLamViec: json['IDCaLamViec']?.toString() ?? '',
+    //CaLamViec: json['CaLamViec']?.toString() ?? '',
+    // NgayVaoLam: DateTime.tryParse(json['NgayVaoLam'] ?? '') ?? DateTime.now(),
+    // NgayKyHopDong: DateTime.tryParse(json['NgayKyHopDong'] ?? '') ?? DateTime.now(),
+    // NgayKyHopDong2: DateTime.tryParse(json['NgayKyHopDong2'] ?? '') ?? DateTime.now(),
+    // NgayKyHopDong3: DateTime.tryParse(json['NgayKyHopDong3'] ?? '') ?? DateTime.now(),
+    // NgayHetHanHopDong: DateTime.tryParse(json['NgayHetHanHopDong'] ?? '') ?? DateTime.now(),
+    // NgayHetHanHopDong2: DateTime.tryParse(json['NgayHetHanHopDong2'] ?? '') ?? DateTime.now(),
+    // NgayHetHanHopDong3: DateTime.tryParse(json['NgayHetHanHopDong3'] ?? '') ?? DateTime.now(),
+    // NgayNghiViec: DateTime.tryParse(json['NgayNghiViec'] ?? '') ?? DateTime.now(),
+    DienThoai: json['DienThoai']?.toString() ?? '',
+    // DiaChiTamTru: json['DiaChiTamTru']?.toString() ?? '',
+    // DiaChiThuongTru: json['DiaChiThuongTru']?.toString() ?? '',
+    // NguyenQuan: json['NguyenQuan']?.toString() ?? '',
+    // SoCMND: json['SoCMND']?.toString() ?? '',
+    // NgayCapCMND: DateTime.tryParse(json['NgayCapCMND'] ?? '') ?? DateTime.now(),
+    // NoiCapCMND: json['NoiCapCMND']?.toString() ?? '',
+    // SoTheCanCuoc: json['SoTheCanCuoc']?.toString() ?? '',
+    // NgayCapTCC: DateTime.tryParse(json['NgayCapTCC'] ?? '') ?? DateTime.now(),
+    // NoiCapTCC: json['NoiCapTCC']?.toString() ?? '',
+    // GioiTinh: json['GioiTinh']?.toString() ?? '',
+    // HinhNhanVien: json['HinhNhanVien']?.toString() ?? '',
+    // GiaoDien: json['GiaoDien']?.toString() ?? '',
+    // TinhTrangHonNhan: json['TinhTrangHonNhan']?.toString() ?? '',
+    Email: json['Email']?.toString() ?? '',
+    //NgoaiNgu: json['NgoaiNgu']?.toString() ?? '',
+    //GhiChu: json['GhiChu']?.toString() ?? '',
+    BoPhan: json['BoPhan']?.toString() ?? '',
+    //Token: json['Token']?.toString() ?? '',
+    //HinhAnh: json['HinhAnh']?.toString() ?? '',
+    //IDParent: int.tryParse(json['IDParent']?.toString() ?? '0') ?? 0,
+  );
 }

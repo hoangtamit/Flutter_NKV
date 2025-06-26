@@ -78,7 +78,7 @@ class _EmployeeInfoPageState extends State<EmployeeInfoPage> {
                       children: [
 // Tên nhân viên
                         Center(
-                          child: Text(nhanVien?.tenNhanVien ?? '---',
+                          child: Text(nhanVien?.TenNhanVien ?? '---',
                             style: const TextStyle(
                               fontSize: titleFontSize,
                               fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class _EmployeeInfoPageState extends State<EmployeeInfoPage> {
                         ListTile(
                           leading: const Icon(Icons.badge, color: primaryColor),
                           title: const Text('Mã nhân viên'),
-                          subtitle: Text(nhanVien?.maNhanVien),
+                          subtitle: Text(nhanVien!.MaNhanVien),
                           subtitleTextStyle: TextStyle(
                             fontSize: subtitleFontSize,
                             color: Colors.black54,
@@ -102,7 +102,7 @@ class _EmployeeInfoPageState extends State<EmployeeInfoPage> {
                           leading: const Icon(Icons.business,
                               color: primaryColor),
                           title: const Text('Bộ Phận'),
-                          subtitle: Text(nhanVien!.boPhan),
+                          subtitle: Text(nhanVien!.BoPhan),
                           subtitleTextStyle: TextStyle(
                             fontSize: subtitleFontSize,
                             color: Colors.black54,
@@ -112,7 +112,7 @@ class _EmployeeInfoPageState extends State<EmployeeInfoPage> {
                         ListTile(
                           leading: const Icon(Icons.phone, color: primaryColor),
                           title: const Text('Số điện thoại'),
-                          subtitle: Text(nhanVien!.dienThoai),
+                          subtitle: Text(nhanVien!.DienThoai),
                           subtitleTextStyle: TextStyle(
                             fontSize: subtitleFontSize,
                             color: Colors.black54,
@@ -122,7 +122,7 @@ class _EmployeeInfoPageState extends State<EmployeeInfoPage> {
                         ListTile(
                           leading: const Icon(Icons.email, color: primaryColor),
                           title: const Text('Email'),
-                          subtitle: Text(nhanVien?.email),
+                          subtitle: Text(nhanVien!.Email),
                           subtitleTextStyle: TextStyle(
                             fontSize: subtitleFontSize,
                             color: Colors.black54,

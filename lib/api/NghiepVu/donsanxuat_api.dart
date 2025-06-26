@@ -14,12 +14,16 @@ import '../../model/NghiepVu/SanPham_Get4C.dart';
 import '../../model/NghiepVu/donsanxuat_quanlydonhang.dart';
 import '../../model/NghiepVu/tbdonsanxuat.dart';
 import '../../model/NghiepVu/tbl_Url.dart';
+import '../../model/QuanLyDonHang/CheckData_NghiepVuNotNull_HoanThanhNull.dart';
+import '../../model/QuanLyDonHang/QuanLyDonHang_HoanThanhNull_Unpivoted.dart';
 import '../NhanVien/authorize_api.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class DonSanXuatApi {
+
+
   static Future<List<tbDonSanXuat>> LoadData() async {
     final Data = await AuthorizeApi.Post('DonSanXuat/LoadData');
     final dsData = Data.map((e) => tbDonSanXuat.fromJson(e)).toList();
@@ -77,17 +81,20 @@ class DonSanXuatApi {
     debugPrint('-----------------------dsData :$dsData');
     return dsData;
   }
-  static Future<List<DonSanXuat_QuanLyDonHang>> QuanLyDonhang_XacNhan(String scd) async {
-    // final url = 'https://api.nkv.com.vn/api/v1/QuanLyDonHang/XacNhan?SCD=$scd';
-    try {
-      final data = { 'SCD': scd,'BoPhan' : "ThietKeNhan",'XacNhan':'admin_2023-10-30'};
-      final Data = await AuthorizeApi.Get_Data('DonSanXuat/GetIDQuanLyDonHang', data);
-      final dsData = Data.map((e) => DonSanXuat_QuanLyDonHang.fromJson(e))
-          .toList();
-      return dsData;
-    }
-    catch(ex){ rethrow;}
-  }
+
+
+
+  // static Future<List<DonSanXuat_QuanLyDonHang>> QuanLyDonhang_XacNhan(String scd) async {
+  //   // final url = 'https://api.nkv.com.vn/api/v1/QuanLyDonHang/XacNhan?SCD=$scd';
+  //   try {
+  //     final data = { 'SCD': scd,'BoPhan' : "ThietKeNhan",'XacNhan':'admin_2023-10-30'};
+  //     final Data = await AuthorizeApi.Get_Data('DonSanXuat/GetIDQuanLyDonHang', data);
+  //     final dsData = Data.map((e) => DonSanXuat_QuanLyDonHang.fromJson(e))
+  //         .toList();
+  //     return dsData;
+  //   }
+  //   catch(ex){ rethrow;}
+  // }
   static Future<List<tbl_Url>> OpenPdf(String SCD) async {
       List<tbl_Url> dsSanPham = [];
       final data = {'SCD': SCD};
@@ -97,10 +104,11 @@ class DonSanXuatApi {
       return dsData; // Trả về danh sách với url là đường dẫn cục bộ
 
   }
+
   static Future<List<tbl_Url>> DownloadPdf(String SCD) async {
     List<tbl_Url> dsSanPham = [];
     final data = {'SCD': SCD};
-    final Data = await AuthorizeApi.Post_Data('DonSanXuat/ExportPdf', data);
+    final Data = await AuthorizeApi.Get_Data('DonSanXuat/ExportPdf', data);
     final dsData = Data.map((e) => tbl_Url.fromJson(e)).toList();
     if(Platform.isAndroid) {
       final directory = await getDownloadsDirectory();
@@ -108,8 +116,8 @@ class DonSanXuatApi {
         throw Exception('Không thể truy cập thư mục Downloads');
       }
       for (var i = 0; i < dsData.length; i++) {
-        var file = await DownloadService.downloadFile(dsData[i].url, dsData[i].name);
-        var tb = tbl_Url(id: i, name: dsData[i].name, url: file.path); // Lưu đường dẫn cục bộ
+        var file = await DownloadService.downloadFile(dsData[i].Url, dsData[i].name);
+        var tb = tbl_Url(id: i, name: dsData[i].name, Url: file.path); // Lưu đường dẫn cục bộ
         dsSanPham.add(tb);
       }
     } else {
@@ -154,8 +162,8 @@ class DownloadService {
     List<tbl_Url> dsSanPham = [];
     var value =  await DonSanXuatApi.DanhSachSanPham_Pdf(tensanpham);
     for(var i = 0 ; i < value.length;i++) {
-      var file = await DownloadService.downloadFile(value[i].url,'${value[i].name}.pdf');
-      var tb = tbl_Url(id: i, name: value[i].name, url: file.path);
+      var file = await DownloadService.downloadFile(value[i].Url,'${value[i].name}.pdf');
+      var tb = tbl_Url(id: i, name: value[i].name, Url: file.path);
       dsSanPham.add(tb);
     }
     debugPrint('----------------------------------${dsSanPham.length}');

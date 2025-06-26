@@ -143,9 +143,7 @@ class _BaoCao_SanXuat_ChiTietState extends State<BaoCao_SanXuat_ChiTiet> {
                           wDatatable.buildDataColumn('',width: screen.width(context, 1.5)), // Cột trống
                         ],
                         rows: [
-                          ...List<DataRow>.generate(
-                            data.length,
-                                (index) => DataRow(
+                          ...List<DataRow>.generate(data.length, (index) => DataRow(
                               color: WidgetStateProperty.resolveWith<Color?>(
                                     (states) {
                                   if (states.contains(MaterialState.selected)) {
@@ -173,8 +171,7 @@ class _BaoCao_SanXuat_ChiTietState extends State<BaoCao_SanXuat_ChiTiet> {
                                 ),
                                 wDatatable.buildDataCell('', width:screen.width(context, 1.5)),
                               ],
-                            ),
-                          ),
+                            ),),
 
                           // 🔽 DÒNG TỔNG CUỐI BẢNG
                           DataRow(
